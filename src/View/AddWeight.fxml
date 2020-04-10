@@ -1,0 +1,21 @@
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<VBox fx:controller="Controller.AddWeightController" xmlns:fx="http://javafx.com/fxml" minHeight="200.0" minWidth="350.0">
+    <children>
+        <GridPane alignment="center" hgap="10" vgap="10" VBox.vgrow="ALWAYS">
+            <Label id="name" fx:id="name" GridPane.columnIndex="0" GridPane.rowIndex="0" text="" prefHeight="20.0" prefWidth="150.0"/>
+            <Label GridPane.columnIndex="0" GridPane.rowIndex="1" text="Adding a weight" prefHeight="20.0" />
+            <GridPane alignment="center" hgap="10" vgap="10" VBox.vgrow="ALWAYS" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                <Label GridPane.columnIndex="0" GridPane.rowIndex="0" text="Weight:" prefHeight="20.0" prefWidth="150.0"/>
+                <TextField id="weight" fx:id="weight" GridPane.columnIndex="1" GridPane.rowIndex="0" prefHeight="20.0" prefWidth="150.0" promptText="Weight (kg)"/>
+                <Button  GridPane.columnIndex="1" GridPane.rowIndex="1" prefHeight="20.0" prefWidth="150.0" mnemonicParsing="false" text="Add Weight" onAction="#AddWeightAction"/>
+                <Button  GridPane.columnIndex="0" GridPane.rowIndex="1" prefHeight="20.0" prefWidth="150.0" mnemonicParsing="false" text="Go Back" onAction="#GoToDashButtonAction"/>
+            </GridPane>
+            <Label  id="errorMsg" fx:id="errorMsg" GridPane.columnIndex="0" GridPane.rowIndex="3" prefHeight="20.0" text=""/>
+        </GridPane>
+    </children>
+    <stylesheets>
+        <URL value="@myStyle.css" />
+    </stylesheets>
+</VBox>

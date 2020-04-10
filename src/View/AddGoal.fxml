@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import java.net.URL?>
+<VBox fx:controller="Controller.AddGoalController" xmlns:fx="http://javafx.com/fxml" minHeight="400.0" minWidth="350.0">
+    <children>
+        <GridPane alignment="center" hgap="10" vgap="10" VBox.vgrow="ALWAYS" GridPane.columnIndex="1" GridPane.rowIndex="0">
+            <Label fx:id="name" GridPane.columnIndex="0" GridPane.rowIndex="0" prefHeight="20.0" text=""/>
+            <Label GridPane.columnIndex="0" GridPane.rowIndex="1" prefHeight="20.0" text="Setting a Goal" />
+            <GridPane alignment="center" hgap="10" vgap="10" VBox.vgrow="ALWAYS" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                <Label GridPane.columnIndex="0" GridPane.rowIndex="0" prefHeight="20.0" text="Goal Weight:" />
+                <Label GridPane.columnIndex="0" GridPane.rowIndex="1" prefHeight="20.0" text="Date To Complete:" />
+                <TextField  id="TargetWeight" fx:id="TargetWeight" GridPane.columnIndex="1" GridPane.rowIndex="0" prefHeight="20.0" prefWidth="200.0" promptText="Target Weight" />
+                <DatePicker id="targetDate" fx:id="targetDate" GridPane.columnIndex="1" GridPane.rowIndex="1" prefHeight="20.0" prefWidth="200.0" promptText="Target Date" />
+                <Button  GridPane.columnIndex="1" GridPane.rowIndex="2" prefHeight="20.0" prefWidth="200.0" mnemonicParsing="false" text="Set Goal" onAction="#AddWeightGoalButtonAction"/>
+                <Button  GridPane.columnIndex="0" GridPane.rowIndex="2" prefHeight="20.0" prefWidth="200.0" mnemonicParsing="false" text="Go Back" onAction="#GoToDashButtonAction"/>
+            </GridPane>
+            <Label  id="errorMsg" fx:id="errorMsg" GridPane.columnIndex="0" GridPane.rowIndex="3" prefHeight="20.0" text=""/>
+        </GridPane>
+    </children>
+    <stylesheets>
+        <URL value="@myStyle.css" />
+    </stylesheets>
+</VBox>
