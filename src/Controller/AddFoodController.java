@@ -8,9 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 //java imports
 import java.util.ArrayList;
 
@@ -22,6 +20,10 @@ public class AddFoodController extends GenericController{
     @FXML private ComboBox MealType;
     @FXML private Label errorMsg;
     @FXML private Label name;
+    @FXML private TableView Consumed;
+    @FXML private TableColumn Name;
+    @FXML private TableColumn Quantity;
+    @FXML private TableColumn Calories;
     /**
      * sets the user to the user signed in
      * @param User logged in user
@@ -42,6 +44,17 @@ public class AddFoodController extends GenericController{
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        ArrayList<Model.Diet> todaysFood = Model.Diet.getTodays(User);
+        ObservableList<String> name = FXCollections.<String>observableArrayList();
+        ObservableList<String> quantity = FXCollections.<String>observableArrayList();
+        ObservableList<String> calories = FXCollections.<String>observableArrayList();
+        for (Model.Diet d:todaysFood) {
+            name.add(d.getMeal().getFood().getName());
+            quantity.add(Integer.toString(d.getMeal().getQuantity()));
+            calories.add(Integer.toString((d.getMeal().getQuantity())*(d.getMeal().getFood().getAmountOfCalories())));
+        }
+        Consumed.getItems().setAll(name);
     }
     /**
      * go to the dashboard
@@ -123,4 +136,7 @@ public class AddFoodController extends GenericController{
             e.printStackTrace();
         }
     }
+    @FXML
+    private void Remove(ActionEvent event) {}
+
 }

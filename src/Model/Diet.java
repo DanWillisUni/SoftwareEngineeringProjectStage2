@@ -1,7 +1,10 @@
 package Model;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Diet {
@@ -10,11 +13,11 @@ public class Diet {
     Meal meal;
     Date date;
 
-    public Diet(int id, User user, Meal meal){
+    public Diet(int id, User user, Meal meal,Date date){
         this.id=id;
         this.user = user;
         this.meal=meal;
-        this.date=new Date();
+        this.date=date;
     }
     public Diet(User user, Meal meal){
         GenericDatabaseController db = new GenericDatabaseController();
@@ -53,5 +56,22 @@ public class Diet {
     public void remove(){
         GenericDatabaseController db = new GenericDatabaseController();
         db.remove(getId(),"diet","idDiet");
+    }
+    public static ArrayList<Diet> getTodays(User user){
+        GenericDatabaseController db = new GenericDatabaseController();
+        ArrayList<Diet> r = new ArrayList<>();
+        try (
+                Statement stmnt = db.getConnection().createStatement();
+                ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.diet where idUser ="+user.getId() +" And date = '" + new java.sql.Date(new Date().getTime()) + "'");
+
+        ){
+            while(rs.next()) {
+                Meal m = Meal.getFromID(rs.getInt("idMeal"));
+                r.add(new Diet(rs.getInt("idDiet"),user,m,new java.util.Date(rs.getDate("date").getTime())));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return r;
     }
 }

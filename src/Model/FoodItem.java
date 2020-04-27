@@ -32,7 +32,7 @@ public class FoodItem {
         GenericDatabaseController db = new GenericDatabaseController();
         return getFoodFromID(db.getIDFromName(name,"foods","foodName","idFood"));
     }
-    private static FoodItem getFoodFromID(int id){
+    public static FoodItem getFoodFromID(int id){
         GenericDatabaseController db = new GenericDatabaseController();
         try (
                 Statement stmnt = db.getConnection().createStatement();

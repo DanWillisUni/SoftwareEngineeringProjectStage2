@@ -3,6 +3,7 @@ package Model;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Meal {
     int id;
@@ -71,5 +72,21 @@ public class Meal {
     public void remove(){
         GenericDatabaseController db = new GenericDatabaseController();
         db.remove(getId(),"meal","idMeal");
+    }
+
+    public static Meal getFromID(int id){
+        GenericDatabaseController db = new GenericDatabaseController();
+        try (
+                Statement stmnt = db.getConnection().createStatement();
+                ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.meal where idMeal ="+id);
+        ){
+            if(rs.next()) {
+                FoodItem foodItem = FoodItem.getFoodFromID(rs.getInt("idFood"));
+                return new Meal(id,foodItem,rs.getInt("quantity"),rs.getString("mealCategory"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -172,6 +172,20 @@ public class User {
         }
     }
 
+    public static User getFromEmail(String email){
+        GenericDatabaseController db = new GenericDatabaseController();
+        try (
+                Statement stmnt = db.getConnection().createStatement();
+                ResultSet rs = stmnt.executeQuery("select * from softwareengineering.user where email = '"+email +"'");
+        ){
+            if(rs.next()){
+                return new User(rs.getInt("idUser"),rs.getString("forename"),rs.getString("surname"),rs.getString("username"),rs.getString("email"),rs.getString("password"),rs.getDate("DOB"),rs.getInt("height"),(rs.getString("gender")).charAt(0),rs.getInt("weight"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     public static User getFromID(int id){
         GenericDatabaseController db = new GenericDatabaseController();
         try (
