@@ -1,7 +1,6 @@
 package Controller;
 //javafx imports
-import Model.DatabaseController;
-import Model.Person;
+import Model.GenericDatabaseController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,7 +13,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class AddExerciseSessionController extends GenericController{
-    private Person User; //person who is currently logged in
+    private Model.User User; //person who is currently logged in
     @FXML private TextField txt_search;//search box
     @FXML private ComboBox Exercise;//exercises drop down
     @FXML private TextField duration;//duration text box
@@ -25,7 +24,7 @@ public class AddExerciseSessionController extends GenericController{
      * Sets the current user that is signed into the health tracker
      * @param User Person that is signed in
      */
-    public void setUser(Person User){
+    public void setUser(Model.User User){
         this.User = User;
     }
     /**
@@ -33,7 +32,7 @@ public class AddExerciseSessionController extends GenericController{
      */
     public void setUpDisplay(){
         try {
-            DatabaseController db = new DatabaseController();
+            GenericDatabaseController db = new GenericDatabaseController();
             ArrayList<String> results = db.getAllLike("","exercise","exerciseName");
             ObservableList<String> observableList = FXCollections.observableList(results);
             Exercise.setItems(observableList);
@@ -57,7 +56,7 @@ public class AddExerciseSessionController extends GenericController{
     @FXML
     private void AddExerciseSessionAction (ActionEvent event) {
         errorMsg.setText("");
-        DatabaseController db = new DatabaseController();
+        GenericDatabaseController db = new GenericDatabaseController();
         boolean validCal = false;
         Boolean validSport = false;
 
@@ -131,7 +130,7 @@ public class AddExerciseSessionController extends GenericController{
             if (validCal){
                 caloriesBurned = Integer.parseInt(calBurned.getText());
             }
-            db.addExerciseLink(db.addExerciseSession(durationDec,sportID,caloriesBurned),User.getID());//adds the exercise link to the database
+            db.addExerciseLink(db.addExerciseSession(durationDec,sportID,caloriesBurned),User.getId());//adds the exercise link to the database
             goToDash(User,event);//go to the dashboard
         }
     }
@@ -143,7 +142,7 @@ public class AddExerciseSessionController extends GenericController{
     private void goSearch(ActionEvent event) {
         try {
             String toSearch = txt_search.getText();
-            DatabaseController db = new DatabaseController();
+            GenericDatabaseController db = new GenericDatabaseController();
             ArrayList<String> results = db.getAllLike(toSearch,"exercise","exerciseName");
             ObservableList<String> observableList = FXCollections.observableList(results);
             Exercise.setItems(observableList);

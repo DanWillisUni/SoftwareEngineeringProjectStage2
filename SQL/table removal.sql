@@ -7,4 +7,4 @@ DROP TABLE `softwareengineering`.`ExerciseSession`;
 DROP TABLE `softwareengineering`.`Exercise`;
 DROP TABLE  `softwareengineering`.`GoalLink`;
 DROP TABLE `softwareengineering`.`GoalWeight`;
-DROP TABLE `softwareengineering`.`PersonalInfo`;
+DROP TABLE `softwareengineering`.`user`;

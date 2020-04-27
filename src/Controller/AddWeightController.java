@@ -1,7 +1,6 @@
 package Controller;
 
-import Model.DatabaseController;
-import Model.Person;
+import Model.GenericDatabaseController;
 //javafx imports
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,7 +16,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class AddWeightController extends GenericController{
-    private Person User;
+    private Model.User User;
     @FXML private Label name;
     @FXML private TextField weight;
     @FXML private Label errorMsg;
@@ -25,7 +24,7 @@ public class AddWeightController extends GenericController{
      * set the user
      * @param User current user that is signed in
      */
-    public void setUser(Person User){
+    public void setUser(Model.User User){
         this.User = User;
     }
     /**
@@ -63,8 +62,8 @@ public class AddWeightController extends GenericController{
             weight.setText("");
         }
         if(errorMsg.getText().equals("")){
-            DatabaseController db = new DatabaseController();
-            db.addWeight(User.getID(),weight.getText());
+            GenericDatabaseController db = new GenericDatabaseController();
+            db.addWeight(User.getId(),weight.getText());
             //go to dashboard
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../View/Dashboard.fxml"));
             Parent root = null;
@@ -77,7 +76,7 @@ public class AddWeightController extends GenericController{
             stage.setScene(new Scene(root));
             DashboardController controller = loader.<DashboardController>getController();
             controller.setUser(User);
-            if (db.checkGoalMet(User.getID())){//checks if any goals are complete
+            if (db.checkGoalMet(User.getId())){//checks if any goals are complete
                 controller.GoalDone.setText("Goal complete!");
             }
             controller.setUpDisplay();

@@ -1,12 +1,11 @@
 package Controller;
 
-import Model.DatabaseController;
-import Model.Person;
+import Model.GenericDatabaseController;
+import Model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.Date;
@@ -30,7 +29,7 @@ public class RegistrationController extends GenericController{
      */
     @FXML
     protected void RegisterHandleSubmitButtonAction(ActionEvent event) {
-        DatabaseController db = new DatabaseController();
+        GenericDatabaseController db = new GenericDatabaseController();
         errorMsg.setText("");
         //validation forename
         if (forename.getText()!=null){
@@ -147,25 +146,13 @@ public class RegistrationController extends GenericController{
                 gender.setValue("");
             }
         }
-        //height validation
-        if (height.getText().matches("^([1-9][0-9]*(\\.[0-9]+)?|0+\\.[0-9]*[1-9][0-9]*)$")){
-            int i = Integer.parseInt(height.getText());
-            if (i>250){
-                errorMsg.setText("Error: height greater than 250");
-                height.setText("");
-            }
-        } else {
-            errorMsg.setText("Error: height not positive");
-            height.setText("");
-        }
         //password matching validation
         if (!password.getText().equals(password2.getText())) {
             errorMsg.setText("Passwords do not match");
             password2.setText("");
         }
         if (errorMsg.getText().equals("")){
-            Person newPerson = new Person(db.genID("PersonalInfo","idUser"),forename.getText(),surname.getText(),username.getText(),email.getText(),password.getText(), Date.from(Instant.from(DOB.getValue().atStartOfDay(ZoneId.systemDefault()))),new BigDecimal(height.getText()), gender.getValue().toString().charAt(0));
-            db.addUser(newPerson);
+            User newUser = new User(db.genID("PersonalInfo","idUser"),forename.getText(),surname.getText(),username.getText(),email.getText(),password.getText(), Date.from(Instant.from(DOB.getValue().atStartOfDay(ZoneId.systemDefault()))),0, gender.getValue().toString().charAt(0),0);
             goToPage("../View/Login.fxml",event);
         }
     }

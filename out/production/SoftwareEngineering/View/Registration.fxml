@@ -42,7 +42,6 @@
               <Label GridPane.columnIndex="0" GridPane.rowIndex="5" prefHeight="20.0" prefWidth="200.0" text="Repeat Password:" />
               <Label GridPane.columnIndex="0" GridPane.rowIndex="6" prefHeight="20.0" prefWidth="200.0" text="Date of Birth:" />
               <Label GridPane.columnIndex="0" GridPane.rowIndex="7" prefHeight="20.0" prefWidth="200.0" text="Gender:" />
-              <Label GridPane.columnIndex="0" GridPane.rowIndex="8" prefHeight="20.0" prefWidth="200.0" text="Height:" />
               <Button  GridPane.columnIndex="0" GridPane.rowIndex="9" prefHeight="20.0" prefWidth="200.0" mnemonicParsing="false" text="Go Back" onAction="#GoToLoginButtonAction"/>
           </GridPane>
           <Label  id="errorMsg" fx:id="errorMsg" GridPane.columnIndex="0" GridPane.rowIndex="2" prefHeight="20.0" text=""/>

@@ -1,7 +1,6 @@
 package Controller;
 
-import Model.DatabaseController;
-import Model.Person;
+import Model.GenericDatabaseController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class DashboardController extends GenericController{
-    private Person User;
+    private Model.User User;
     @FXML private Label name;
     @FXML private Label calLeft;
     @FXML Label GoalDone;
@@ -34,9 +33,9 @@ public class DashboardController extends GenericController{
      * sets the user to the user that is logged in
      * @param User Person object logged in
      */
-    public void setUser(Person User){
-        DatabaseController db = new DatabaseController();
-        this.User = db.getAllPersonalInfo(User.getID());
+    public void setUser(Model.User User){
+        GenericDatabaseController db = new GenericDatabaseController();
+        this.User = db.getAllPersonalInfo(User.getId());
     }
     /**
      * Sets up the display
@@ -53,24 +52,24 @@ public class DashboardController extends GenericController{
         if (User.getGender() == 'M') {//men eat more calories so start with 2000 calories whereas women start with 1800
             totalCal = 2000;
         }
-        DatabaseController db = new DatabaseController();
-        int goalWeight = db.getClosestGoal(User.getID());
+        GenericDatabaseController db = new GenericDatabaseController();
+        int goalWeight = db.getClosestGoal(User.getId());
         if (goalWeight != -1){//gets the closest goal
             nextGoal.setText("Up coming goal: " + goalWeight);
         }
-        int cb = db.getCalBurned(User.getID(), new Date());//gets the calories burned that day
-        int cc = db.getCalConsumed(User.getID(), new Date());//gets the calories consumed that day
+        int cb = db.getCalBurned(User.getId(), new Date());//gets the calories burned that day
+        int cc = db.getCalConsumed(User.getId(), new Date());//gets the calories consumed that day
         calLeft.setText(totalCal + " - " + cc + " + " + cb + " = " + (totalCal - cc + cb));//sets the bottom line
 
         DecimalFormat df = new DecimalFormat("#.###");//format of decimal of bmi
         df.setRoundingMode(RoundingMode.CEILING);
-        double bmi = db.getCurrentWeight(User.getID())/Math.pow((User.getHeight().doubleValue()/100.0),2.0);//works out bmi
+        double bmi = db.getCurrentWeight(User.getId())/Math.pow((User.getHeight()/100.0),2.0);//works out bmi
         if (bmi > 0){
             BMI.setText("Your BMI is: " + df.format(bmi));//sets bmi label
         }
         //line chart of weight
-        ArrayList<Integer> weights = db.getWeightTrackingWeight(User.getID());//gets all the weights
-        ArrayList<java.util.Date> dates = db.getWeightTrackingDate(User.getID());//gets all the dates
+        ArrayList<Integer> weights = db.getWeightTrackingWeight(User.getId());//gets all the weights
+        ArrayList<java.util.Date> dates = db.getWeightTrackingDate(User.getId());//gets all the dates
         XYChart.Series series = new XYChart.Series();
         for (int i = 0; i < weights.size(); i++) {
             series.getData().add(new XYChart.Data<Number,Number>(dates.get(i).getTime(), weights.get(i)));//puts the weights and dates into a series

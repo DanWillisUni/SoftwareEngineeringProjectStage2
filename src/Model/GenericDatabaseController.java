@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
-public class DatabaseController {
+public class GenericDatabaseController {
     private Connection connection;//connection to the database
     //used everywhere
     /**
      * Creates a connection to the server
      */
-    public DatabaseController() {
+    public GenericDatabaseController() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -39,6 +39,10 @@ public class DatabaseController {
             }
         }
     }
+    public Connection getConnection(){
+        return connection;
+    }
+
     //generic functions
     /**
      * Generates an id that hasnt been used before
@@ -138,6 +142,18 @@ public class DatabaseController {
         }
         return r;
     }
+    public void remove(int id,String TableName,String ColumnName){
+        try {
+            final String query = "DELETE FROM softwareengineering"+TableName+" WHERE "+ ColumnName + "="+id;
+            try (
+                    PreparedStatement pstmt = connection.prepareStatement(query)
+            ){
+                pstmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     //login
     /**
      * Selects all info from personalinfo where the user id is the same as id
@@ -146,7 +162,7 @@ public class DatabaseController {
      * @param id the id of the user
      * @return User with idUser id
      */
-    public Person getAllPersonalInfo(int id) {
+    public User getAllPersonalInfo(int id) {
         try (
                 Statement stmnt = connection.createStatement();
                 ResultSet rs = stmnt.executeQuery("select * from softwareengineering.PersonalInfo where idUser = '"+id +"'");
@@ -158,9 +174,10 @@ public class DatabaseController {
                 String email = rs.getString("email");
                 String password = rs.getString("password");
                 Date DOB = rs.getDate("DOB");
-                BigDecimal height = rs.getBigDecimal("height");
+                int height = Integer.parseInt(rs.getString("height"));
                 char gender = rs.getString("gender").charAt(0);
-                Person user = new Person(id,firstName, lastName,Username, email,password,DOB,height,gender);
+                int weight = Integer.parseInt(rs.getString("weight"));
+                User user = new User(id,firstName, lastName,Username, email,password,DOB,height,gender,weight);
                 return user;
             }
         } catch (SQLException e) {
@@ -187,23 +204,7 @@ public class DatabaseController {
         return null;
     }
     //registration
-    /**
-     * Inserts into personal info the new person
-     * @param User Person object to add to database
-     */
-    public void addUser(Person User){
-        try {
-            final String query = "Insert Into softwareengineering.PersonalInfo Values("+ User.getID() + ", '" + User.getForename() + "', '" + User.getSurname()+ "', '" + User.getEmail()+ "', '" + User.getUsername()+ "', '" + User.getPassword()+ "', ? , " + User.getHeight().toString()+ ", '" + User.getGender() + "' )";
-            try (
-                    PreparedStatement pstmt = connection.prepareStatement(query)
-            ){
-                pstmt.setDate(1, new java.sql.Date(User.getDOB().getTime()));//sets the date to the current
-                pstmt.executeUpdate();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+
     //add weight
     /**
      * Adds a weight
@@ -410,59 +411,6 @@ public class DatabaseController {
         return r;
     }
     //add diet
-    /**
-     * get food id from name
-     * check if the meal already exists
-     * if it does return it
-     * else make it
-     * @param foodName the name of the food eaten
-     * @param quantity the quantity of the food eaten
-     * @param Type the type of meal
-     * @return meal id
-     */
-    public int addMeal(String foodName,int quantity,String Type){
-        int id;
-        int foodID = getIDFromName(foodName,"foods","foodName","idFood");
-        int made = selectMeal(foodID,quantity,Type);
-        if (made==-1){
-            id = genID("meal","idmeal");
-            try {
-                final String query = "Insert Into softwareengineering.meal Values("+ id +", " + foodID + ", " + quantity+", '" +Type+"')";
-                try (
-                        PreparedStatement pstmt1 = connection.prepareStatement(query)
-                ){
-                    pstmt1.executeUpdate();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } else {
-            id = made;
-        }
-        return id;
-    }
-    /**
-     * gets the meal id if the meals exists
-     * @param foodID meal food id
-     * @param quantity meal quantity
-     * @param Type meal type
-     * @return -1 if not a meal id of the meal if it exists
-     */
-    private int selectMeal(int foodID,int quantity,String Type){
-        int r = -1;
-        try (
-            Statement stmnt = connection.createStatement();
-            ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.meal where idFood ="+foodID + " AND quantity = " + quantity+" AND mealCategory = '" +Type+"'");
-
-        ){
-            if(rs.next()) {
-                r = rs.getInt("idMeal");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return r;
-    }
     /**
      * adds a diet link
      * @param mealID meal id to add

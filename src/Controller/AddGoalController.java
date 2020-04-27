@@ -1,7 +1,6 @@
 package Controller;
 //my imports
-import Model.DatabaseController;
-import Model.Person;
+import Model.GenericDatabaseController;
 //fx imports
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,7 +13,7 @@ import java.time.ZoneId;
 import java.util.Date;
 
 public class AddGoalController extends GenericController{
-    private Person User;
+    private Model.User User;
     @FXML private TextField TargetWeight;
     @FXML private DatePicker targetDate;
     @FXML private Label errorMsg;
@@ -23,7 +22,7 @@ public class AddGoalController extends GenericController{
      * sets the user that is signed in
      * @param User person to set to
      */
-    public void setUser(Person User){
+    public void setUser(Model.User User){
         this.User = User;
     }
     /**
@@ -73,8 +72,8 @@ public class AddGoalController extends GenericController{
             errorMsg.setText("Error: Date not selected");
         }
         if (errorMsg.getText().equals("")){
-            DatabaseController db = new DatabaseController();
-            db.addGoal(User.getID(),Integer.parseInt(TargetWeight.getText()), Date.from(Instant.from(targetDate.getValue().atStartOfDay(ZoneId.systemDefault()))));
+            GenericDatabaseController db = new GenericDatabaseController();
+            db.addGoal(User.getId(),Integer.parseInt(TargetWeight.getText()), Date.from(Instant.from(targetDate.getValue().atStartOfDay(ZoneId.systemDefault()))));
             goToDash(User,event);
         }
     }

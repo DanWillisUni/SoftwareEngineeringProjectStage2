@@ -1,7 +1,6 @@
 package Controller;
 //javafx imports
-import Model.DatabaseController;
-import Model.Person;
+import Model.GenericDatabaseController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,7 +12,7 @@ import javafx.scene.control.TextField;
 import java.util.ArrayList;
 
 public class AddFoodController extends GenericController{
-    private Person User;//the user that the food is being added to
+    private Model.User User;//the user that the food is being added to
     @FXML private TextField txt_search;
     @FXML private ComboBox Foods;
     @FXML private TextField quantity;
@@ -24,7 +23,7 @@ public class AddFoodController extends GenericController{
      * sets the user to the user signed in
      * @param User logged in user
      */
-    public void setUser(Person User){
+    public void setUser(Model.User User){
         this.User = User;
     }
     /**
@@ -33,7 +32,7 @@ public class AddFoodController extends GenericController{
     public void setUpDisplay(){
         name.setText("Hello, " + User.getForename());
         try {
-            DatabaseController db = new DatabaseController();
+            GenericDatabaseController db = new GenericDatabaseController();
             ArrayList<String> results = db.getAllLike("","foods","foodName");
             ObservableList<String> observableList = FXCollections.observableList(results);
             Foods.setItems(observableList);
@@ -58,7 +57,7 @@ public class AddFoodController extends GenericController{
     @FXML
     private void AddFoodsAction (ActionEvent event){
         errorMsg.setText("");
-        DatabaseController db = new DatabaseController();
+        GenericDatabaseController db = new GenericDatabaseController();
         //validation for quantity
         if (quantity.getText().matches("^[1-9][0-9]*$")){
             int i = Integer.parseInt(quantity.getText());
@@ -95,7 +94,7 @@ public class AddFoodController extends GenericController{
 
         if (errorMsg.getText().equals("")){
             int mealId = db.addMeal(Foods.getValue().toString(),Integer.parseInt(quantity.getText()),MealType.getValue().toString());//adds meal
-            db.addDiet(mealId,User.getID());//adds diet
+            db.addDiet(mealId,User.getId());//adds diet
             goToDash(User,event);
         }
     }
@@ -107,7 +106,7 @@ public class AddFoodController extends GenericController{
     private void goSearch(ActionEvent event) {
         try {
             String toSearch = txt_search.getText();
-            DatabaseController db = new DatabaseController();
+            GenericDatabaseController db = new GenericDatabaseController();
             ArrayList<String> results = db.getAllLike(toSearch,"foods","foodName");
             ObservableList<String> observableList = FXCollections.observableList(results);
             Foods.setItems(observableList);

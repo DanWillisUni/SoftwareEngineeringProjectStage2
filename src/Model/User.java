@@ -1,21 +1,23 @@
 package Model;
 
-import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Date;
 
-public class Person {
-    int ID;
+public class User {
+    int id;
     String forename;
     String surname;
     String username;
     String email;
     String password;
     Date DOB;
-    BigDecimal height;
+    int height;
     char gender;
+    int weight;
     /**
      * sets all the parameters to the variables of the person
-     * @param ID id of the person
+     * @param id id of the person
      * @param forename forename of the user
      * @param surname surname of the user
      * @param username username of the user
@@ -25,8 +27,8 @@ public class Person {
      * @param height height of the user
      * @param gender gender of the user
      */
-    public Person(int ID, String forename, String surname, String username, String email, String password, Date DOB, BigDecimal height,char gender){
-        this.ID = ID;
+    public User(int id, String forename, String surname, String username, String email, String password, Date DOB, int height, char gender, int weight){
+        this.id = id;
         this.forename = forename;
         this.surname = surname;
         this.username = username;
@@ -35,13 +37,15 @@ public class Person {
         this.DOB=DOB;
         this.height=height;
         this.gender = gender;
+        this.weight=weight;
+        this.add();
     }
     /**
      * gets the id
      * @return id of user
      */
-    public int getID(){
-        return ID;
+    public int getId(){
+        return id;
     }
     /**
      * gets the forename
@@ -89,7 +93,7 @@ public class Person {
      * get the height of the user
      * @return height of the user
      */
-    public BigDecimal getHeight(){
+    public int getHeight(){
         return height;
     }
     /**
@@ -97,4 +101,36 @@ public class Person {
      * @return gender of the user
      */
     public char getGender(){return gender;}
+    /**
+     * get the weight of the user
+     * @return weight of the user
+     */
+    public int getWeight(){
+        return weight;
+    }
+
+    public void add(){
+        GenericDatabaseController db = new GenericDatabaseController();
+        try {
+            final String query = "Insert Into softwareengineering.user Values("+ getId() + ", '" + getForename() + "', '" + getSurname()+ "', '" + getEmail()+ "', '" + getUsername()+ "', '" + getPassword()+ "', "+ new java.sql.Date(getDOB().getTime()) +" , " + getHeight()+ ", '" + getGender() + "' )";
+            try (
+                    PreparedStatement pstmt = db.getConnection().prepareStatement(query)
+            ){
+                pstmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void update(){
+        GenericDatabaseController db = new GenericDatabaseController();
+        final String query = "UPDATE softwareengineering.User SET forename = "+getForename()+" surname = "+ getSurname()+" email = "+ getEmail()+" username = "+ getUsername()+" password = "+ getPassword()+" DOB = "+ new java.sql.Date(getDOB().getTime())+" height = "+ getHeight()+" gender = "+ getGender()+" weight = "+ getWeight()+" Where idUser= "+ getId();
+        try (
+                PreparedStatement pstmt = db.getConnection().prepareStatement(query)
+        ){
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

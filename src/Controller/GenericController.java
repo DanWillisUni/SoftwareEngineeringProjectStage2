@@ -1,6 +1,6 @@
 package Controller;
 
-import Model.Person;
+import Model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -36,7 +36,7 @@ public class GenericController {
      * @param User user to set it to
      * @param event go to dashboard button pushed
      */
-    public static void goToDash(Person User,ActionEvent event){
+    public static void goToDash(User User, ActionEvent event){
         FXMLLoader loader = new FXMLLoader(GenericController.class.getResource("../View/Dashboard.fxml"));
         Parent root = null;
         try {

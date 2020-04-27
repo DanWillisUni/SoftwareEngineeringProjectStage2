@@ -1,7 +1,7 @@
 package Controller;
 
-import Model.DatabaseController;
-import Model.Person;
+import Model.GenericDatabaseController;
+import Model.User;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -32,15 +32,15 @@ public class LoginController extends GenericController{
      */
     @FXML
     private void LoginHandleSubmitButtonAction (ActionEvent event) {
-        DatabaseController db = new DatabaseController();
+        GenericDatabaseController db = new GenericDatabaseController();
         errorMsg.setText("");
         //validation
         String matchingPassword = db.getMatchingPassword(email.getText());
         if(matchingPassword!=null){
             if(matchingPassword.equals(password.getText())){
-                db = new DatabaseController();
+                db = new GenericDatabaseController();
                 int id =  db.getIDFromName(email.getText(),"personalinfo","email","idUser");
-                Person u = db.getAllPersonalInfo(id);
+                User u = db.getAllPersonalInfo(id);
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("../View/Dashboard.fxml"));
                 Parent root = null;
                 try {
@@ -52,7 +52,7 @@ public class LoginController extends GenericController{
                 stage.setScene(new Scene(root));
                 DashboardController controller = loader.<DashboardController>getController();
                 controller.setUser(u);
-                if(db.removeOverdueGoals(u.getID())){//checks for any overdue goals
+                if(db.removeOverdueGoals(u.getId())){//checks for any overdue goals
                     controller.GoalDone.setText("Goal Removed as it was overdue");
                 }
                 controller.setUpDisplay();

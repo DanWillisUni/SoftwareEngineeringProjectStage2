@@ -66,9 +66,6 @@
     <option name="printScope" value="4" />
     <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/../SoftwareEngineering\exportToHTML" />
   </component>
-  <component name="FavoritesManager">
-    <favorites_list name="JavaFxApplication" />
-  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -94,7 +91,6 @@
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
@@ -106,6 +102,7 @@
     <property name="MemberChooser.showClasses" value="true" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="OverrideImplement.combined" value="false" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
@@ -257,11 +254,12 @@
       <workItem from="1586524055790" duration="606000" />
       <workItem from="1586859337555" duration="24000" />
       <workItem from="1586873069315" duration="1721000" />
+      <workItem from="1587990583271" duration="11063000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
@@ -292,10 +290,14 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="371" y="146" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1280.720@0.0.1280.720" timestamp="1581524644456" />
-    <state x="438" y="246" width="404" height="236" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1583761647555">
+    <state x="438" y="246" width="432" height="236" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1587999947725">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="438" y="246" width="404" height="236" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1280.720@0.0.1280.720" timestamp="1583761647555" />
+    <state x="438" y="246" width="432" height="236" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1280.720@0.0.1280.720" timestamp="1587999947725" />
+    <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1588000443500">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1280.720@0.0.1280.720" timestamp="1588000443500" />
     <state x="371" y="108" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1583854415082">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
@@ -308,22 +310,22 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="491" y="255" key="Github.ShareDialog/0.0.1280.720@0.0.1280.720" timestamp="1581338973450" />
-    <state width="1236" height="165" key="GridCell.Tab.0.bottom" timestamp="1585413347330">
+    <state width="1236" height="165" key="GridCell.Tab.0.bottom" timestamp="1587997455856">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="165" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1585413347330" />
-    <state width="1236" height="165" key="GridCell.Tab.0.center" timestamp="1585413347330">
+    <state width="1236" height="165" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1587997455856" />
+    <state width="1236" height="165" key="GridCell.Tab.0.center" timestamp="1587997455856">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="165" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1585413347330" />
-    <state width="1236" height="165" key="GridCell.Tab.0.left" timestamp="1585413347330">
+    <state width="1236" height="165" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1587997455856" />
+    <state width="1236" height="165" key="GridCell.Tab.0.left" timestamp="1587997455856">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="165" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1585413347330" />
-    <state width="1236" height="165" key="GridCell.Tab.0.right" timestamp="1585413347330">
+    <state width="1236" height="165" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1587997455856" />
+    <state width="1236" height="165" key="GridCell.Tab.0.right" timestamp="1587997455856">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="165" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1585413347330" />
+    <state width="1236" height="165" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1587997455856" />
     <state width="1236" height="220" key="GridCell.Tab.1.bottom" timestamp="1583785428365">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
