@@ -79,9 +79,9 @@ public class AddWeightController extends GenericController{
             stage.setScene(new Scene(root));
             DashboardController controller = loader.<DashboardController>getController();
             controller.setUser(User);
-            if (db.checkGoalMet(User.getId())){//checks if any goals are complete
-                controller.GoalDone.setText("Goal complete!");
-            }
+//            if (db.checkGoalMet(User.getId())){//checks if any goals are complete
+//                controller.GoalDone.setText("Goal complete!");
+//            }
             controller.setUpDisplay();
             stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
             stage.setFullScreen(true);

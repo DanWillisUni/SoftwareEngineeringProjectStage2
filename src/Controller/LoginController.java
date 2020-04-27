@@ -50,9 +50,9 @@ public class LoginController extends GenericController{
                 stage.setScene(new Scene(root));
                 DashboardController controller = loader.<DashboardController>getController();
                 controller.setUser(u);
-                if(db.removeOverdueGoals(u.getId())){//checks for any overdue goals
-                    controller.GoalDone.setText("Goal Removed as it was overdue");
-                }
+//                if(db.removeOverdueGoals(u.getId())){//checks for any overdue goals
+//                    controller.GoalDone.setText("Goal Removed as it was overdue");
+//                }
                 controller.setUpDisplay();
                 stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
                 stage.setFullScreen(true);

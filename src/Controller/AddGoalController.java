@@ -72,8 +72,8 @@ public class AddGoalController extends GenericController{
             errorMsg.setText("Error: Date not selected");
         }
         if (errorMsg.getText().equals("")){
-            GenericDatabaseController db = new GenericDatabaseController();
-            db.addGoal(User.getId(),Integer.parseInt(TargetWeight.getText()), Date.from(Instant.from(targetDate.getValue().atStartOfDay(ZoneId.systemDefault()))));
+//            GenericDatabaseController db = new GenericDatabaseController();
+//            db.addGoal(User.getId(),Integer.parseInt(TargetWeight.getText()), Date.from(Instant.from(targetDate.getValue().atStartOfDay(ZoneId.systemDefault()))));
             goToDash(User,event);
         }
     }

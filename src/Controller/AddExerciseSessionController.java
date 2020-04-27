@@ -1,5 +1,8 @@
 package Controller;
 //javafx imports
+import Model.Exercise;
+import Model.ExerciseLink;
+import Model.ExerciseSession;
 import Model.GenericDatabaseController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,7 +12,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 //java imports
-import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class AddExerciseSessionController extends GenericController{
@@ -78,7 +80,7 @@ public class AddExerciseSessionController extends GenericController{
         //validate sport
         if (validCal){
             if (Exercise.getValue()!=null&&!Exercise.getValue().toString().equals("")){
-                if(!db.isStr(Exercise.getValue().toString(),"exercise","exerciseName")){
+                if(!db.isInTable(Exercise.getValue().toString(),"exercise","exerciseName")){
                     errorMsg.setText("Error: No such sport found, try other");
                     Exercise.setValue("");
                 } else {
@@ -91,7 +93,7 @@ public class AddExerciseSessionController extends GenericController{
             }else if(Exercise.getValue().toString().equals("")){
                 errorMsg.setText("Error: Sport not typed in");
             } else {
-                if(!db.isStr(Exercise.getValue().toString(),"exercise","exerciseName")){
+                if(!db.isInTable(Exercise.getValue().toString(),"exercise","exerciseName")){
                     errorMsg.setText("Error: No such sport found, try other");
                     Exercise.setValue("");
                 } else {
@@ -114,23 +116,26 @@ public class AddExerciseSessionController extends GenericController{
         //if no errors in validation
         if (errorMsg.getText()==""){
             int caloriesBurned = 0;
-            int sportID = 0;
-            BigDecimal durationDec = new BigDecimal(duration.getText());//set the duration
+            int durationNum = Integer.parseInt(duration.getText());//set the duration
+            Exercise exercise = new Exercise(0,"Other",0);
             //set the sport if it is valid
             if (validSport){
-                sportID = db.getIDFromName(Exercise.getValue().toString(),"exercise","exerciseName","idExerciseType");
-                //if the calories are not valid then calculate it
+                exercise = Model.Exercise.getExerciseFromName(Exercise.getValue().toString());
                 if (!validCal){
-                    caloriesBurned = durationDec.multiply(new BigDecimal(db.getCalsBurnedFromID(sportID))).intValue();//if the calories are not valid, calculate them
+                    caloriesBurned = durationNum*(exercise.getCaloriesBurned());//if the calories are not valid, calculate them
                 }
-            } else {
-                sportID = 0;//set the sport to other
             }
             //set the calories if they are valid
             if (validCal){
                 caloriesBurned = Integer.parseInt(calBurned.getText());
             }
-            db.addExerciseLink(db.addExerciseSession(durationDec,sportID,caloriesBurned),User.getId());//adds the exercise link to the database
+            ExerciseSession exerciseSession = ExerciseSession.getExerciseSession(exercise,durationNum,caloriesBurned);
+            if (exerciseSession==null){
+                exerciseSession = new ExerciseSession(exercise,durationNum,caloriesBurned);
+                exerciseSession.add();
+            }
+            ExerciseLink link = new ExerciseLink(exerciseSession,User);
+            link.add();
             goToDash(User,event);//go to the dashboard
         }
     }

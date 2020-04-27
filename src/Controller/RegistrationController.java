@@ -74,7 +74,7 @@ public class RegistrationController extends GenericController{
                     errorMsg.setText("Error: username too long");
                     username.setText("");
                 } else {
-                    if(db.isStr(username.getText(),"user","username")){
+                    if(db.isInTable(username.getText(),"user","username")){
                         errorMsg.setText("Error: username already in use");
                         username.setText("");
                     }
@@ -90,7 +90,7 @@ public class RegistrationController extends GenericController{
             if (!email.getText().equals("")){
                 if (email.getText().toString().length()<60){
                     if (email.getText().matches("^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$")) {
-                        if(db.isStr(email.getText(),"user","email")){
+                        if(db.isInTable(email.getText(),"user","email")){
                             errorMsg.setText("Error: email already in use");
                             email.setText("");
                         }

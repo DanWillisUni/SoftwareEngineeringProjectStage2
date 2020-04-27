@@ -9,7 +9,7 @@ public class Exercise {
     String name;
     int caloriesBurned;
 
-    Exercise(int id, String name, int caloriesBurned){
+    public Exercise(int id, String name, int caloriesBurned){
         this.id=id;
         this.name=name;
         this.caloriesBurned=caloriesBurned;

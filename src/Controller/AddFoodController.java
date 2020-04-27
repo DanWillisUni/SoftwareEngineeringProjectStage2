@@ -78,7 +78,7 @@ public class AddFoodController extends GenericController{
         }else if(Foods.getValue().toString().equals("")){
             errorMsg.setText("Error: food not typed in");
         } else {
-            if(!db.isStr(Foods.getValue().toString(),"foods","foodName")){
+            if(!db.isInTable(Foods.getValue().toString(),"foods","foodName")){
                 errorMsg.setText("Error: not valid food");
                 Foods.setValue("");
             }
