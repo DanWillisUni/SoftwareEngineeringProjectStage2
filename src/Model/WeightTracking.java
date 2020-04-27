@@ -47,7 +47,7 @@ public class WeightTracking {
     public void remove(){
         GenericDatabaseController db = new GenericDatabaseController();
         try {
-            final String query = "DELETE FROM softwareengineering.weighttracking WHERE idUser = "+user.getId() + " AND date = " + new java.sql.Date(getDate().getTime()) ;
+            final String query = "DELETE FROM softwareengineering.weighttracking WHERE idUser = "+user.getId() + " AND date = '" + new java.sql.Date(getDate().getTime()) + "'" ;
             try (
                     PreparedStatement pstmt = db.getConnection().prepareStatement(query)
             ){

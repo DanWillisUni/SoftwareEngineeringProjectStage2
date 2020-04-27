@@ -66,6 +66,7 @@ public class AddWeightController extends GenericController{
             GenericDatabaseController db = new GenericDatabaseController();
             WeightTracking wt = new WeightTracking(User,Integer.parseInt(weight.getText()));
             wt.add();
+            User.setWeight(Integer.parseInt(weight.getText()));
             //go to dashboard
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../View/Dashboard.fxml"));
             Parent root = null;

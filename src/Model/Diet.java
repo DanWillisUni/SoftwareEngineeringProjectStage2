@@ -10,12 +10,18 @@ public class Diet {
     Meal meal;
     Date date;
 
-    Diet(int id, User user, Meal meal){
+    public Diet(int id, User user, Meal meal){
         this.id=id;
         this.user = user;
         this.meal=meal;
         this.date=new Date();
-        this.add();
+    }
+    public Diet(User user, Meal meal){
+        GenericDatabaseController db = new GenericDatabaseController();
+        this.id=db.genID("diet","idDiet");
+        this.user = user;
+        this.meal=meal;
+        this.date=new Date();
     }
 
     public int getId() {

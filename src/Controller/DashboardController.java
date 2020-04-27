@@ -60,12 +60,15 @@ public class DashboardController extends GenericController{
         int cc = db.getCalConsumed(User.getId(), new Date());//gets the calories consumed that day
         calLeft.setText(totalCal + " - " + cc + " + " + cb + " = " + (totalCal - cc + cb));//sets the bottom line
 
-        DecimalFormat df = new DecimalFormat("#.###");//format of decimal of bmi
-        df.setRoundingMode(RoundingMode.CEILING);
-        double bmi = db.getCurrentWeight(User.getId())/Math.pow((User.getHeight()/100.0),2.0);//works out bmi
-        if (bmi > 0){
-            BMI.setText("Your BMI is: " + df.format(bmi));//sets bmi label
+        if (User.getHeight()>0 && User.getWeight()>0){
+            DecimalFormat df = new DecimalFormat("#.###");//format of decimal of bmi
+            df.setRoundingMode(RoundingMode.CEILING);
+            double bmi = User.getWeight()/Math.pow((double)(User.getHeight()/100.0),2.0);//works out bmi
+            if (bmi > 0){
+                BMI.setText("Your BMI is: " + df.format(bmi));//sets bmi label
+            }
         }
+
         //line chart of weight
         ArrayList<Integer> weights = db.getWeightTrackingWeight(User.getId());//gets all the weights
         ArrayList<java.util.Date> dates = db.getWeightTrackingDate(User.getId());//gets all the dates

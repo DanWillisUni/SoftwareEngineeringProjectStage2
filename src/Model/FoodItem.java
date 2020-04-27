@@ -9,7 +9,7 @@ public class FoodItem {
     String name;
     int amountOfCalories;
     String description;
-    FoodItem(int id, String name, int amountOfCalories, String description){
+    public FoodItem(int id, String name, int amountOfCalories, String description){
         this.id = id;
         this.name = name;
         this.amountOfCalories = amountOfCalories;

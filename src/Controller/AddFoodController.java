@@ -1,6 +1,9 @@
 package Controller;
 //javafx imports
+import Model.Diet;
+import Model.FoodItem;
 import Model.GenericDatabaseController;
+import Model.Meal;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -93,8 +96,14 @@ public class AddFoodController extends GenericController{
         }
 
         if (errorMsg.getText().equals("")){
-//            int mealId = db.addMeal(Foods.getValue().toString(),Integer.parseInt(quantity.getText()),MealType.getValue().toString());//adds meal
-//            db.addDiet(mealId,User.getId());//adds diet
+            FoodItem foodItem = FoodItem.getFoodFromName(Foods.getValue().toString());
+            Meal meal = Meal.getMeal(foodItem,Integer.parseInt(quantity.getText()),MealType.getValue().toString());
+            if (meal==null){
+                meal = new Meal(foodItem,Integer.parseInt(quantity.getText()),MealType.getValue().toString());
+                meal.add();
+            }
+            Diet diet = new Diet(User,meal);
+            diet.add();
             goToDash(User,event);
         }
     }

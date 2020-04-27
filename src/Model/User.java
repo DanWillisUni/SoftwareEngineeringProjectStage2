@@ -110,6 +110,43 @@ public class User {
         return weight;
     }
 
+    public void setForename(String forename) {
+        this.forename = forename;
+        update();
+    }
+    public void setSurname(String surname) {
+        this.surname = surname;
+        update();
+    }
+    public void setUsername(String username) {
+        this.username = username;
+        update();
+    }
+    public void setEmail(String email) {
+        this.email = email;
+        update();
+    }
+    public void setPassword(String password) {
+        this.password = password;
+        update();
+    }
+    public void setDOB(Date DOB) {
+        this.DOB = DOB;
+        update();
+    }
+    public void setHeight(int height) {
+        this.height = height;
+        update();
+    }
+    public void setGender(char gender) {
+        this.gender = gender;
+        update();
+    }
+    public void setWeight(int weight) {
+        this.weight = weight;
+        update();
+    }
+
     public void add(){
         GenericDatabaseController db = new GenericDatabaseController();
         try {
@@ -125,7 +162,7 @@ public class User {
     }
     public void update(){
         GenericDatabaseController db = new GenericDatabaseController();
-        final String query = "UPDATE softwareengineering.User SET forename = "+getForename()+" surname = "+ getSurname()+" email = "+ getEmail()+" username = "+ getUsername()+" password = "+ getPassword()+" DOB = "+ new java.sql.Date(getDOB().getTime())+" height = "+ getHeight()+" gender = "+ getGender()+" weight = "+ getWeight()+" Where idUser= "+ getId();
+        final String query = "UPDATE softwareengineering.User SET forename = '"+getForename()+"', surname = '"+ getSurname()+"',email = '"+ getEmail()+"',username = '"+ getUsername()+"',password = '"+ getPassword()+"',DOB = '"+ new java.sql.Date(getDOB().getTime())+"',height = "+ getHeight()+",gender = '"+ getGender()+"',weight = "+ getWeight()+" Where idUser= "+ getId();
         try (
                 PreparedStatement pstmt = db.getConnection().prepareStatement(query)
         ){
@@ -134,7 +171,6 @@ public class User {
             e.printStackTrace();
         }
     }
-
 
     public static User getFromID(int id){
         GenericDatabaseController db = new GenericDatabaseController();
