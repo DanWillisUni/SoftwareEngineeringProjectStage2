@@ -38,7 +38,6 @@ public class User {
         this.height=height;
         this.gender = gender;
         this.weight=weight;
-        this.add();
     }
     /**
      * gets the id
@@ -112,7 +111,7 @@ public class User {
     public void add(){
         GenericDatabaseController db = new GenericDatabaseController();
         try {
-            final String query = "Insert Into softwareengineering.user Values("+ getId() + ", '" + getForename() + "', '" + getSurname()+ "', '" + getEmail()+ "', '" + getUsername()+ "', '" + getPassword()+ "', "+ new java.sql.Date(getDOB().getTime()) +" , " + getHeight()+ ", '" + getGender() + "' )";
+            final String query = "Insert Into softwareengineering.user Values("+ getId() + ", '" + getForename() + "', '" + getSurname()+ "', '" + getEmail()+ "', '" + getUsername()+ "', '" + getPassword()+ "', '"+ new java.sql.Date(getDOB().getTime()) +"' , " + getHeight()+ ", '" + getGender() + "', " + getWeight() + " )";
             try (
                     PreparedStatement pstmt = db.getConnection().prepareStatement(query)
             ){

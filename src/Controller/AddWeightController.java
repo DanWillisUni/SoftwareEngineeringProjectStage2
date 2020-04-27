@@ -2,6 +2,7 @@ package Controller;
 
 import Model.GenericDatabaseController;
 //javafx imports
+import Model.WeightTracking;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -63,7 +64,8 @@ public class AddWeightController extends GenericController{
         }
         if(errorMsg.getText().equals("")){
             GenericDatabaseController db = new GenericDatabaseController();
-            db.addWeight(User.getId(),weight.getText());
+            WeightTracking wt = new WeightTracking(User,Integer.parseInt(weight.getText()));
+            wt.add();
             //go to dashboard
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../View/Dashboard.fxml"));
             Parent root = null;

@@ -32,7 +32,6 @@
                       </FXCollections>
                   </items>
               </ComboBox>
-              <TextField  id="height" fx:id="height" GridPane.columnIndex="1" GridPane.rowIndex="8" prefHeight="20.0" prefWidth="200.0" promptText="Height(cm)" />
               <Button  GridPane.columnIndex="1" GridPane.rowIndex="9" prefHeight="20.0" prefWidth="200.0" mnemonicParsing="false" text="Register" onAction="#RegisterHandleSubmitButtonAction"/>
               <Label GridPane.columnIndex="0" GridPane.rowIndex="0" prefHeight="20.0" prefWidth="200.0" text="Forename:" />
               <Label GridPane.columnIndex="0" GridPane.rowIndex="1" prefHeight="20.0" prefWidth="200.0" text="Surname:" />

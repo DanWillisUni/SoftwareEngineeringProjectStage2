@@ -9,12 +9,12 @@ public class WeightTracking {
     int weight;
     Date date;
 
-    WeightTracking(User user,int weight){
+    public WeightTracking(User user, int weight){
         this.user=user;
         this.weight=weight;
         this.date = new Date();
     }
-    WeightTracking(User user,int weight,Date date){
+    public WeightTracking(User user,int weight,Date date){
         this.user=user;
         this.weight=weight;
         this.date = date;
@@ -31,6 +31,7 @@ public class WeightTracking {
     }
 
     public void add(){
+        remove();
         GenericDatabaseController db = new GenericDatabaseController();
         try {
             final String query = "Insert Into softwareengineering.weighttracking Values("+ getUser().getId() + ", '" + new java.sql.Date(getDate().getTime()) + "', '" + getWeight() + "' )";

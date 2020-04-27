@@ -206,41 +206,7 @@ public class GenericDatabaseController {
     //registration
 
     //add weight
-    /**
-     * Adds a weight
-     * Deletes any weight entry by the same user that day
-     * Inserts weight
-     * @param id
-     * @param weight
-     */
-    public void addWeight(int id,String weight){
-        try {
-            final String first ="Delete From softwareengineering.weightTracking Where idUser = " +id +" And date = ?";
-            final String second = "Insert Into softwareengineering.weightTracking Values("+ id + ", ? , '" + weight + "' )";
-            try (
-                    PreparedStatement pstmt1 = connection.prepareStatement(first)
-            ){
-                java.sql.Date currentDate = new java.sql.Date(System.currentTimeMillis());
-                pstmt1.setDate(1, currentDate);//sets current date into the query
-                pstmt1.executeUpdate();
-                try (
-                        PreparedStatement pstmt2 = connection.prepareStatement(second)
-                ){
-                    pstmt2.setDate(1, currentDate);
-                    pstmt2.executeUpdate();
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    /**
-     * select all the goals in goallink of that user
-     * for each of them see if the users current weight is less than that target weight
-     * if the goal is met, delete it, and set the goal completed label
-     * @param id user id
-     * @return true if a goal is met
-     */
+
     public boolean checkGoalMet(int id){
         boolean r = false;
         ArrayList<Integer> goalIDs = getGoalIDFromID(id);
@@ -410,26 +376,7 @@ public class GenericDatabaseController {
         }
         return r;
     }
-    //add diet
-    /**
-     * adds a diet link
-     * @param mealID meal id to add
-     * @param userID user id to add
-     */
-    public void addDiet(int mealID,int userID){
-        try {
-            final String query = "Insert Into softwareengineering.diet Values("+ genID("diet","idDiet") +", " + userID + ", " + mealID+", ?)";
-            try (
-                    PreparedStatement pstmt1 = connection.prepareStatement(query)
-            ){
-                java.sql.Date currentDate = new java.sql.Date(System.currentTimeMillis());
-                pstmt1.setDate(1, currentDate);
-                pstmt1.executeUpdate();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+
     //add goal
     /**
      * checks to see if the goal exists

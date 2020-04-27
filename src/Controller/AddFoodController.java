@@ -93,8 +93,8 @@ public class AddFoodController extends GenericController{
         }
 
         if (errorMsg.getText().equals("")){
-            int mealId = db.addMeal(Foods.getValue().toString(),Integer.parseInt(quantity.getText()),MealType.getValue().toString());//adds meal
-            db.addDiet(mealId,User.getId());//adds diet
+//            int mealId = db.addMeal(Foods.getValue().toString(),Integer.parseInt(quantity.getText()),MealType.getValue().toString());//adds meal
+//            db.addDiet(mealId,User.getId());//adds diet
             goToDash(User,event);
         }
     }

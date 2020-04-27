@@ -74,7 +74,7 @@ public class RegistrationController extends GenericController{
                     errorMsg.setText("Error: username too long");
                     username.setText("");
                 } else {
-                    if(db.isStr(username.getText(),"personalinfo","username")){
+                    if(db.isStr(username.getText(),"user","username")){
                         errorMsg.setText("Error: username already in use");
                         username.setText("");
                     }
@@ -90,7 +90,7 @@ public class RegistrationController extends GenericController{
             if (!email.getText().equals("")){
                 if (email.getText().toString().length()<60){
                     if (email.getText().matches("^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$")) {
-                        if(db.isStr(email.getText(),"personalinfo","email")){
+                        if(db.isStr(email.getText(),"user","email")){
                             errorMsg.setText("Error: email already in use");
                             email.setText("");
                         }
@@ -152,7 +152,8 @@ public class RegistrationController extends GenericController{
             password2.setText("");
         }
         if (errorMsg.getText().equals("")){
-            User newUser = new User(db.genID("PersonalInfo","idUser"),forename.getText(),surname.getText(),username.getText(),email.getText(),password.getText(), Date.from(Instant.from(DOB.getValue().atStartOfDay(ZoneId.systemDefault()))),0, gender.getValue().toString().charAt(0),0);
+            User newUser = new User(db.genID("user","idUser"),forename.getText(),surname.getText(),username.getText(),email.getText(),password.getText(), Date.from(Instant.from(DOB.getValue().atStartOfDay(ZoneId.systemDefault()))),0, gender.getValue().toString().charAt(0),0);
+            newUser.add();
             goToPage("../View/Login.fxml",event);
         }
     }
