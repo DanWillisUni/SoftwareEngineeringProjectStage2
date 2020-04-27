@@ -1,7 +1,9 @@
 package Model;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Date;
 
 public class User {
@@ -131,5 +133,21 @@ public class User {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public static User getFromID(int id){
+        GenericDatabaseController db = new GenericDatabaseController();
+        try (
+                Statement stmnt = db.getConnection().createStatement();
+                ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.user where idUser ="+id);
+        ){
+            if(rs.next()) {
+                return new User(id,rs.getString("forename"),rs.getString("surname"),rs.getString("username"),rs.getString("email"),rs.getString("password"),rs.getDate("DOB"),rs.getInt("height"),(rs.getString("gender")).charAt(0),rs.getInt("weight"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

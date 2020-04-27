@@ -34,8 +34,7 @@ public class DashboardController extends GenericController{
      * @param User Person object logged in
      */
     public void setUser(Model.User User){
-        GenericDatabaseController db = new GenericDatabaseController();
-        this.User = db.getAllPersonalInfo(User.getId());
+        this.User = User;
     }
     /**
      * Sets up the display

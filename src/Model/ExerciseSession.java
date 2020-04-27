@@ -46,5 +46,4 @@ public class ExerciseSession {
         GenericDatabaseController db = new GenericDatabaseController();
         db.remove(getId(),"exercisesession","idExerciseSession");
     }
-
 }

@@ -154,37 +154,6 @@ public class GenericDatabaseController {
             e.printStackTrace();
         }
     }
-    //login
-    /**
-     * Selects all info from personalinfo where the user id is the same as id
-     * create new Person object from all the info
-     * return new person
-     * @param id the id of the user
-     * @return User with idUser id
-     */
-    public User getAllPersonalInfo(int id) {
-        try (
-                Statement stmnt = connection.createStatement();
-                ResultSet rs = stmnt.executeQuery("select * from softwareengineering.PersonalInfo where idUser = '"+id +"'");
-        ){
-            if(rs.next()){
-                String firstName = rs.getString("forename");
-                String lastName = rs.getString("surname");
-                String Username = rs.getString("username");
-                String email = rs.getString("email");
-                String password = rs.getString("password");
-                Date DOB = rs.getDate("DOB");
-                int height = Integer.parseInt(rs.getString("height"));
-                char gender = rs.getString("gender").charAt(0);
-                int weight = Integer.parseInt(rs.getString("weight"));
-                User user = new User(id,firstName, lastName,Username, email,password,DOB,height,gender,weight);
-                return user;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
     /**
      * selects the password where the email matches
      * @param email email to match

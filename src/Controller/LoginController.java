@@ -35,12 +35,10 @@ public class LoginController extends GenericController{
         GenericDatabaseController db = new GenericDatabaseController();
         errorMsg.setText("");
         //validation
-        String matchingPassword = db.getMatchingPassword(email.getText());
-        if(matchingPassword!=null){
-            if(matchingPassword.equals(password.getText())){
-                db = new GenericDatabaseController();
-                int id =  db.getIDFromName(email.getText(),"personalinfo","email","idUser");
-                User u = db.getAllPersonalInfo(id);
+        int id =  db.getIDFromName(email.getText(),"user","email","idUser");
+        User u = User.getFromID(id);
+        if (u!=null){
+            if (u.getPassword().equals(password.getText())){
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("../View/Dashboard.fxml"));
                 Parent root = null;
                 try {
