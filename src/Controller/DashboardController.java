@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.GenericDatabaseController;
+import Model.WeightTracking;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -62,31 +63,36 @@ public class DashboardController extends GenericController{
         }
 
         //line chart of weight
-//        ArrayList<Integer> weights = db.getWeightTrackingWeight(User.getId());//gets all the weights
-//        ArrayList<java.util.Date> dates = db.getWeightTrackingDate(User.getId());//gets all the dates
-//        XYChart.Series series = new XYChart.Series();
-//        for (int i = 0; i < weights.size(); i++) {
-//            series.getData().add(new XYChart.Data<Number,Number>(dates.get(i).getTime(), weights.get(i)));//puts the weights and dates into a series
-//        }
-//        series.setName("Weight");
-//        WeightTracking.getData().add(series);//adds the series to the linechart
-//
-//        NumberAxis xAxis = (NumberAxis) WeightTracking.getXAxis();
-//        xAxis.setUpperBound(new Date().getTime() + 86400000L);//sets the x axis upperbound to 1 day in the future from now
-//        xAxis.setLowerBound(new Date().getTime() - 1296000000L);//sets the x axis lower bound to 2 weeks ago
-//        xAxis.setTickLabelFormatter(new StringConverter<Number>() {//create a tick label formatter
-//            @Override
-//            public String toString(Number n) {//overide number tostring method converts it to a date
-//                long i = n.longValue();
-//                java.util.Date date = new Date(i);
-//                DateFormat newFormat = new SimpleDateFormat("dd-MM-yyyy");
-//                return  newFormat.format(date);
-//            }
-//            @Override
-//            public Number fromString(String string) {//has to be here however isnt used so i didnt write it properly
-//                return 0;
-//            }
-//        });
+        ArrayList<Model.WeightTracking> all = Model.WeightTracking.getAll(User);
+        ArrayList<Integer> weights = new ArrayList<>();//gets all the weights
+        ArrayList<java.util.Date> dates = new ArrayList<>();//gets all the dates
+        for (Model.WeightTracking wt:all){
+            weights.add(wt.getWeight());
+            dates.add(wt.getDate());
+        }
+        XYChart.Series series = new XYChart.Series();
+        for (int i = 0; i < weights.size(); i++) {
+            series.getData().add(new XYChart.Data<Number,Number>(dates.get(i).getTime(), weights.get(i)));//puts the weights and dates into a series
+        }
+        series.setName("Weight");
+        WeightTracking.getData().add(series);//adds the series to the linechart
+
+        NumberAxis xAxis = (NumberAxis) WeightTracking.getXAxis();
+        xAxis.setUpperBound(new Date().getTime() + 86400000L);//sets the x axis upperbound to 1 day in the future from now
+        xAxis.setLowerBound(new Date().getTime() - 1296000000L);//sets the x axis lower bound to 2 weeks ago
+        xAxis.setTickLabelFormatter(new StringConverter<Number>() {//create a tick label formatter
+            @Override
+            public String toString(Number n) {//overide number tostring method converts it to a date
+                long i = n.longValue();
+                java.util.Date date = new Date(i);
+                DateFormat newFormat = new SimpleDateFormat("dd-MM-yyyy");
+                return  newFormat.format(date);
+            }
+            @Override
+            public Number fromString(String string) {//has to be here however isnt used so i didnt write it properly
+                return 0;
+            }
+        });
     }
     /**
      * take the user to the add weight button

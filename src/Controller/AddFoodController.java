@@ -10,10 +10,17 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCombination;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 //java imports
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class AddFoodController extends GenericController{
@@ -81,7 +88,21 @@ public class AddFoodController extends GenericController{
                             Meal m = data.getMeal();
                             Diet d = Diet.getDiet(User,m);
                             d.remove();
-                            setUpDisplay();
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource("../View/AddFood.fxml"));
+                            Parent root = null;
+                            try {
+                                root = loader.load();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                            stage.setScene(new Scene(root));
+                            AddFoodController controller = loader.<AddFoodController>getController();
+                            controller.setUser(User);
+                            controller.setUpDisplay();
+                            stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+                            stage.setFullScreen(true);
+                            stage.show();
                         });
                     }
 

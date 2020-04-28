@@ -54,7 +54,7 @@ public class ExerciseSession {
         GenericDatabaseController db = new GenericDatabaseController();
         ExerciseSession r = null;
         try {
-            final String query = "SELECT * FROM softwareengineering.exercisesession WHERE idExerciseType = " + exercise.getId() + " AND duration = " + duration + " And caloriesBurned = " + caloriesBurned;
+            final String query = "SELECT * FROM softwareengineering.exercisesession WHERE idExerciseType = " + exercise.getId() + " AND durationMinutes = " + duration + " And caloriesBurned = " + caloriesBurned;
             try (
                     PreparedStatement pstmt = db.getConnection().prepareStatement(query)
             ){

@@ -5,6 +5,5 @@ DROP TABLE `softwareengineering`.`Foods`;
 DROP TABLE `softwareengineering`.`ExerciseLink`;
 DROP TABLE `softwareengineering`.`ExerciseSession`;
 DROP TABLE `softwareengineering`.`Exercise`;
-DROP TABLE  `softwareengineering`.`GoalLink`;
 DROP TABLE `softwareengineering`.`GoalWeight`;
 DROP TABLE `softwareengineering`.`user`;
