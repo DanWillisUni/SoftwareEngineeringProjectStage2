@@ -89,4 +89,7 @@ public class Meal {
         }
         return null;
     }
+    public MealEaten getMealEaten(){
+        return new MealEaten(getFood().getName(), Integer.toString(getQuantity()), Integer.toString((getQuantity())*(getFood().getAmountOfCalories())));
+    }
 }

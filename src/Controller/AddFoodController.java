@@ -1,16 +1,21 @@
 package Controller;
 //javafx imports
-import Model.Diet;
-import Model.FoodItem;
-import Model.GenericDatabaseController;
-import Model.Meal;
+import Model.*;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 //java imports
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class AddFoodController extends GenericController{
     private Model.User User;//the user that the food is being added to
@@ -21,9 +26,9 @@ public class AddFoodController extends GenericController{
     @FXML private Label errorMsg;
     @FXML private Label name;
     @FXML private TableView Consumed;
-    @FXML private TableColumn Name;
-    @FXML private TableColumn Quantity;
-    @FXML private TableColumn Calories;
+//    @FXML private TableColumn Name;
+//    @FXML private TableColumn Quantity;
+//    @FXML private TableColumn Calories;
     /**
      * sets the user to the user signed in
      * @param User logged in user
@@ -46,15 +51,28 @@ public class AddFoodController extends GenericController{
         }
 
         ArrayList<Model.Diet> todaysFood = Model.Diet.getTodays(User);
-        ObservableList<String> name = FXCollections.<String>observableArrayList();
-        ObservableList<String> quantity = FXCollections.<String>observableArrayList();
-        ObservableList<String> calories = FXCollections.<String>observableArrayList();
+        ObservableList<MealEaten> data = FXCollections.observableArrayList();
         for (Model.Diet d:todaysFood) {
-            name.add(d.getMeal().getFood().getName());
-            quantity.add(Integer.toString(d.getMeal().getQuantity()));
-            calories.add(Integer.toString((d.getMeal().getQuantity())*(d.getMeal().getFood().getAmountOfCalories())));
+            data.add(d.getMeal().getMealEaten());
         }
-        Consumed.getItems().setAll(name);
+        Consumed.setEditable(true);
+        TableColumn name = new TableColumn("Name");
+        name.setMinWidth(200);
+        name.setCellValueFactory(
+                new PropertyValueFactory<MealEaten, String>("foodName"));
+        TableColumn quantity = new TableColumn("Quantity");
+        quantity.setMinWidth(100);
+        quantity.setCellValueFactory(
+                new PropertyValueFactory<MealEaten, String>("quantity"));
+        TableColumn calories = new TableColumn("Calories");
+        calories.setMinWidth(100);
+        calories.setCellValueFactory(
+                new PropertyValueFactory<MealEaten, String>("calories"));
+
+        
+        Consumed.setItems(data);
+        Consumed.getColumns().addAll(name, quantity, calories);
+
     }
     /**
      * go to the dashboard
