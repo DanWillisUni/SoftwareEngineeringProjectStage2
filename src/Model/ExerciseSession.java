@@ -54,7 +54,7 @@ public class ExerciseSession {
         GenericDatabaseController db = new GenericDatabaseController();
         ExerciseSession r = null;
         try {
-            final String query = "SELECT * FROM softwareengineering.meal WHERE idExerciseType = " + exercise.getId() + " AND duration = " + duration + " And caloriesBurned = " + caloriesBurned;
+            final String query = "SELECT * FROM softwareengineering.exercisesession WHERE idExerciseType = " + exercise.getId() + " AND duration = " + duration + " And caloriesBurned = " + caloriesBurned;
             try (
                     PreparedStatement pstmt = db.getConnection().prepareStatement(query)
             ){
@@ -71,5 +71,24 @@ public class ExerciseSession {
     public void remove(){
         GenericDatabaseController db = new GenericDatabaseController();
         db.remove(getId(),"exercisesession","idExerciseSession");
+    }
+    public static ExerciseSession getFromID(int id){
+        GenericDatabaseController db = new GenericDatabaseController();
+        ExerciseSession r = null;
+        try {
+            final String query = "SELECT * FROM softwareengineering.exercisesession WHERE idExerciseSession = " + id;
+            try (
+                    PreparedStatement pstmt = db.getConnection().prepareStatement(query)
+            ){
+                ResultSet rs = pstmt.executeQuery();
+                if(rs.next()) {
+                    Exercise exercise = Exercise.getExerciseFromID(rs.getInt("idExerciseType"));
+                    return new ExerciseSession(id,exercise,rs.getInt("durationMinutes"),rs.getInt("caloriesBurned"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return r;
     }
 }

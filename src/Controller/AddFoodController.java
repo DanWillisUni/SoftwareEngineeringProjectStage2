@@ -15,9 +15,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 //java imports
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 
 public class AddFoodController extends GenericController{
     private Model.User User;//the user that the food is being added to
@@ -28,9 +25,6 @@ public class AddFoodController extends GenericController{
     @FXML private Label errorMsg;
     @FXML private Label name;
     @FXML private TableView Consumed;
-//    @FXML private TableColumn Name;
-//    @FXML private TableColumn Quantity;
-//    @FXML private TableColumn Calories;
     /**
      * sets the user to the user signed in
      * @param User logged in user

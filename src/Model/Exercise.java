@@ -28,7 +28,7 @@ public class Exercise {
         GenericDatabaseController db = new GenericDatabaseController();
         return getExerciseFromID(db.getIDFromName(name,"exercise","exerciseName","idExerciseType"));
     }
-    private static Exercise getExerciseFromID(int id){
+    public static Exercise getExerciseFromID(int id){
         GenericDatabaseController db = new GenericDatabaseController();
         try (
                 Statement stmnt = db.getConnection().createStatement();

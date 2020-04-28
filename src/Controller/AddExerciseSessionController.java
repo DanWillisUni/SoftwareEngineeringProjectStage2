@@ -1,16 +1,13 @@
 package Controller;
 //javafx imports
-import Model.Exercise;
-import Model.ExerciseLink;
-import Model.ExerciseSession;
-import Model.GenericDatabaseController;
+import Model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 //java imports
 import java.util.ArrayList;
 
@@ -22,6 +19,7 @@ public class AddExerciseSessionController extends GenericController{
     @FXML private TextField calBurned;//calories burned text box
     @FXML private Label errorMsg;//error message label
     @FXML private Label name;
+    @FXML private TableView Burned;
     /**
      * Sets the current user that is signed into the health tracker
      * @param User Person that is signed in
@@ -42,7 +40,63 @@ public class AddExerciseSessionController extends GenericController{
             e.printStackTrace();
         }
         name.setText("Hello, " + User.getForename());
+
+        ArrayList<Model.ExerciseLink> links = ExerciseLink.getTodays(User);
+        ObservableList<ExerciseDisplay> data = FXCollections.observableArrayList();
+        for (Model.ExerciseLink l:links) {
+            data.add(new ExerciseDisplay(l.getSession()));
+        }
+        Burned.setEditable(true);
+        TableColumn exercise = new TableColumn("Exercise");
+        exercise.setMinWidth(200);
+        exercise.setCellValueFactory(
+                new PropertyValueFactory<ExerciseDisplay, String>("name"));
+        TableColumn duration = new TableColumn("Duration");
+        duration.setMinWidth(100);
+        duration.setCellValueFactory(
+                new PropertyValueFactory<ExerciseDisplay, String>("duration"));
+        TableColumn calories = new TableColumn("Calories");
+        calories.setMinWidth(100);
+        calories.setCellValueFactory(
+                new PropertyValueFactory<ExerciseDisplay, String>("cal"));
+        Burned.setItems(data);
+        Burned.getColumns().addAll(exercise, duration, calories);
+        addButtonToTable();
     }
+    private void addButtonToTable() {
+        TableColumn<ExerciseDisplay, Void> colBtn = new TableColumn("Delete");
+        Callback<TableColumn<ExerciseDisplay, Void>, TableCell<ExerciseDisplay, Void>> cellFactory = new Callback<TableColumn<ExerciseDisplay, Void>, TableCell<ExerciseDisplay, Void>>() {
+            @Override
+            public TableCell<ExerciseDisplay, Void> call(final TableColumn<ExerciseDisplay, Void> param) {
+                final TableCell<ExerciseDisplay, Void> cell = new TableCell<ExerciseDisplay, Void>() {
+                    private final Button btn = new Button("Remove");
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                            ExerciseDisplay data = getTableView().getItems().get(getIndex());
+                            ExerciseSession s = data.getSession();
+                            ExerciseLink l = ExerciseLink.getLink(User,s);
+                            l.remove();
+                            setUpDisplay();
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+        colBtn.setCellFactory(cellFactory);
+        Burned.getColumns().add(colBtn);
+    }
+
     /**
      * Loads the dashboard on the push of the back button
      * @param event button push

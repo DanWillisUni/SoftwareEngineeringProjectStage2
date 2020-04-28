@@ -1,7 +1,10 @@
 package Model;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class ExerciseLink {
@@ -53,6 +56,39 @@ public class ExerciseLink {
     public void remove(){
         GenericDatabaseController db = new GenericDatabaseController();
         db.remove(getId(),"exerciseLink","idLink");
+    }
+
+    public static ArrayList<ExerciseLink> getTodays(User u){
+        GenericDatabaseController db = new GenericDatabaseController();
+        ArrayList<ExerciseLink> r = new ArrayList<>();
+        try (
+                Statement stmnt = db.getConnection().createStatement();
+                ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.exerciselink where idUser = "+u.getId() +" And date = '" + new java.sql.Date(new Date().getTime()) + "'");
+
+        ){
+            while(rs.next()) {
+                ExerciseSession s = ExerciseSession.getFromID(rs.getInt("idExerciseSession"));
+                r.add(new ExerciseLink(rs.getInt("idLink"),s,u,new Date()));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return r;
+    }
+    public static ExerciseLink getLink(User user,ExerciseSession session){
+        GenericDatabaseController db = new GenericDatabaseController();
+        try (
+                Statement stmnt = db.getConnection().createStatement();
+                ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.exerciselink where idUser = "+user.getId() +" and idexercisesession = "+session.getId()+" And date = '" + new java.sql.Date(new Date().getTime()) + "'");
+
+        ){
+            if(rs.next()) {
+                return new ExerciseLink(rs.getInt("idLink"),session,user,new Date());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
