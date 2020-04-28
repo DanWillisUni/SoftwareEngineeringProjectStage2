@@ -74,4 +74,20 @@ public class Diet {
         }
         return r;
     }
+
+    public static Diet getDiet(User user,Meal meal){
+        GenericDatabaseController db = new GenericDatabaseController();
+        try (
+                Statement stmnt = db.getConnection().createStatement();
+                ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.diet where idUser = "+user.getId() +" and idMeal = "+meal.getId()+" And date = '" + new java.sql.Date(new Date().getTime()) + "'");
+
+        ){
+            if(rs.next()) {
+                return new Diet(rs.getInt("idDiet"),user,meal,new Date());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

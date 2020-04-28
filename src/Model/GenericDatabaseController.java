@@ -144,7 +144,7 @@ public class GenericDatabaseController {
     }
     public void remove(int id,String TableName,String ColumnName){
         try {
-            final String query = "DELETE FROM softwareengineering"+TableName+" WHERE "+ ColumnName + "="+id;
+            final String query = "DELETE FROM softwareengineering."+TableName+" WHERE "+ ColumnName + "="+id;
             try (
                     PreparedStatement pstmt = connection.prepareStatement(query)
             ){

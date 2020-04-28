@@ -12,9 +12,11 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 //java imports
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class AddFoodController extends GenericController{
@@ -68,11 +70,42 @@ public class AddFoodController extends GenericController{
         calories.setMinWidth(100);
         calories.setCellValueFactory(
                 new PropertyValueFactory<MealEaten, String>("calories"));
-
-        
         Consumed.setItems(data);
         Consumed.getColumns().addAll(name, quantity, calories);
+        addButtonToTable();
+    }
+    private void addButtonToTable() {
+        TableColumn<MealEaten, Void> colBtn = new TableColumn("Delete");
+        Callback<TableColumn<MealEaten, Void>, TableCell<MealEaten, Void>> cellFactory = new Callback<TableColumn<MealEaten, Void>, TableCell<MealEaten, Void>>() {
+            @Override
+            public TableCell<MealEaten, Void> call(final TableColumn<MealEaten, Void> param) {
+                final TableCell<MealEaten, Void> cell = new TableCell<MealEaten, Void>() {
+                    private final Button btn = new Button("Remove");
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                            MealEaten data = getTableView().getItems().get(getIndex());
+                            Meal m = data.getMeal();
+                            Diet d = Diet.getDiet(User,m);
+                            d.remove();
+                            setUpDisplay();
+                        });
+                    }
 
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+        colBtn.setCellFactory(cellFactory);
+        Consumed.getColumns().add(colBtn);
     }
     /**
      * go to the dashboard
