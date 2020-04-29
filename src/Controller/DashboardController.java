@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.GenericDatabaseController;
+import Model.WeightGoal;
 import Model.WeightTracking;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -54,12 +55,23 @@ public class DashboardController extends GenericController{
         }
 
         if (User.getHeight()>0 && User.getWeight()>0){
-            DecimalFormat df = new DecimalFormat("#.###");//format of decimal of bmi
+            DecimalFormat df = new DecimalFormat("#.##");//format of decimal of bmi
             df.setRoundingMode(RoundingMode.CEILING);
             double bmi = User.getWeight()/Math.pow((double)(User.getHeight()/100.0),2.0);//works out bmi
             if (bmi > 0){
                 BMI.setText("Your BMI is: " + df.format(bmi));//sets bmi label
             }
+        }
+
+        ArrayList<WeightGoal> allGoals = WeightGoal.getAll(User);
+        for(WeightGoal wg: allGoals){
+            if (wg.isMet()){
+                wg.remove();
+                GoalDone.setText("Congratulations, You completed your goal!");
+            }
+        }
+        if (!allGoals.isEmpty()){
+            nextGoal.setText("The next goal is: " + Integer.toString(allGoals.get(0).getTargetWeight()) + "kg");
         }
 
         //line chart of weight

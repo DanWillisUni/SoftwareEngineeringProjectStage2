@@ -1,15 +1,28 @@
 package Controller;
 //my imports
-import Model.GenericDatabaseController;
+import Model.Diet;
 //fx imports
+import Model.Meal;
+import Model.MealEaten;
+import Model.WeightGoal;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCombination;
+import javafx.stage.Stage;
+import javafx.util.Callback;
 //java imports
+import java.io.IOException;
 import java.time.Instant;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class AddGoalController extends GenericController{
@@ -18,6 +31,8 @@ public class AddGoalController extends GenericController{
     @FXML private DatePicker targetDate;
     @FXML private Label errorMsg;
     @FXML private Label name;
+    @FXML private ComboBox GoalType;
+    @FXML private TableView Goals;
     /**
      * sets the user that is signed in
      * @param User person to set to
@@ -30,7 +45,74 @@ public class AddGoalController extends GenericController{
      */
     public void setUpDisplay(){
         name.setText("Hi, " + User.getForename());
+
+        ArrayList<Model.WeightGoal> goals = Model.WeightGoal.getAll(User);
+        ObservableList<WeightGoal> data = FXCollections.observableArrayList();
+        for (Model.WeightGoal wg:goals) {
+            data.add(wg);
+        }
+        Goals.setEditable(true);
+        TableColumn target = new TableColumn("Target Weight");
+        target.setMinWidth(100);
+        target.setCellValueFactory(
+                new PropertyValueFactory<MealEaten, String>("targetWeight"));
+        TableColumn DateDue = new TableColumn("Due Date");
+        DateDue.setMinWidth(150);
+        DateDue.setCellValueFactory(
+                new PropertyValueFactory<MealEaten, String>("due"));
+
+        Goals.setItems(data);
+        Goals.getColumns().addAll(target, DateDue);
+        addButtonToTable();
     }
+
+    private void addButtonToTable() {
+        TableColumn<WeightGoal, Void> colBtn = new TableColumn("Delete");
+        Callback<TableColumn<WeightGoal, Void>, TableCell<WeightGoal, Void>> cellFactory = new Callback<>() {
+            @Override
+            public TableCell<WeightGoal, Void> call(final TableColumn<WeightGoal, Void> param) {
+                final TableCell<WeightGoal, Void> cell = new TableCell<WeightGoal, Void>() {
+                    private final Button btn = new Button("Remove");
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                            WeightGoal data = getTableView().getItems().get(getIndex());
+                            data.remove();
+
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource("../View/AddGoal.fxml"));
+                            Parent root = null;
+                            try {
+                                root = loader.load();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                            stage.setScene(new Scene(root));
+                            AddGoalController controller = loader.<AddGoalController>getController();
+                            controller.setUser(User);
+                            controller.setUpDisplay();
+                            stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+                            stage.setFullScreen(true);
+                            stage.show();
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+        colBtn.setCellFactory(cellFactory);
+        Goals.getColumns().add(colBtn);
+    }
+
     /**
      * go to the dashboard
      * @param event back button pressed
@@ -71,9 +153,20 @@ public class AddGoalController extends GenericController{
         }else {
             errorMsg.setText("Error: Date not selected");
         }
+        //validate goal type
+        if (GoalType.getValue()==null) {
+            errorMsg.setText("Error: goal type not selected");
+        }else if(GoalType.getValue().toString().equals("")){
+            errorMsg.setText("Error: goal type not typed in");
+        } else {
+            if(!(GoalType.getValue().toString().equals("Above")||GoalType.getValue().toString().equals("Below"))){
+                errorMsg.setText("Error: not valid goal type");
+                GoalType.setValue("");
+            }
+        }
         if (errorMsg.getText().equals("")){
-//            GenericDatabaseController db = new GenericDatabaseController();
-//            db.addGoal(User.getId(),Integer.parseInt(TargetWeight.getText()), Date.from(Instant.from(targetDate.getValue().atStartOfDay(ZoneId.systemDefault()))));
+            WeightGoal g = new WeightGoal(User,Integer.parseInt(TargetWeight.getText()),Date.from(Instant.from(targetDate.getValue().atStartOfDay(ZoneId.systemDefault()))),(GoalType.getValue().toString().equals("Above")));
+            g.add();
             goToDash(User,event);
         }
     }

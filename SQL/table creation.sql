@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `softwareengineering`.`GoalWeight` (
   `weightGoal` SMALLINT NOT NULL,
   `dateSet` DATE NULL,
   `targetDate` DATE NOT NULL,
-  `toLoose` BOOL NOT NULL,
+  `toLoose` TINYINT NOT NULL,
   PRIMARY KEY (`idGoalWeight`),
   UNIQUE INDEX `idGoalWeight_UNIQUE` (`idGoalWeight` ASC) VISIBLE,
   CONSTRAINT `idUserinGoal`

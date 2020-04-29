@@ -2,6 +2,7 @@ package Controller;
 
 import Model.GenericDatabaseController;
 import Model.User;
+import Model.WeightGoal;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +17,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class LoginController extends GenericController{
     @FXML private Label errorMsg;
@@ -49,9 +51,15 @@ public class LoginController extends GenericController{
                 stage.setScene(new Scene(root));
                 DashboardController controller = loader.<DashboardController>getController();
                 controller.setUser(u);
-//                if(db.removeOverdueGoals(u.getId())){//checks for any overdue goals
-//                    controller.GoalDone.setText("Goal Removed as it was overdue");
-//                }
+
+                ArrayList<WeightGoal> allGoals = WeightGoal.getAll(u);
+                for(WeightGoal wg: allGoals){
+                    if (wg.isOverdue()){
+                        wg.remove();
+                        controller.GoalDone.setText("An overdue goal was removed");
+                    }
+                }
+
                 controller.setUpDisplay();
                 stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
                 stage.setFullScreen(true);
