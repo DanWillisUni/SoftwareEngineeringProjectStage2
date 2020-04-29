@@ -112,35 +112,27 @@ public class User {
 
     public void setForename(String forename) {
         this.forename = forename;
-        update();
     }
     public void setSurname(String surname) {
         this.surname = surname;
-        update();
     }
     public void setUsername(String username) {
         this.username = username;
-        update();
     }
     public void setEmail(String email) {
         this.email = email;
-        update();
     }
     public void setPassword(String password) {
         this.password = password;
-        update();
     }
     public void setDOB(Date DOB) {
         this.DOB = DOB;
-        update();
     }
     public void setHeight(int height) {
         this.height = height;
-        update();
     }
     public void setGender(char gender) {
         this.gender = gender;
-        update();
     }
     public void setWeight(int weight) {
         this.weight = weight;

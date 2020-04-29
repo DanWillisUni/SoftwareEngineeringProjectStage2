@@ -17,7 +17,6 @@
                         <NumberAxis fx:id="yAxis" label="Weight" side="LEFT" />
                     </yAxis>
                 </LineChart>
-
             </center>
             <left>
                 <GridPane alignment="CENTER_LEFT" hgap="10" vgap="10" GridPane.columnIndex="0" GridPane.rowIndex="0" >
@@ -34,6 +33,9 @@
                         <Button fx:id="AddGoal" text="Add Goal" prefHeight="20.0" prefWidth="200.0" onAction="#GoToAddGoalButtonAction"/>
                     </HBox>
                     <HBox spacing="10" alignment="CENTER_LEFT" GridPane.columnIndex="0" GridPane.rowIndex="5">
+                        <Button fx:id="PersonalDetails" text="Change Details" prefHeight="20.0" prefWidth="200.0" onAction="#GoToPersonalDetailsButtonAction"/>
+                    </HBox>
+                    <HBox spacing="10" alignment="CENTER_LEFT" GridPane.columnIndex="0" GridPane.rowIndex="6">
                         <Button fx:id="SignOut" text="Sign Out" prefHeight="20.0" prefWidth="200.0" onAction="#GoToSignOutButtonAction"/>
                     </HBox>
                 </GridPane>
@@ -45,7 +47,7 @@
                 <GridPane alignment="BOTTOM_CENTER">
                     <Label id="BMI" fx:id="BMI" GridPane.columnIndex="0" GridPane.rowIndex="0" text="" prefHeight="20.0"/>
                     <Label GridPane.columnIndex="0" GridPane.rowIndex="1" text="Todays Calories Summary:" prefHeight="20.0"/>
-                    <Label GridPane.columnIndex="0" GridPane.rowIndex="2" text=" Total Allowed - Calories Consumed + Calories Burned = Calories Left To Eat" prefHeight="20.0" />
+                    <Label GridPane.columnIndex="0" GridPane.rowIndex="2" text="Total Allowed - Calories Consumed + Calories Burned = Calories Left To Eat" prefHeight="20.0" />
                     <Label GridPane.columnIndex="0" GridPane.rowIndex="3" id="calLeft" fx:id="calLeft" text="" prefHeight="20.0"/>
                     <Label id="GoalDone" fx:id="GoalDone" GridPane.columnIndex="0" GridPane.rowIndex="4" text="" prefHeight="20.0" />
                     <Label id="nextGoal" fx:id="nextGoal" GridPane.columnIndex="0" GridPane.rowIndex="5" text="" prefHeight="20.0" />

@@ -65,7 +65,6 @@ public class AddGoalController extends GenericController{
         Goals.getColumns().addAll(target, DateDue);
         addButtonToTable();
     }
-
     private void addButtonToTable() {
         TableColumn<WeightGoal, Void> colBtn = new TableColumn("Delete");
         Callback<TableColumn<WeightGoal, Void>, TableCell<WeightGoal, Void>> cellFactory = new Callback<>() {

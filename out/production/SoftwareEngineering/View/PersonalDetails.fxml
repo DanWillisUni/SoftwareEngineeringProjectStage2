@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<?import java.net.URL?>
+<VBox fx:controller="Controller.PersonalDetailsController" xmlns:fx="http://javafx.com/fxml" minHeight="400.0" minWidth="350.0">
+    <children>
+        <GridPane alignment="center" hgap="10" vgap="10" VBox.vgrow="ALWAYS">
+            <Label GridPane.columnIndex="0" GridPane.rowIndex="0" prefHeight="20.0" text="Change Personal Details" />
+            <GridPane alignment="center" hgap="10" vgap="10" VBox.vgrow="ALWAYS" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                <TextField  id="forename" fx:id="forename" GridPane.columnIndex="2" GridPane.rowIndex="0" prefHeight="20.0" prefWidth="200.0" promptText="Forename" />
+                <TextField  id="surname" fx:id="surname" GridPane.columnIndex="2" GridPane.rowIndex="1" prefHeight="20.0" prefWidth="200.0" promptText="Surname" />
+                <TextField  id="username" fx:id="username" GridPane.columnIndex="2" GridPane.rowIndex="2" prefHeight="20.0" prefWidth="200.0" promptText="Username" />
+                <TextField  id="email" fx:id="email" GridPane.columnIndex="2" GridPane.rowIndex="3" prefHeight="20.0" prefWidth="200.0" promptText="Email" />
+                <PasswordField  id="password" fx:id="password" GridPane.columnIndex="2" GridPane.rowIndex="4" prefHeight="20.0" prefWidth="200.0" promptText="Password" />
+                <PasswordField  id="password2" fx:id="password2" GridPane.columnIndex="2" GridPane.rowIndex="5" prefHeight="20.0" prefWidth="200.0" promptText="Repeat Password" />
+                <DatePicker id="DOB" fx:id="DOB" GridPane.columnIndex="2" GridPane.rowIndex="6" prefHeight="20.0" prefWidth="200.0" promptText="Date Of Birth" />
+                <ComboBox id="gender" fx:id="gender" editable="true"  GridPane.columnIndex="2" GridPane.rowIndex="7" prefHeight="20.0" prefWidth="200.0" promptText="Gender" >
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Male" />
+                            <String fx:value="Female" />
+                            <String fx:value="Other" />
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+                <Button  GridPane.columnIndex="0" GridPane.rowIndex="9" prefHeight="20.0" prefWidth="200.0" mnemonicParsing="false" text="Go Back" onAction="#GoToDashButtonAction"/>
+                <Button  GridPane.columnIndex="1" GridPane.rowIndex="9" prefHeight="20.0" prefWidth="200.0" mnemonicParsing="false" text="Submit" onAction="#SaveUser"/>
+                <Label GridPane.columnIndex="0" GridPane.rowIndex="0" prefHeight="20.0" prefWidth="200.0" text="Forename:" />
+                <Label GridPane.columnIndex="0" GridPane.rowIndex="1" prefHeight="20.0" prefWidth="200.0" text="Surname:" />
+                <Label GridPane.columnIndex="0" GridPane.rowIndex="2" prefHeight="20.0" prefWidth="200.0" text="Username:" />
+                <Label GridPane.columnIndex="0" GridPane.rowIndex="3" prefHeight="20.0" prefWidth="200.0" text="Email:" />
+                <Label GridPane.columnIndex="0" GridPane.rowIndex="4" prefHeight="20.0" prefWidth="200.0" text="Password:" />
+                <Label GridPane.columnIndex="0" GridPane.rowIndex="5" prefHeight="20.0" prefWidth="200.0" text="Repeat Password:" />
+                <Label GridPane.columnIndex="0" GridPane.rowIndex="6" prefHeight="20.0" prefWidth="200.0" text="Date of Birth:" />
+                <Label GridPane.columnIndex="0" GridPane.rowIndex="7" prefHeight="20.0" prefWidth="200.0" text="Gender:" />
+
+                <Label fx:id="currentForename" GridPane.columnIndex="1" GridPane.rowIndex="0" prefHeight="20.0" prefWidth="200.0" text="" />
+                <Label fx:id="currentSurname" GridPane.columnIndex="1" GridPane.rowIndex="1" prefHeight="20.0" prefWidth="200.0" text="" />
+                <Label fx:id="currentUsername" GridPane.columnIndex="1" GridPane.rowIndex="2" prefHeight="20.0" prefWidth="200.0" text="" />
+                <Label fx:id="currentEmail" GridPane.columnIndex="1" GridPane.rowIndex="3" prefHeight="20.0" prefWidth="200.0" text="" />
+                <Label fx:id="currentDOB" GridPane.columnIndex="1" GridPane.rowIndex="6" prefHeight="20.0" prefWidth="200.0" text="" />
+                <Label fx:id="currentGender" GridPane.columnIndex="1" GridPane.rowIndex="7" prefHeight="20.0" prefWidth="200.0" text="" />
+             </GridPane>
+            <Label  id="errorMsg" fx:id="errorMsg" GridPane.columnIndex="0" GridPane.rowIndex="2" prefHeight="20.0" text=""/>
+        </GridPane>
+    </children>
+    <stylesheets>
+        <URL value="@myStyle.css" />
+    </stylesheets>
+</VBox>

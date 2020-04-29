@@ -71,7 +71,7 @@ public class DashboardController extends GenericController{
             }
         }
         if (!allGoals.isEmpty()){
-            nextGoal.setText("The next goal is: " + Integer.toString(allGoals.get(0).getTargetWeight()) + "kg");
+            nextGoal.setText("The next goal is: " + Integer.toString(allGoals.get(0).getTargetWeight()) + "kg, on " + allGoals.get(0).getDue());
         }
 
         //line chart of weight
@@ -194,6 +194,25 @@ public class DashboardController extends GenericController{
         stage.setFullScreen(true);
         stage.show();
     }
+    @FXML
+    private void GoToPersonalDetailsButtonAction (ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../View/PersonalDetails.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        PersonalDetailsController controller = loader.<PersonalDetailsController>getController();
+        controller.setUser(User);
+        controller.setUpDisplay();
+        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        stage.setFullScreen(true);
+        stage.show();
+    }
+
     /**
      * signs out the user by not passing the user and going to login page
      * @param event sign out button pushed

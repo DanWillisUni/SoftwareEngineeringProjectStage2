@@ -2,15 +2,35 @@ package Controller;
 
 import Model.GenericDatabaseController;
 import Model.User;
+import Model.WeightGoal;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCombination;
+import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
+import java.io.IOException;
+import java.math.RoundingMode;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 
-public class RegistrationController extends GenericController{
+import static Controller.GenericController.goToDash;
+
+public class PersonalDetailsController {
+    private Model.User User;
     @FXML private TextField forename;
     @FXML private TextField surname;
     @FXML private TextField username;
@@ -20,14 +40,39 @@ public class RegistrationController extends GenericController{
     @FXML private DatePicker DOB;
     @FXML private ComboBox gender;
     @FXML private Label errorMsg;
+    @FXML private Label currentForename;
+    @FXML private Label currentSurname;
+    @FXML private Label currentUsername;
+    @FXML private Label currentEmail;
+    @FXML private Label currentDOB;
+    @FXML private Label currentGender;
     /**
-     * validate everything
-     * create Person object
-     * add the person object to the database
-     * @param event button push to register
+     * sets the user to the user that is logged in
+     * @param User Person object logged in
      */
+    public void setUser(Model.User User){
+        this.User = User;
+    }
+    /**
+     * Sets up the display
+     * gets any goals that have expired or been competed and removes them with a message
+     * gets bmi
+     * gets the calories of that day both consumed and burned and works out calories left
+     * gets the weight of the upcoming goal
+     * gets the weights and dates
+     * only displays the chart of the last 2 weeks to track weight
+     */
+    public void setUpDisplay() {
+        currentForename.setText(User.getForename());
+        currentSurname.setText(User.getSurname());
+        currentUsername.setText(User.getUsername());
+        currentEmail.setText(User.getEmail());
+        currentDOB.setText(User.getDOB().toString());
+        currentGender.setText(Character.toString(User.getGender()));
+    }
     @FXML
-    protected void RegisterHandleSubmitButtonAction(ActionEvent event) {
+    private void SaveUser (ActionEvent event) {
+        User copy = User;
         GenericDatabaseController db = new GenericDatabaseController();
         errorMsg.setText("");
         //validation forename
@@ -37,16 +82,14 @@ public class RegistrationController extends GenericController{
                     if (forename.getText().toString().length()>=45){
                         errorMsg.setText("Error: forename too long");
                         forename.setText("");
+                    } else {
+                        User.setForename(forename.getText());
                     }
                 } else {
                     errorMsg.setText("Error: forename non alphabetical");
                     forename.setText("");
                 }
-            } else {
-                errorMsg.setText("Error: forename null");
             }
-        } else {
-            errorMsg.setText("Error: forename null");
         }
         //surename validation
         if (surname.getText()!=null){
@@ -55,16 +98,14 @@ public class RegistrationController extends GenericController{
                     if (surname.getText().toString().length()>=45){
                         errorMsg.setText("Error: surname too long");
                         surname.setText("");
+                    } else {
+                        User.setSurname(surname.getText());
                     }
                 } else {
                     errorMsg.setText("Error: surname non alphabetical");
                     surname.setText("");
                 }
-            } else {
-                errorMsg.setText("Error: surname null");
             }
-        } else {
-            errorMsg.setText("Error: surname null");
         }
         //username validation
         if (username.getText()!=null){
@@ -76,13 +117,11 @@ public class RegistrationController extends GenericController{
                     if(db.isInTable(username.getText(),"user","username")){
                         errorMsg.setText("Error: username already in use");
                         username.setText("");
+                    } else {
+                        User.setUsername(username.getText());
                     }
                 }
-            }else{
-                errorMsg.setText("Error: username null");
             }
-        }else{
-            errorMsg.setText("Error: username null");
         }
         //email validation
         if (email.getText()!=null){
@@ -92,6 +131,8 @@ public class RegistrationController extends GenericController{
                         if(db.isInTable(email.getText(),"user","email")){
                             errorMsg.setText("Error: email already in use");
                             email.setText("");
+                        } else {
+                            User.setEmail(email.getText());
                         }
                     } else {
                         errorMsg.setText("Error: Not a valid email");
@@ -101,24 +142,23 @@ public class RegistrationController extends GenericController{
                     errorMsg.setText("Error: email too long");
                     email.setText("");
                 }
-            }else {
-                errorMsg.setText("Error: email null");
             }
-        } else {
-            errorMsg.setText("Error: email null");
         }
         //password validation
         if (password.getText()!=null){
             if (!password.getText().equals("")){
-                if (password.getText().toString().length()>=20){
-                    errorMsg.setText("Error: password too long");
+                if (password.getText().equals(password2.getText())) {
+                    if (password.getText().toString().length() >= 20) {
+                        errorMsg.setText("Error: password too long");
+                        password.setText("");
+                    } else {
+                        User.setPassword(password.getText());
+                    }
+                }  else {
+                    errorMsg.setText("Error: passwords not equal");
                     password.setText("");
                 }
-            } else {
-                errorMsg.setText("Error: password null");
             }
-        }else{
-            errorMsg.setText("Error: password null");
         }
         //Date of birth validation
         if(DOB.getValue()!=null){
@@ -127,41 +167,39 @@ public class RegistrationController extends GenericController{
             if (c>d){
                 if (c - 3153600000000L > d){
                     errorMsg.setText("Error: date to long ago");
+                } else {
+                    User.setDOB(new Date(d));
                 }
             } else {
                 errorMsg.setText("Error: date in the future");
             }
-        }else {
-            errorMsg.setText("Error: Date not selected");
         }
         //validation of gender
-        if (gender.getValue()==null) {
-            errorMsg.setText("Error: gender not selected");
-        }else if(gender.getValue().toString().equals("")){
-            errorMsg.setText("Error: gender not typed in");
-        } else {
-            if(!gender.getValue().toString().equals("Male")&&!gender.getValue().toString().equals("Female")&&!gender.getValue().toString().equals("Other")){
-                errorMsg.setText("Error: not valid gender");
-                gender.setValue("");
+        if (gender.getValue()!=null) {
+            if(!gender.getValue().toString().equals("")) {
+                if(!gender.getValue().toString().equals("Male")&&!gender.getValue().toString().equals("Female")&&!gender.getValue().toString().equals("Other")){
+                    errorMsg.setText("Error: not valid gender");
+                    gender.setValue("");
+                } else {
+                    User.setGender(gender.getValue().toString().charAt(0));
+                }
             }
         }
-        //password matching validation
-        if (!password.getText().equals(password2.getText())) {
-            errorMsg.setText("Passwords do not match");
-            password2.setText("");
-        }
+
         if (errorMsg.getText().equals("")){
-            User newUser = new User(db.genID("user","idUser"),forename.getText(),surname.getText(),username.getText(),email.getText(),password.getText(), Date.from(Instant.from(DOB.getValue().atStartOfDay(ZoneId.systemDefault()))),0, gender.getValue().toString().charAt(0),0);
-            newUser.add();
-            goToPage("../View/Login.fxml",event);
+            User.update();
+            goToDash(User,event);
+        } else {
+            User = copy;
         }
     }
     /**
-     * go to the login page
-     * @param event go back to login button pushed
+     * go to the dashboard
+     * @param event back button pressed
      */
     @FXML
-    private void GoToLoginButtonAction (ActionEvent event) {
-        goToPage("../View/Login.fxml",event);
+    private void GoToDashButtonAction (ActionEvent event){
+        goToDash(User,event);
     }
+
 }
