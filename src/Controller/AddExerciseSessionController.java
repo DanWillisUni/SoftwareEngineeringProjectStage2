@@ -17,6 +17,7 @@ import javafx.util.Callback;
 //java imports
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class AddExerciseSessionController extends GenericController{
     private Model.User User; //person who is currently logged in
@@ -48,41 +49,39 @@ public class AddExerciseSessionController extends GenericController{
         }
         name.setText("Hello, " + User.getForename());
 
-        ArrayList<Model.ExerciseLink> links = ExerciseLink.getTodays(User);
-        ObservableList<ExerciseDisplay> data = FXCollections.observableArrayList();
-        for (Model.ExerciseLink l:links) {
-            data.add(new ExerciseDisplay(l.getSession()));
+        ArrayList<Model.ExerciseSession> links = ExerciseSession.getTodays(User);
+        ObservableList<ExerciseSession> data = FXCollections.observableArrayList();
+        for (Model.ExerciseSession exerciseSession:links) {
+            data.add(exerciseSession);
         }
         Burned.setEditable(true);
         TableColumn exercise = new TableColumn("Exercise");
         exercise.setMinWidth(200);
         exercise.setCellValueFactory(
-                new PropertyValueFactory<ExerciseDisplay, String>("name"));
+                new PropertyValueFactory<ExerciseSession, String>("exerciseName"));
         TableColumn duration = new TableColumn("Duration");
         duration.setMinWidth(100);
         duration.setCellValueFactory(
-                new PropertyValueFactory<ExerciseDisplay, String>("duration"));
+                new PropertyValueFactory<ExerciseSession, String>("duration"));
         TableColumn calories = new TableColumn("Calories");
         calories.setMinWidth(100);
         calories.setCellValueFactory(
-                new PropertyValueFactory<ExerciseDisplay, String>("cal"));
+                new PropertyValueFactory<ExerciseSession, String>("caloriesBurned"));
         Burned.setItems(data);
         Burned.getColumns().addAll(exercise, duration, calories);
         addButtonToTable();
     }
     private void addButtonToTable() {
-        TableColumn<ExerciseDisplay, Void> colBtn = new TableColumn("Delete");
-        Callback<TableColumn<ExerciseDisplay, Void>, TableCell<ExerciseDisplay, Void>> cellFactory = new Callback<TableColumn<ExerciseDisplay, Void>, TableCell<ExerciseDisplay, Void>>() {
+        TableColumn<ExerciseSession, Void> colBtn = new TableColumn("Delete");
+        Callback<TableColumn<ExerciseSession, Void>, TableCell<ExerciseSession,Void>> cellFactory = new Callback<>() {
             @Override
-            public TableCell<ExerciseDisplay, Void> call(final TableColumn<ExerciseDisplay, Void> param) {
-                final TableCell<ExerciseDisplay, Void> cell = new TableCell<ExerciseDisplay, Void>() {
+            public TableCell<ExerciseSession, Void> call(final TableColumn<ExerciseSession, Void> param) {
+                final TableCell<ExerciseSession, Void> cell = new TableCell<>() {
                     private final Button btn = new Button("Remove");
                     {
                         btn.setOnAction((ActionEvent event) -> {
-                            ExerciseDisplay data = getTableView().getItems().get(getIndex());
-                            ExerciseSession s = data.getSession();
-                            ExerciseLink l = ExerciseLink.getLink(User,s);
-                            l.remove();
+                            ExerciseSession data = getTableView().getItems().get(getIndex());
+                            data.removeLink(User,new Date());
                             FXMLLoader loader = new FXMLLoader(getClass().getResource("../View/AddExerciseSession.fxml"));
                             Parent root = null;
                             try {
@@ -176,7 +175,6 @@ public class AddExerciseSessionController extends GenericController{
                 }
             }
         }
-
         //validate the duration
         if (duration.getText().matches("^([1-9][0-9]*(\\.[0-9]+)?|0+\\.[0-9]*[1-9][0-9]*)$")){
             int i = Integer.parseInt(duration.getText());
@@ -205,12 +203,12 @@ public class AddExerciseSessionController extends GenericController{
                 caloriesBurned = Integer.parseInt(calBurned.getText());
             }
             ExerciseSession exerciseSession = ExerciseSession.getExerciseSession(exercise,durationNum,caloriesBurned);
-            if (exerciseSession==null){
-                exerciseSession = new ExerciseSession(exercise,durationNum,caloriesBurned);
+            if (exerciseSession == null){
+                exerciseSession = new ExerciseSession(exercise,User,durationNum,caloriesBurned);
                 exerciseSession.add();
             }
-            ExerciseLink link = new ExerciseLink(exerciseSession,User);
-            link.add();
+            exerciseSession.setUser(User);
+            exerciseSession.addLink();
             goToDash(User,event);//go to the dashboard
         }
     }

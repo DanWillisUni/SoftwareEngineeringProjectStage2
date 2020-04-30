@@ -72,9 +72,9 @@ public class DashboardController extends GenericController{
         }
 
         int calBurned = 0;
-        ArrayList<ExerciseLink> exerciseLinks = ExerciseLink.getTodays(User);
-        for (ExerciseLink el:exerciseLinks){
-            calBurned += el.getSession().getCaloriesBurned();
+        ArrayList<ExerciseSession> exerciseLinks = ExerciseSession.getTodays(User);
+        for (ExerciseSession el:exerciseLinks){
+            calBurned += el.getCaloriesBurned();
         }
         int calConsumed = 0;
         ArrayList<Diet> diets = Diet.getTodays(User);

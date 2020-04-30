@@ -1,13 +1,9 @@
 package Model;
 
 //java imports
-import java.math.BigDecimal;
 import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 
 public class GenericDatabaseController {
     private Connection connection;//connection to the database
