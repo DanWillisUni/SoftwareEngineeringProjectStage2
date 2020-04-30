@@ -1,9 +1,6 @@
 package Controller;
 //my imports
-import Model.Diet;
 //fx imports
-import Model.Meal;
-import Model.MealEaten;
 import Model.WeightGoal;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -55,11 +52,11 @@ public class AddGoalController extends GenericController{
         TableColumn target = new TableColumn("Target Weight");
         target.setMinWidth(100);
         target.setCellValueFactory(
-                new PropertyValueFactory<MealEaten, String>("targetWeight"));
+                new PropertyValueFactory<WeightGoal, String>("targetWeight"));
         TableColumn DateDue = new TableColumn("Due Date");
         DateDue.setMinWidth(150);
         DateDue.setCellValueFactory(
-                new PropertyValueFactory<MealEaten, String>("due"));
+                new PropertyValueFactory<WeightGoal, String>("due"));
 
         Goals.setItems(data);
         Goals.getColumns().addAll(target, DateDue);

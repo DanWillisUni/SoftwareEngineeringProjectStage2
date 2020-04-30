@@ -4,23 +4,34 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class Meal {
     int id;
+    User user;
     FoodItem food;
     int quantity;
+    String foodName;
     String type;
+    int calories;
 
     Meal(int id, FoodItem food, int quantity, String type){
         this.id=id;
+        this.user=null;
+        this.foodName=food.getName();
+        this.calories=quantity*food.getAmountOfCalories();
         this.food = food;
         this.quantity = quantity;
         this.type = type;
     }
-    public Meal(FoodItem food, int quantity, String type){
+    public Meal(User user,FoodItem food, int quantity, String type){
         GenericDatabaseController db = new GenericDatabaseController();
         this.id=db.genID("meal","idMeal");
+        this.user=user;
         this.food = food;
+        this.foodName=food.getName();
+        this.calories=quantity*food.getAmountOfCalories();
         this.quantity = quantity;
         this.type = type;
     }
@@ -36,6 +47,18 @@ public class Meal {
     }
     public String getType() {
         return type;
+    }
+    public User getUser() {
+        return user;
+    }
+    public String getFoodName() {
+        return foodName;
+    }
+    public int getCalories() {
+        return calories;
+    }
+    public void setUser(User user){
+        this.user=user;
     }
 
     public void add(){
@@ -89,7 +112,47 @@ public class Meal {
         }
         return null;
     }
-    public MealEaten getMealEaten(){
-        return new MealEaten(getFood().getName(), Integer.toString(getQuantity()), Integer.toString((getQuantity())*(getFood().getAmountOfCalories())));
+
+    public void addLink(){
+        GenericDatabaseController db = new GenericDatabaseController();
+        try {
+            final String query = "Insert Into softwareengineering.diet Values("+ db.genID("diet","idDiet") + ", '" + getUser().getId() + "', '" + getId()+ "', '" + new java.sql.Date(new Date().getTime())+ "' )";
+            try (
+                    PreparedStatement pstmt = db.getConnection().prepareStatement(query)
+            ){
+                pstmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void removeLink(User user,Date date){
+        GenericDatabaseController db = new GenericDatabaseController();
+        try {
+            final String query = "DELETE FROM softwareengineering.diet WHERE idUser=" + user.getId() + " and idMeal="+ getId() + " and date='" + new java.sql.Date(date.getTime()) + "'";
+            try (
+                    PreparedStatement pstmt = db.getConnection().prepareStatement(query)
+            ){
+                pstmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public static ArrayList<Meal> getTodays(User user){
+        GenericDatabaseController db = new GenericDatabaseController();
+        ArrayList<Meal> r = new ArrayList<>();
+        try (
+                Statement stmnt = db.getConnection().createStatement();
+                ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.diet where idUser ="+user.getId() +" And date = '" + new java.sql.Date(new Date().getTime()) + "'");
+
+        ){
+            while(rs.next()) {
+                r.add(Meal.getFromID(rs.getInt("idMeal")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return r;
     }
 }

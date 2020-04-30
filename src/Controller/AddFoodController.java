@@ -22,6 +22,7 @@ import javafx.util.Callback;
 //java imports
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class AddFoodController extends GenericController{
     private Model.User User;//the user that the food is being added to
@@ -53,41 +54,39 @@ public class AddFoodController extends GenericController{
             e.printStackTrace();
         }
 
-        ArrayList<Model.Diet> todaysFood = Model.Diet.getTodays(User);
-        ObservableList<MealEaten> data = FXCollections.observableArrayList();
-        for (Model.Diet d:todaysFood) {
-            data.add(d.getMeal().getMealEaten());
+        ArrayList<Model.Meal> todaysFood = Model.Meal.getTodays(User);
+        ObservableList<Meal> data = FXCollections.observableArrayList();
+        for (Model.Meal m:todaysFood) {
+            data.add(m);
         }
         Consumed.setEditable(true);
         TableColumn name = new TableColumn("Name");
         name.setMinWidth(200);
         name.setCellValueFactory(
-                new PropertyValueFactory<MealEaten, String>("foodName"));
+                new PropertyValueFactory<Meal, String>("foodName"));
         TableColumn quantity = new TableColumn("Quantity");
         quantity.setMinWidth(100);
         quantity.setCellValueFactory(
-                new PropertyValueFactory<MealEaten, String>("quantity"));
+                new PropertyValueFactory<Meal, String>("quantity"));
         TableColumn calories = new TableColumn("Calories");
         calories.setMinWidth(100);
         calories.setCellValueFactory(
-                new PropertyValueFactory<MealEaten, String>("calories"));
+                new PropertyValueFactory<Meal, String>("calories"));
         Consumed.setItems(data);
         Consumed.getColumns().addAll(name, quantity, calories);
         addButtonToTable();
     }
     private void addButtonToTable() {
-        TableColumn<MealEaten, Void> colBtn = new TableColumn("Delete");
-        Callback<TableColumn<MealEaten, Void>, TableCell<MealEaten, Void>> cellFactory = new Callback<TableColumn<MealEaten, Void>, TableCell<MealEaten, Void>>() {
+        TableColumn<Meal, Void> colBtn = new TableColumn("Delete");
+        Callback<TableColumn<Meal, Void>, TableCell<Meal, Void>> cellFactory = new Callback<TableColumn<Meal, Void>, TableCell<Meal, Void>>() {
             @Override
-            public TableCell<MealEaten, Void> call(final TableColumn<MealEaten, Void> param) {
-                final TableCell<MealEaten, Void> cell = new TableCell<MealEaten, Void>() {
+            public TableCell<Meal, Void> call(final TableColumn<Meal, Void> param) {
+                final TableCell<Meal, Void> cell = new TableCell<Meal, Void>() {
                     private final Button btn = new Button("Remove");
                     {
                         btn.setOnAction((ActionEvent event) -> {
-                            MealEaten data = getTableView().getItems().get(getIndex());
-                            Meal m = data.getMeal();
-                            Diet d = Diet.getDiet(User,m);
-                            d.remove();
+                            Meal data = getTableView().getItems().get(getIndex());
+                            data.removeLink(User,new Date());
                             FXMLLoader loader = new FXMLLoader(getClass().getResource("../View/AddFood.fxml"));
                             Parent root = null;
                             try {
@@ -178,11 +177,11 @@ public class AddFoodController extends GenericController{
             FoodItem foodItem = FoodItem.getFoodFromName(Foods.getValue().toString());
             Meal meal = Meal.getMeal(foodItem,Integer.parseInt(quantity.getText()),MealType.getValue().toString());
             if (meal==null){
-                meal = new Meal(foodItem,Integer.parseInt(quantity.getText()),MealType.getValue().toString());
+                meal = new Meal(User,foodItem,Integer.parseInt(quantity.getText()),MealType.getValue().toString());
                 meal.add();
             }
-            Diet diet = new Diet(User,meal);
-            diet.add();
+            meal.setUser(User);
+            meal.addLink();
             goToDash(User,event);
         }
     }

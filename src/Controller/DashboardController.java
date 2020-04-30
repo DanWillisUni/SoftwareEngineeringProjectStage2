@@ -77,9 +77,9 @@ public class DashboardController extends GenericController{
             calBurned += el.getCaloriesBurned();
         }
         int calConsumed = 0;
-        ArrayList<Diet> diets = Diet.getTodays(User);
-        for (Diet d:diets){
-            calConsumed += (d.getMeal().getQuantity()) * (d.getMeal().getFood().getAmountOfCalories());
+        ArrayList<Meal> meals = Meal.getTodays(User);
+        for (Meal d:meals){
+            calConsumed += (d.getCalories());
         }
         calLeft.setText(totalCal + " - " + calConsumed + " + " + calBurned + " = " + (totalCal-calConsumed+calBurned));
     }
