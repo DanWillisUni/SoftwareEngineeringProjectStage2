@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DashboardController extends GenericController{
     private Model.User User;
@@ -46,10 +47,6 @@ public class DashboardController extends GenericController{
      */
     public void setUpDisplay() {
         name.setText("Welcome " + User.getForename());
-        int totalCal = 1800;
-        if (User.getGender() == 'M') {//men eat more calories so start with 2000 calories whereas women start with 1800
-            totalCal = 2000;
-        }
 
         if (User.getHeight()>0 && User.getWeight()>0){
             DecimalFormat df = new DecimalFormat("#.##");//format of decimal of bmi
@@ -67,21 +64,39 @@ public class DashboardController extends GenericController{
                 GoalDone.setText("Congratulations, You completed your goal!");
             }
         }
-        if (!allGoals.isEmpty()){
-            nextGoal.setText("The next goal is: " + Integer.toString(allGoals.get(0).getTargetWeight()) + "kg, on " + allGoals.get(0).getDue());
+        //Mifflin-St. Jeor equation
+        if (User.getHeight()>0 && User.getWeight()>0){
+            long ageMs = new Date().getTime() - User.getDOB().getTime();
+            int age = Integer.parseInt(Long.toString(ageMs/31536000000L));
+            int s = 5;
+            if (User.getGender()=='F'){
+                s=-161;
+            }
+            System.out.println(age);
+            int toMaintainCal = (int)(10*User.getWeight() + 6.25*User.getHeight() - (5 * age) + s);
+            User.setCal(toMaintainCal);
+            if (!allGoals.isEmpty()){
+                nextGoal.setText("The next goal is: " + Integer.toString(allGoals.get(0).getTargetWeight()) + "kg, on " + allGoals.get(0).getDue());
+                int distanceToGoal = User.getWeight()-allGoals.get(0).getTargetWeight();
+                int daysTillGoal = Integer.parseInt(Long.toString(new Date().getTime() - allGoals.get(0).getDue().getTime()/(86400*1000)));
+                double kgPerDay = distanceToGoal/daysTillGoal;
+                User.setCal((int)(toMaintainCal * (1+(kgPerDay/0.004285714285713)/100)));
+            }
+            User.update();
+            int totalCal = User.getCal();
+            int calBurned = 0;
+            ArrayList<ExerciseSession> exerciseLinks = ExerciseSession.getTodays(User);
+            for (ExerciseSession el:exerciseLinks){
+                calBurned += el.getCaloriesBurned();
+            }
+            int calConsumed = 0;
+            ArrayList<Meal> meals = Meal.getTodays(User);
+            for (Meal d:meals){
+                calConsumed += (d.getCalories());
+            }
+            calLeft.setText(totalCal + " - " + calConsumed + " + " + calBurned + " = " + (totalCal-calConsumed+calBurned));
         }
 
-        int calBurned = 0;
-        ArrayList<ExerciseSession> exerciseLinks = ExerciseSession.getTodays(User);
-        for (ExerciseSession el:exerciseLinks){
-            calBurned += el.getCaloriesBurned();
-        }
-        int calConsumed = 0;
-        ArrayList<Meal> meals = Meal.getTodays(User);
-        for (Meal d:meals){
-            calConsumed += (d.getCalories());
-        }
-        calLeft.setText(totalCal + " - " + calConsumed + " + " + calBurned + " = " + (totalCal-calConsumed+calBurned));
     }
 
     /**
