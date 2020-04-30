@@ -66,6 +66,11 @@ public class WeightGoal {
         Date today = new Date();
         return (today.getTime()>due.getTime());
     }
+    public int daysTillGoal(){
+        Date current = new Date();
+        long differance = getDue().getTime() - current.getTime();
+        return Integer.parseInt(Long.toString(differance/86400000));
+    }
 
     public void add(){
         GenericDatabaseController db = new GenericDatabaseController();
