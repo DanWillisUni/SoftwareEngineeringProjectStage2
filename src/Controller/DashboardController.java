@@ -1,8 +1,6 @@
 package Controller;
 
-import Model.GenericDatabaseController;
-import Model.WeightGoal;
-import Model.WeightTracking;
+import Model.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,7 +26,6 @@ public class DashboardController extends GenericController{
     @FXML private Label name;
     @FXML private Label calLeft;
     @FXML Label GoalDone;
-    @FXML private LineChart WeightTracking;
     @FXML private Label nextGoal;
     @FXML private Label BMI;
     /**
@@ -74,37 +71,17 @@ public class DashboardController extends GenericController{
             nextGoal.setText("The next goal is: " + Integer.toString(allGoals.get(0).getTargetWeight()) + "kg, on " + allGoals.get(0).getDue());
         }
 
-        //line chart of weight
-        ArrayList<Model.WeightTracking> all = Model.WeightTracking.getAll(User);
-        ArrayList<Integer> weights = new ArrayList<>();//gets all the weights
-        ArrayList<java.util.Date> dates = new ArrayList<>();//gets all the dates
-        for (Model.WeightTracking wt:all){
-            weights.add(wt.getWeight());
-            dates.add(wt.getDate());
+        int calBurned = 0;
+        ArrayList<ExerciseLink> exerciseLinks = ExerciseLink.getTodays(User);
+        for (ExerciseLink el:exerciseLinks){
+            calBurned += el.getSession().getCaloriesBurned();
         }
-        XYChart.Series series = new XYChart.Series();
-        for (int i = 0; i < weights.size(); i++) {
-            series.getData().add(new XYChart.Data<Number,Number>(dates.get(i).getTime(), weights.get(i)));//puts the weights and dates into a series
+        int calConsumed = 0;
+        ArrayList<Diet> diets = Diet.getTodays(User);
+        for (Diet d:diets){
+            calConsumed += (d.getMeal().getQuantity()) * (d.getMeal().getFood().getAmountOfCalories());
         }
-        series.setName("Weight");
-        WeightTracking.getData().add(series);//adds the series to the linechart
-
-        NumberAxis xAxis = (NumberAxis) WeightTracking.getXAxis();
-        xAxis.setUpperBound(new Date().getTime() + 86400000L);//sets the x axis upperbound to 1 day in the future from now
-        xAxis.setLowerBound(new Date().getTime() - 1296000000L);//sets the x axis lower bound to 2 weeks ago
-        xAxis.setTickLabelFormatter(new StringConverter<Number>() {//create a tick label formatter
-            @Override
-            public String toString(Number n) {//overide number tostring method converts it to a date
-                long i = n.longValue();
-                java.util.Date date = new Date(i);
-                DateFormat newFormat = new SimpleDateFormat("dd-MM-yyyy");
-                return  newFormat.format(date);
-            }
-            @Override
-            public Number fromString(String string) {//has to be here however isnt used so i didnt write it properly
-                return 0;
-            }
-        });
+        calLeft.setText(totalCal + " - " + calConsumed + " + " + calBurned + " = " + (totalCal-calConsumed+calBurned));
     }
     /**
      * take the user to the add weight button

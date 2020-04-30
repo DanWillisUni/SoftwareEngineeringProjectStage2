@@ -1,6 +1,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
 <VBox fx:controller="Controller.AddWeightController" xmlns:fx="http://javafx.com/fxml" minHeight="200.0" minWidth="350.0">
     <children>
         <GridPane alignment="center" hgap="10" vgap="10" VBox.vgrow="ALWAYS">
@@ -13,6 +15,14 @@
                 <Button  GridPane.columnIndex="0" GridPane.rowIndex="1" prefHeight="20.0" prefWidth="150.0" mnemonicParsing="false" text="Go Back" onAction="#GoToDashButtonAction"/>
             </GridPane>
             <Label  id="errorMsg" fx:id="errorMsg" GridPane.columnIndex="0" GridPane.rowIndex="3" prefHeight="20.0" text=""/>
+            <LineChart fx:id="WeightTracking" GridPane.columnIndex="0" GridPane.rowIndex="4" title="Weight Tracking" minHeight="400.0" minWidth="400.0">
+                <xAxis>
+                    <NumberAxis label="Date" fx:id="xAxis" tickLabelRotation="-90" autoRanging="false" tickMarkVisible="true" tickUnit="86400000"/>
+                </xAxis>
+                <yAxis>
+                    <NumberAxis fx:id="yAxis" label="Weight" side="LEFT" />
+                </yAxis>
+            </LineChart>
         </GridPane>
     </children>
     <stylesheets>
