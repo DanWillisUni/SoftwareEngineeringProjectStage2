@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class User {
     int id;
@@ -191,5 +193,52 @@ public class User {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    public void addWeight(int w){
+        removeWeight();
+        setWeight(w);
+        update();
+        GenericDatabaseController db = new GenericDatabaseController();
+        try {
+            final String query = "Insert Into softwareengineering.weighttracking Values(" + db.genID("WeightTracking","idWeightTracking") +", " + getId() + ", '" + new java.sql.Date(new Date().getTime()) + "', '" + w + "' )";
+            try (
+                    PreparedStatement pstmt = db.getConnection().prepareStatement(query)
+            ){
+                pstmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void removeWeight(){
+        GenericDatabaseController db = new GenericDatabaseController();
+        try {
+            final String query = "DELETE FROM softwareengineering.weighttracking WHERE idUser = "+getId() + " AND date = '" + new java.sql.Date(new Date().getTime()) + "'" ;
+            try (
+                    PreparedStatement pstmt = db.getConnection().prepareStatement(query)
+            ){
+                pstmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public HashMap<Integer,Date> getAllWeights(){
+        GenericDatabaseController db = new GenericDatabaseController();
+        HashMap<Integer,Date> r = new HashMap<>();
+        try (
+                Statement stmnt = db.getConnection().createStatement();
+                ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.weighttracking where idUser ="+getId());
+
+        ){
+            while(rs.next()) {
+                r.put(rs.getInt("weight"),new java.util.Date(rs.getDate("date").getTime()));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return r;
     }
 }

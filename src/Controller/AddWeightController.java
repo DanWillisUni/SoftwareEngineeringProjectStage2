@@ -1,28 +1,18 @@
 package Controller;
 
-import Model.GenericDatabaseController;
 //javafx imports
-import Model.WeightTracking;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.chart.LineChart;
+        import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCombination;
-import javafx.stage.Stage;
-import javafx.util.StringConverter;
+        import javafx.util.StringConverter;
 
-import java.io.IOException;
-import java.text.DateFormat;
+        import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 
 public class AddWeightController extends GenericController{
     private Model.User User;
@@ -44,12 +34,12 @@ public class AddWeightController extends GenericController{
         name.setText("Hi, " + User.getForename());
 
         //line chart of weight
-        ArrayList<WeightTracking> all = Model.WeightTracking.getAll(User);
+        HashMap<Integer,Date> all = User.getAllWeights();
         ArrayList<Integer> weights = new ArrayList<>();//gets all the weights
         ArrayList<java.util.Date> dates = new ArrayList<>();//gets all the dates
-        for (Model.WeightTracking wt:all){
-            weights.add(wt.getWeight());
-            dates.add(wt.getDate());
+        for (Map.Entry<Integer,Date> entry : all.entrySet()){
+            weights.add(entry.getKey());
+            dates.add(entry.getValue());
         }
         XYChart.Series series = new XYChart.Series();
         for (int i = 0; i < weights.size(); i++) {
@@ -104,29 +94,8 @@ public class AddWeightController extends GenericController{
             weight.setText("");
         }
         if(errorMsg.getText().equals("")){
-            GenericDatabaseController db = new GenericDatabaseController();
-            WeightTracking wt = new WeightTracking(User,Integer.parseInt(weight.getText()));
-            wt.add();
-            User.setWeight(Integer.parseInt(weight.getText()));
-            //go to dashboard
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../View/Dashboard.fxml"));
-            Parent root = null;
-            try {
-                root = loader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            DashboardController controller = loader.<DashboardController>getController();
-            controller.setUser(User);
-//            if (db.checkGoalMet(User.getId())){//checks if any goals are complete
-//                controller.GoalDone.setText("Goal complete!");
-//            }
-            controller.setUpDisplay();
-            stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-            stage.setFullScreen(true);
-            stage.show();
+            User.addWeight(Integer.parseInt(weight.getText()));
+            GenericController.goToDash(User,event);
         }
     }
 }
