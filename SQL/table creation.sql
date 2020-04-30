@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS `softwareengineering`.`User` (
   `height` SMALLINT,
   `gender` VARCHAR(1) NOT NULL,
   `weight` SMALLINT,
+  `calories` SMALLINT,
   UNIQUE INDEX `idUser_UNIQUE` (`idUser` ASC) VISIBLE,
   PRIMARY KEY (`idUser`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,

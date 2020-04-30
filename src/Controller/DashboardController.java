@@ -72,13 +72,13 @@ public class DashboardController extends GenericController{
             if (User.getGender()=='F'){
                 s=-161;
             }
-            System.out.println(age);
             int toMaintainCal = (int)(10*User.getWeight() + 6.25*User.getHeight() - (5 * age) + s);
             User.setCal(toMaintainCal);
             if (!allGoals.isEmpty()){
                 nextGoal.setText("The next goal is: " + Integer.toString(allGoals.get(0).getTargetWeight()) + "kg, on " + allGoals.get(0).getDue());
-                int distanceToGoal = User.getWeight()-allGoals.get(0).getTargetWeight();
-                int daysTillGoal = Integer.parseInt(Long.toString(new Date().getTime() - allGoals.get(0).getDue().getTime()/(86400*1000)));
+                double distanceToGoal = User.getWeight()-allGoals.get(0).getTargetWeight();
+                long timeMs = (new Date().getTime() - allGoals.get(0).getDue().getTime());
+                double daysTillGoal = Integer.parseInt(Long.toString(timeMs/(86400000L)));
                 double kgPerDay = distanceToGoal/daysTillGoal;
                 User.setCal((int)(toMaintainCal * (1+(kgPerDay/0.004285714285713)/100)));
             }
