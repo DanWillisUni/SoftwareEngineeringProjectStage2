@@ -122,7 +122,7 @@ public class ExerciseSession {
     public void removeLink(User user,Date date){
         GenericDatabaseController db = new GenericDatabaseController();
         try {
-            final String query = "DELETE FROM softwareengineering.exerciselink WHERE idUser=" + user.getId() + " and idExerciseType="+ getId() + " and date='" + new java.sql.Date(date.getTime()) + "'";
+            final String query = "DELETE FROM softwareengineering.exerciselink WHERE idUser=" + user.getId() + " and idExerciseSession="+ getId() + " and date='" + new java.sql.Date(date.getTime()) + "'";
             try (
                     PreparedStatement pstmt = db.getConnection().prepareStatement(query)
             ){
