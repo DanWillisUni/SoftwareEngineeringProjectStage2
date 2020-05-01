@@ -106,12 +106,12 @@ public class DashboardController extends GenericController{
             User.update();
             int totalCal = User.getCal();
             int calBurned = 0;
-            ArrayList<ExerciseSession> exerciseLinks = ExerciseSession.getTodays(User);
+            ArrayList<ExerciseSession> exerciseLinks = ExerciseSession.getDays(User,new Date());
             for (ExerciseSession el:exerciseLinks){
                 calBurned += el.getCaloriesBurned();
             }
             int calConsumed = 0;
-            ArrayList<Meal> meals = Meal.getTodays(User);
+            ArrayList<Meal> meals = Meal.getDays(User,new Date());
             for (Meal d:meals){
                 calConsumed += (d.getCalories());
             }
@@ -254,6 +254,24 @@ public class DashboardController extends GenericController{
         PersonalDetailsController controller = loader.<PersonalDetailsController>getController();
         controller.setUser(User);
         controller.setUpDisplay();
+        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        stage.setFullScreen(true);
+        stage.show();
+    }
+    @FXML
+    private void GoToHistoryButtonAction (ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../View/History.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        HistoryController controller = loader.<HistoryController>getController();
+        controller.setUser(User);
+        controller.setUpDisplay(14,-1);
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setFullScreen(true);
         stage.show();

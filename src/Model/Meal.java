@@ -139,12 +139,12 @@ public class Meal {
             e.printStackTrace();
         }
     }
-    public static ArrayList<Meal> getTodays(User user){
+    public static ArrayList<Meal> getDays(User user,Date date){
         GenericDatabaseController db = new GenericDatabaseController();
         ArrayList<Meal> r = new ArrayList<>();
         try (
                 Statement stmnt = db.getConnection().createStatement();
-                ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.diet where idUser ="+user.getId() +" And date = '" + new java.sql.Date(new Date().getTime()) + "'");
+                ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.diet where idUser ="+user.getId() +" And date = '" + new java.sql.Date(date.getTime()) + "'");
 
         ){
             while(rs.next()) {

@@ -27,6 +27,9 @@
                         <Button fx:id="PersonalDetails" text="Change Details" prefHeight="20.0" prefWidth="200.0" onAction="#GoToPersonalDetailsButtonAction"/>
                     </HBox>
                     <HBox spacing="10" alignment="CENTER_LEFT" GridPane.columnIndex="0" GridPane.rowIndex="6">
+                        <Button fx:id="History" text="History" prefHeight="20.0" prefWidth="200.0" onAction="#GoToHistoryButtonAction"/>
+                    </HBox>
+                    <HBox spacing="10" alignment="CENTER_LEFT" GridPane.columnIndex="0" GridPane.rowIndex="7">
                         <Button fx:id="SignOut" text="Sign Out" prefHeight="20.0" prefWidth="200.0" onAction="#GoToSignOutButtonAction"/>
                     </HBox>
                 </GridPane>

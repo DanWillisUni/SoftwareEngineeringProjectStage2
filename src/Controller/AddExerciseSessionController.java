@@ -49,7 +49,7 @@ public class AddExerciseSessionController extends GenericController{
         }
         name.setText("Hello, " + User.getForename());
 
-        ArrayList<Model.ExerciseSession> links = ExerciseSession.getTodays(User);
+        ArrayList<Model.ExerciseSession> links = ExerciseSession.getDays(User,new Date());
         ObservableList<ExerciseSession> data = FXCollections.observableArrayList();
         for (Model.ExerciseSession exerciseSession:links) {
             data.add(exerciseSession);

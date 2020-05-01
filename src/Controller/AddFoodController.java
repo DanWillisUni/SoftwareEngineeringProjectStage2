@@ -54,7 +54,7 @@ public class AddFoodController extends GenericController{
             e.printStackTrace();
         }
 
-        ArrayList<Model.Meal> todaysFood = Model.Meal.getTodays(User);
+        ArrayList<Model.Meal> todaysFood = Model.Meal.getDays(User,new Date());
         ObservableList<Meal> data = FXCollections.observableArrayList();
         for (Model.Meal m:todaysFood) {
             data.add(m);

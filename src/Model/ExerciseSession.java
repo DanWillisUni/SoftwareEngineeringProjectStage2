@@ -151,12 +151,12 @@ public class ExerciseSession {
         }
         return r;
     }
-    public static ArrayList<ExerciseSession> getTodays(User u){
+    public static ArrayList<ExerciseSession> getDays(User u,Date date){
         GenericDatabaseController db = new GenericDatabaseController();
         ArrayList<ExerciseSession> r = new ArrayList<>();
         try (
                 Statement stmnt = db.getConnection().createStatement();
-                ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.exerciselink where idUser = "+u.getId() +" And date = '" + new java.sql.Date(new Date().getTime()) + "'");
+                ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.exerciselink where idUser = "+u.getId() +" And date = '" + new java.sql.Date(date.getTime()) + "'");
 
         ){
             while(rs.next()) {
