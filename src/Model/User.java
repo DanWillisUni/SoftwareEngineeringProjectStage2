@@ -235,12 +235,12 @@ public class User {
             e.printStackTrace();
         }
     }
-    public HashMap<Integer,Date> getAllWeights(){
+    public LinkedHashMap<Integer,Date> getAllWeights(){
         GenericDatabaseController db = new GenericDatabaseController();
-        HashMap<Integer,Date> r = new HashMap<>();
+        LinkedHashMap<Integer,Date> r = new LinkedHashMap<>();
         try (
                 Statement stmnt = db.getConnection().createStatement();
-                ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.weighttracking where idUser ="+getId());
+                ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.weighttracking where idUser ="+getId() + " order by date asc");
 
         ){
             while(rs.next()) {

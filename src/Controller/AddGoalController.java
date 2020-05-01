@@ -18,6 +18,7 @@ import javafx.util.Callback;
 //java imports
 import java.io.IOException;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,6 +31,7 @@ public class AddGoalController extends GenericController{
     @FXML private Label name;
     @FXML private ComboBox GoalType;
     @FXML private TableView Goals;
+    @FXML private TableView SuggestedGoals;
     /**
      * sets the user that is signed in
      * @param User person to set to
@@ -43,18 +45,55 @@ public class AddGoalController extends GenericController{
     public void setUpDisplay(){
         name.setText("Hi, " + User.getForename());
 
+        int perfectWeight = (int)(22.5 * Math.pow((double)(User.getHeight()/100.0),2.0));
+        int multiplyer = 1;
+        if (perfectWeight < User.getWeight()){
+            multiplyer = -1;
+        }
+        ArrayList<Model.WeightGoal> goalsSuggestion = new ArrayList<>();
+        if (User.getWeight()==perfectWeight){
+            goalsSuggestion.add(new WeightGoal(User,perfectWeight,Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).plusDays(7).atStartOfDay(ZoneId.systemDefault()))),true));
+        } else {
+            boolean toLoose = multiplyer==1;
+            goalsSuggestion.add(new WeightGoal(User,User.getWeight()+multiplyer,Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).plusDays(28).atStartOfDay(ZoneId.systemDefault()))),toLoose));
+            if (User.getWeight()+multiplyer!=perfectWeight){
+                goalsSuggestion.add(new WeightGoal(User,User.getWeight()+(3*multiplyer),Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).plusDays(28*3).atStartOfDay(ZoneId.systemDefault()))),toLoose));
+                if (User.getWeight()+(2*multiplyer)!=perfectWeight&&User.getWeight()+(3*multiplyer)!=perfectWeight){
+                    goalsSuggestion.add(new WeightGoal(User,User.getWeight()+(5*multiplyer),Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).plusDays(5*28).atStartOfDay(ZoneId.systemDefault()))),toLoose));
+                }
+            }
+        }
+
+        ObservableList<WeightGoal> dataSuggestion = FXCollections.observableArrayList();
+        for (Model.WeightGoal wg:goalsSuggestion) {
+            dataSuggestion.add(wg);
+        }
+        Goals.setEditable(true);
+        TableColumn targetSuggestion = new TableColumn("Target");
+        targetSuggestion.setMinWidth(100);
+        targetSuggestion.setCellValueFactory(
+                new PropertyValueFactory<WeightGoal, String>("targetWeight"));
+        TableColumn DateDueSuggestion = new TableColumn("Due Date");
+        DateDueSuggestion.setMinWidth(250);
+        DateDueSuggestion.setCellValueFactory(
+                new PropertyValueFactory<WeightGoal, String>("due"));
+
+        SuggestedGoals.setItems(dataSuggestion);
+        SuggestedGoals.getColumns().addAll(targetSuggestion, DateDueSuggestion);
+        addButtonToTableSuggestion();
+
         ArrayList<Model.WeightGoal> goals = Model.WeightGoal.getAll(User);
         ObservableList<WeightGoal> data = FXCollections.observableArrayList();
         for (Model.WeightGoal wg:goals) {
             data.add(wg);
         }
         Goals.setEditable(true);
-        TableColumn target = new TableColumn("Target Weight");
+        TableColumn target = new TableColumn("Target");
         target.setMinWidth(100);
         target.setCellValueFactory(
                 new PropertyValueFactory<WeightGoal, String>("targetWeight"));
         TableColumn DateDue = new TableColumn("Due Date");
-        DateDue.setMinWidth(150);
+        DateDue.setMinWidth(250);
         DateDue.setCellValueFactory(
                 new PropertyValueFactory<WeightGoal, String>("due"));
 
@@ -107,6 +146,37 @@ public class AddGoalController extends GenericController{
         };
         colBtn.setCellFactory(cellFactory);
         Goals.getColumns().add(colBtn);
+    }
+    private void addButtonToTableSuggestion() {
+        TableColumn<WeightGoal, Void> colBtn = new TableColumn("Add Goal");
+        Callback<TableColumn<WeightGoal, Void>, TableCell<WeightGoal, Void>> cellFactory = new Callback<>() {
+            @Override
+            public TableCell<WeightGoal, Void> call(final TableColumn<WeightGoal, Void> param) {
+                final TableCell<WeightGoal, Void> cell = new TableCell<WeightGoal, Void>() {
+                    private final Button btn = new Button("Add");
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                            WeightGoal data = getTableView().getItems().get(getIndex());
+                            data.add();
+                            goToDash(User,event);
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+        colBtn.setCellFactory(cellFactory);
+        SuggestedGoals.getColumns().add(colBtn);
     }
 
     /**

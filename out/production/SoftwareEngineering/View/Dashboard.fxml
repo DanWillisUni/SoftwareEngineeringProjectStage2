@@ -33,6 +33,7 @@
             </left>
             <top>
                 <Label id="name" fx:id="name" text="" prefHeight="20.0" alignment="CENTER"/>
+                <Label fx:id="suggestion" text="" prefHeight="20.0" alignment="CENTER"/>
             </top>
             <bottom>
                 <GridPane alignment="BOTTOM_CENTER">

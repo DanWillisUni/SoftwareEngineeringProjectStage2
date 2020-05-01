@@ -12,6 +12,9 @@ import javafx.scene.control.TextField;
 
         import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 
 public class AddWeightController extends GenericController{
@@ -37,9 +40,19 @@ public class AddWeightController extends GenericController{
         HashMap<Integer,Date> all = User.getAllWeights();
         ArrayList<Integer> weights = new ArrayList<>();//gets all the weights
         ArrayList<java.util.Date> dates = new ArrayList<>();//gets all the dates
+        int smallestWeight = Integer.MAX_VALUE;
+        int highestWeight = Integer.MIN_VALUE;
         for (Map.Entry<Integer,Date> entry : all.entrySet()){
-            weights.add(entry.getKey());
-            dates.add(entry.getValue());
+            if (entry.getValue().getTime()>new Date().getTime() - 1296000000L){
+                weights.add(entry.getKey());
+                dates.add(entry.getValue());
+                if (entry.getKey()<smallestWeight){
+                    smallestWeight = entry.getKey();
+                }
+                if (entry.getKey()>highestWeight){
+                    highestWeight = entry.getKey();
+                }
+            }
         }
         XYChart.Series series = new XYChart.Series();
         for (int i = 0; i < weights.size(); i++) {
@@ -47,10 +60,12 @@ public class AddWeightController extends GenericController{
         }
         series.setName("Weight");
         WeightTracking.getData().add(series);//adds the series to the linechart
-
+        NumberAxis yAxis = (NumberAxis) WeightTracking.getYAxis();
+        yAxis.setLowerBound(smallestWeight-5.0);
+        yAxis.setUpperBound(highestWeight+5.0);
         NumberAxis xAxis = (NumberAxis) WeightTracking.getXAxis();
-        xAxis.setUpperBound(new Date().getTime() + 86400000L);//sets the x axis upperbound to 1 day in the future from now
-        xAxis.setLowerBound(new Date().getTime() - 1296000000L);//sets the x axis lower bound to 2 weeks ago
+        xAxis.setUpperBound(Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).plusDays(1).atStartOfDay(ZoneId.systemDefault()))).getTime());//sets the x axis upperbound to 1 day in the future from now
+        xAxis.setLowerBound(Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(14).atStartOfDay(ZoneId.systemDefault()))).getTime());//sets the x axis lower bound to 2 weeks ago
         xAxis.setTickLabelFormatter(new StringConverter<Number>() {//create a tick label formatter
             @Override
             public String toString(Number n) {//overide number tostring method converts it to a date

@@ -20,6 +20,8 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
+import java.util.Random;
 
 public class DashboardController extends GenericController{
     private Model.User User;
@@ -28,6 +30,7 @@ public class DashboardController extends GenericController{
     @FXML Label GoalDone;
     @FXML private Label nextGoal;
     @FXML private Label BMI;
+    @FXML private Label suggestion;
 
     /**
      * sets the user to the user that is logged in
@@ -52,8 +55,22 @@ public class DashboardController extends GenericController{
             DecimalFormat df = new DecimalFormat("#.##");//format of decimal of bmi
             df.setRoundingMode(RoundingMode.CEILING);
             double bmi = User.getWeight()/Math.pow((double)(User.getHeight()/100.0),2.0);//works out bmi
-            if (bmi > 0){
-                BMI.setText("Your BMI is: " + df.format(bmi));//sets bmi label
+            if (bmi > 0) {
+                String bmiCategory = "";
+                if (bmi < 16) {
+                    bmiCategory = " severly underweight";
+                } else if(bmi>= 16 && bmi < 19){
+                    bmiCategory = " underweight";
+                } else if(bmi>= 19 && bmi < 25){
+                    bmiCategory = " healthy";
+                } else if(bmi>= 25 && bmi < 30){
+                    bmiCategory = " overweight";
+                }else if(bmi>= 30 && bmi < 40){
+                    bmiCategory = " obese";
+                } else {
+                    bmiCategory = " serverly obese";
+                }
+                BMI.setText("Your BMI is: " + df.format(bmi) + bmiCategory);//sets bmi label
             }
         }
 
@@ -64,6 +81,7 @@ public class DashboardController extends GenericController{
                 GoalDone.setText("Congratulations, You completed your goal!");
             }
         }
+        int calRemaining = 0;
         //Mifflin-St. Jeor equation
         if (User.getHeight()>0 && User.getWeight()>0){
             long ageMs = new Date().getTime() - User.getDOB().getTime();
@@ -80,7 +98,10 @@ public class DashboardController extends GenericController{
                 long timeMs = (new Date().getTime() - allGoals.get(0).getDue().getTime());
                 double daysTillGoal = Integer.parseInt(Long.toString(timeMs/(86400000L)));
                 double kgPerDay = distanceToGoal/daysTillGoal;
-                User.setCal((int)(toMaintainCal * (1+(kgPerDay/0.004285714285713)/100)));
+                int cals = (int)(toMaintainCal * (1+(kgPerDay/0.004285714285713)/100));
+                if (cals>1000){
+                    User.setCal(cals);
+                }
             }
             User.update();
             int totalCal = User.getCal();
@@ -94,7 +115,39 @@ public class DashboardController extends GenericController{
             for (Meal d:meals){
                 calConsumed += (d.getCalories());
             }
-            calLeft.setText(totalCal + " - " + calConsumed + " + " + calBurned + " = " + (totalCal-calConsumed+calBurned));
+            calRemaining = (totalCal-calConsumed+calBurned);
+            calLeft.setText(totalCal + " - " + calConsumed + " + " + calBurned + " = " + calRemaining);
+        }
+
+        ArrayList<String> suggestions = new ArrayList<>();
+        if (User.getHeight()==0){
+            suggestion.setText("Try going to Change Details and entering your height");
+        } else if (User.getWeight()==0){
+            suggestion.setText("Try going to Add Weight");
+        } else {
+            Map.Entry<Integer,Date> entry = User.getAllWeights().entrySet().iterator().next();
+            if(entry.getValue().getTime()<(((new Date()).getTime())-86400000L)){
+                suggestions.add("Try entering your weight for today");
+            }
+            if (WeightGoal.getAll(User).isEmpty()){
+                suggestions.add("Try going to add goal and setting a personal goal");
+            }
+            if (calRemaining>100){
+                suggestions.add("Remember you have more calories to eat");
+            }
+            if (calRemaining<-100){
+                suggestions.add("Oh dear, You have over eaten, try doing an exercise");
+            }
+            if (suggestions.isEmpty()){
+                suggestions.add("Go do some exercise, come back and add it");
+                suggestions.add("Well Done!!");
+                suggestions.add("Keep working towards your goals");
+                suggestions.add("Try setting another goal to work towards after");
+            }
+        }
+        if (suggestion.getText().equals("")){
+            Random random = new Random();
+            suggestion.setText(suggestions.get(random.nextInt(suggestions.size())));
         }
 
     }
