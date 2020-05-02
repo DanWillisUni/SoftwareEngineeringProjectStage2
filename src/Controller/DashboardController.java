@@ -1,8 +1,6 @@
 package Controller;
 
 import Model.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,10 +8,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 import java.io.IOException;
 import java.math.RoundingMode;
@@ -91,7 +87,7 @@ public class DashboardController extends GenericController{
                 s=-161;
             }
             int toMaintainCal = (int)(10*User.getWeight() + 6.25*User.getHeight() - (5 * age) + s);
-            User.setCal(toMaintainCal);
+            User.setCal((int)(toMaintainCal * 1.2));//multiplyed by 1.2 as that is roughly how many calories people burn from walking around each day and other exercise that is not going to be added in
             if (!allGoals.isEmpty()){
                 nextGoal.setText("The next goal is: " + Integer.toString(allGoals.get(0).getTargetWeight()) + "kg, on " + allGoals.get(0).getDue());
                 double distanceToGoal = User.getWeight()-allGoals.get(0).getTargetWeight();
@@ -121,9 +117,9 @@ public class DashboardController extends GenericController{
 
         ArrayList<String> suggestions = new ArrayList<>();
         if (User.getHeight()==0){
-            suggestion.setText("Try going to Change Details and entering your height");
+            suggestion.setText("Try going to Add Measurements and entering your height");
         } else if (User.getWeight()==0){
-            suggestion.setText("Try going to Add Weight");
+            suggestion.setText("Try going to Add Measurements");
         } else {
             Map.Entry<Integer,Date> entry = User.getAllWeights().entrySet().iterator().next();
             if(entry.getValue().getTime()<(((new Date()).getTime())-86400000L)){
@@ -142,7 +138,7 @@ public class DashboardController extends GenericController{
                 suggestions.add("Go do some exercise, come back and add it");
                 suggestions.add("Well Done!!");
                 suggestions.add("Keep working towards your goals");
-                suggestions.add("Try setting another goal to work towards after");
+                suggestions.add("Try setting another goal to work towards");
             }
         }
         if (suggestion.getText().equals("")){
@@ -157,8 +153,8 @@ public class DashboardController extends GenericController{
      * @param event button pushed to add weight
      */
     @FXML
-    private void GoToAddWeightButtonAction (ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../View/AddWeight.fxml"));
+    private void GoToAddMeasurementsButtonAction (ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../View/AddMeasurements.fxml"));
         Parent root = null;
         try {
             root = loader.load();
@@ -167,9 +163,9 @@ public class DashboardController extends GenericController{
         }
         Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
-        AddWeightController controller = loader.<AddWeightController>getController();
+        AddMeasurementsController controller = loader.<AddMeasurementsController>getController();
         controller.setUser(User);
-        controller.setUpDisplay();
+        controller.setUpDisplay(0,0);
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setFullScreen(true);
         stage.show();

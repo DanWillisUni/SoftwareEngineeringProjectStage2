@@ -39,7 +39,6 @@ public class PersonalDetailsController {
     @FXML private PasswordField password2;
     @FXML private DatePicker DOB;
     @FXML private ComboBox gender;
-    @FXML private TextField height;
     @FXML private Label errorMsg;
     @FXML private Label currentForename;
     @FXML private Label currentSurname;
@@ -47,7 +46,6 @@ public class PersonalDetailsController {
     @FXML private Label currentEmail;
     @FXML private Label currentDOB;
     @FXML private Label currentGender;
-    @FXML private Label currentHeight;
     /**
      * sets the user to the user that is logged in
      * @param User Person object logged in
@@ -71,9 +69,6 @@ public class PersonalDetailsController {
         currentEmail.setText(User.getEmail());
         currentDOB.setText(User.getDOB().toString());
         currentGender.setText(Character.toString(User.getGender()));
-        if (User.getHeight()>0){
-            currentHeight.setText(Integer.toString(User.getHeight()));
-        }
     }
     @FXML
     private void SaveUser (ActionEvent event) {
@@ -190,19 +185,7 @@ public class PersonalDetailsController {
                 }
             }
         }
-        //height validation
-        if (height.getText().matches("^([1-9][0-9]*(\\.[0-9]+)?|0+\\.[0-9]*[1-9][0-9]*)$")){
-            int i = Integer.parseInt(height.getText());
-            if (i>250){
-                errorMsg.setText("Error: height greater than 250");
-                height.setText("");
-            } else {
-                User.setHeight(i);
-            }
-        } else {
-            errorMsg.setText("Error: height not positive");
-            height.setText("");
-        }
+
 
 
 

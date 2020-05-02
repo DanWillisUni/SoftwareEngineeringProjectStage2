@@ -12,7 +12,7 @@
             <left>
                 <GridPane alignment="CENTER_LEFT" hgap="10" vgap="10" GridPane.columnIndex="0" GridPane.rowIndex="0" >
                     <HBox spacing="10" alignment="CENTER_LEFT" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                        <Button fx:id="AddWeight" text="Add Weight" prefHeight="20.0" prefWidth="200.0" onAction="#GoToAddWeightButtonAction"/>
+                        <Button fx:id="AddMeasurements" text="Add Measurements" prefHeight="20.0" prefWidth="200.0" onAction="#GoToAddMeasurementsButtonAction"/>
                     </HBox>
                     <HBox spacing="10" alignment="CENTER_LEFT" GridPane.columnIndex="0" GridPane.rowIndex="2">
                         <Button fx:id="AddExerciseSession" text="Add Exercise" prefHeight="20.0" prefWidth="200.0" onAction="#GoToAddExerciseSessionButtonAction"/>

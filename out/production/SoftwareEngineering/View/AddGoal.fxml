@@ -20,14 +20,6 @@
                 <DatePicker id="targetDate" fx:id="targetDate" GridPane.columnIndex="1" GridPane.rowIndex="1" prefHeight="20.0" prefWidth="200.0" promptText="Target Date" />
                 <Button  GridPane.columnIndex="1" GridPane.rowIndex="3" prefHeight="20.0" prefWidth="200.0" mnemonicParsing="false" text="Set Goal" onAction="#AddWeightGoalButtonAction"/>
                 <Button  GridPane.columnIndex="0" GridPane.rowIndex="3" prefHeight="20.0" prefWidth="200.0" mnemonicParsing="false" text="Go Back" onAction="#GoToDashButtonAction"/>
-                <ComboBox id="GoalType" fx:id="GoalType" editable="true"  GridPane.columnIndex="1" GridPane.rowIndex="2" prefHeight="20.0" prefWidth="200.0" promptText="Select Goal Type" >
-                    <items>
-                        <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="Above" />
-                            <String fx:value="Below" />
-                        </FXCollections>
-                    </items>
-                </ComboBox>
                 <Label GridPane.columnIndex="0" GridPane.rowIndex="2" prefHeight="20.0" text="Side of target you want:" />
             </GridPane>
             <Label  id="errorMsg" fx:id="errorMsg" GridPane.columnIndex="0" GridPane.rowIndex="3" prefHeight="20.0" text=""/>

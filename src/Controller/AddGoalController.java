@@ -29,7 +29,6 @@ public class AddGoalController extends GenericController{
     @FXML private DatePicker targetDate;
     @FXML private Label errorMsg;
     @FXML private Label name;
-    @FXML private ComboBox GoalType;
     @FXML private TableView Goals;
     @FXML private TableView SuggestedGoals;
     /**
@@ -219,19 +218,12 @@ public class AddGoalController extends GenericController{
         }else {
             errorMsg.setText("Error: Date not selected");
         }
-        //validate goal type
-        if (GoalType.getValue()==null) {
-            errorMsg.setText("Error: goal type not selected");
-        }else if(GoalType.getValue().toString().equals("")){
-            errorMsg.setText("Error: goal type not typed in");
-        } else {
-            if(!(GoalType.getValue().toString().equals("Above")||GoalType.getValue().toString().equals("Below"))){
-                errorMsg.setText("Error: not valid goal type");
-                GoalType.setValue("");
-            }
-        }
         if (errorMsg.getText().equals("")){
-            WeightGoal g = new WeightGoal(User,Integer.parseInt(TargetWeight.getText()),Date.from(Instant.from(targetDate.getValue().atStartOfDay(ZoneId.systemDefault()))),(GoalType.getValue().toString().equals("Above")));
+            boolean toLoose = true;
+            if (User.getWeight()<Integer.parseInt(TargetWeight.getText())){
+                toLoose=false;
+            }
+            WeightGoal g = new WeightGoal(User,Integer.parseInt(TargetWeight.getText()),Date.from(Instant.from(targetDate.getValue().atStartOfDay(ZoneId.systemDefault()))),toLoose);
             g.add();
             goToDash(User,event);
         }

@@ -48,6 +48,9 @@ public class User {
             cal=2000;
         }
     }
+    public static String passwordHash(String p){
+        return "hash" + p;
+    }
     /**
      * gets the id
      * @return id of user
@@ -134,6 +137,15 @@ public class User {
     }
     public void setPassword(String password) {
         this.password = password;
+        GenericDatabaseController db = new GenericDatabaseController();
+        final String query = "UPDATE softwareengineering.User SET password = '"+ passwordHash(getPassword())+"' Where idUser= "+ getId();
+        try (
+                PreparedStatement pstmt = db.getConnection().prepareStatement(query)
+        ){
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     public void setDOB(Date DOB) {
         this.DOB = DOB;
@@ -155,7 +167,7 @@ public class User {
     public void add(){
         GenericDatabaseController db = new GenericDatabaseController();
         try {
-            final String query = "Insert Into softwareengineering.user Values("+ getId() + ", '" + getForename() + "', '" + getSurname()+ "', '" + getEmail()+ "', '" + getUsername()+ "', '" + getPassword()+ "', '"+ new java.sql.Date(getDOB().getTime()) +"' , " + getHeight()+ ", '" + getGender() + "', " + getWeight() + ", "+ getCal()+")";
+            final String query = "Insert Into softwareengineering.user Values("+ getId() + ", '" + getForename() + "', '" + getSurname()+ "', '" + getEmail()+ "', '" + getUsername()+ "', '" + passwordHash(getPassword())+ "', '"+ new java.sql.Date(getDOB().getTime()) +"' , " + getHeight()+ ", '" + getGender() + "', " + getWeight() + ", "+ getCal()+")";
             try (
                     PreparedStatement pstmt = db.getConnection().prepareStatement(query)
             ){
@@ -167,7 +179,7 @@ public class User {
     }
     public void update(){
         GenericDatabaseController db = new GenericDatabaseController();
-        final String query = "UPDATE softwareengineering.User SET forename = '"+getForename()+"', surname = '"+ getSurname()+"',email = '"+ getEmail()+"',username = '"+ getUsername()+"',password = '"+ getPassword()+"',DOB = '"+ new java.sql.Date(getDOB().getTime())+"',height = "+ getHeight()+",gender = '"+ getGender()+"',weight = "+ getWeight()+ ",calories="+cal+" Where idUser= "+ getId();
+        final String query = "UPDATE softwareengineering.User SET forename = '"+getForename()+"', surname = '"+ getSurname()+"',email = '"+ getEmail()+"',username = '"+ getUsername()+"',DOB = '"+ new java.sql.Date(getDOB().getTime())+"',height = "+ getHeight()+",gender = '"+ getGender()+"',weight = "+ getWeight()+ ",calories="+cal+" Where idUser= "+ getId();
         try (
                 PreparedStatement pstmt = db.getConnection().prepareStatement(query)
         ){

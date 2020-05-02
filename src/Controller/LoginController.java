@@ -34,12 +34,11 @@ public class LoginController extends GenericController{
      */
     @FXML
     private void LoginHandleSubmitButtonAction (ActionEvent event) {
-        GenericDatabaseController db = new GenericDatabaseController();
         errorMsg.setText("");
         //validation
         User u = User.getFromEmail(email.getText().toString());
         if (u!=null){
-            if (u.getPassword().equals(password.getText())){
+            if (u.getPassword().equals(User.passwordHash(password.getText()))){
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("../View/Dashboard.fxml"));
                 Parent root = null;
                 try {
