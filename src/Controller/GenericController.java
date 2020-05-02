@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class GenericController {
     /**
-     * goes to a page with no setting the user
+     * Goes to a page with no setting the user
      * @param page page to load path
      * @param event button pushed
      */
@@ -32,7 +32,7 @@ public class GenericController {
         stage.show();
     }
     /**
-     * go to the dashboard
+     * Goes to the dashboard and sets the user
      * @param User user to set it to
      * @param event go to dashboard button pushed
      */
