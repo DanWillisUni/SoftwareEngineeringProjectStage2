@@ -21,9 +21,11 @@ public class RegistrationController extends GenericController{
     @FXML private ComboBox gender;
     @FXML private Label errorMsg;
     /**
-     * validate everything
-     * create Person object
-     * add the person object to the database
+     * Validate everything as all the fields are required
+     * If any of the fields are wrong display
+     * Make a new User obj if all the fields are valid
+     * Add the user to the database
+     * Go to the login page
      * @param event button push to register
      */
     @FXML
@@ -157,7 +159,7 @@ public class RegistrationController extends GenericController{
         }
     }
     /**
-     * go to the login page
+     * Go to the login page
      * @param event go back to login button pushed
      */
     @FXML
