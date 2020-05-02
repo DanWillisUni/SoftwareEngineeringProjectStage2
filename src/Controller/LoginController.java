@@ -1,6 +1,5 @@
 package Controller;
 
-import Model.GenericDatabaseController;
 import Model.User;
 import Model.WeightGoal;
 import javafx.application.Platform;
@@ -20,16 +19,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class LoginController extends GenericController{
-    @FXML private Label errorMsg;
-    @FXML private TextField email;
-    @FXML private PasswordField password;
+    @FXML private Label errorMsg;//error message label
+    @FXML private TextField email;//email textbox
+    @FXML private PasswordField password;//password password box
     /**
-     * if email and password valid
-     * begin to load dashboard
-     * from the email get the id
-     * fetch all the info from database
-     * create new Person object
-     * set the user on dashboard to the new Person
+     * Attempt to get a new User obj from an email
+     * If no User with that email exists, display appropriate error message
+     * Get the hashed password of the User and compare it to the hashed password box
+     * If the password isnt correct put display appropriate error message
+     * Check to see if any goals are overdue
+     * Remove any overdue goals
+     * Put a message about removing the goal on the dashboard
+     * Go to the dashboard
      * @param event login button pressed
      */
     @FXML
@@ -37,8 +38,9 @@ public class LoginController extends GenericController{
         errorMsg.setText("");
         //validation
         User u = User.getFromEmail(email.getText().toString());
-        if (u!=null){
-            if (u.getPassword().equals(User.passwordHash(password.getText()))){
+        if (u!=null){//if there is a user with that email
+            if (u.getPassword().equals(User.passwordHash(password.getText()))){//if the hashed password matches the users hashed password
+                //load dashboard
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("../View/Dashboard.fxml"));
                 Parent root = null;
                 try {
@@ -50,39 +52,39 @@ public class LoginController extends GenericController{
                 stage.setScene(new Scene(root));
                 DashboardController controller = loader.<DashboardController>getController();
                 controller.setUser(u);
-
+                //check for overdue goals
                 ArrayList<WeightGoal> allGoals = WeightGoal.getAll(u);
                 for(WeightGoal wg: allGoals){
-                    if (wg.isOverdue()){
-                        wg.remove();
-                        controller.GoalDone.setText("An overdue goal was removed");
+                    if (wg.isOverdue()){//if the goal is overdue
+                        wg.remove();//remove it
+                        controller.GoalDone.setText("An overdue goal was removed");//put message on the dashboard about overdue goal
                     }
                 }
-
+                //continue setting up and displaying the dashboard
                 controller.setUpDisplay();
                 stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
                 stage.setFullScreen(true);
                 stage.show();
             } else {
-                errorMsg.setText("Incorrect password details");
+                errorMsg.setText("Incorrect password details");//password was wrong
                 password.setText("");
             }
         } else {
-            errorMsg.setText("Incorrect email details");
+            errorMsg.setText("Incorrect email details");//email was wrong
             password.setText("");
             email.setText("");
         }
     }
     /**
-     * go to registration page
-     * @param event go to registration
+     * Go to the registration page
+     * @param event go to registration button pushed
      */
     @FXML
     private void GoToRegisterButtonAction (ActionEvent event) {
         goToPage("../View/Registration.fxml",event);
     }
     /**
-     * exits the application
+     * Exits the application
      * @param event exit button pushed
      */
     @FXML

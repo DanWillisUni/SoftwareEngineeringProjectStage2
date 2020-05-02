@@ -189,7 +189,6 @@ public class DashboardController extends GenericController{
             pieChartData.add(new PieChart.Data(entry.getKey(), entry.getValue()));
         }
         ConsumedCal.getData().addAll(pieChartData);
-
     }
 
     /**
