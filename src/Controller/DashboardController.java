@@ -1,12 +1,17 @@
 package Controller;
 
 import Model.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
@@ -14,10 +19,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Map;
-import java.util.Random;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
 
 public class DashboardController extends GenericController{
     private Model.User User;
@@ -27,6 +32,8 @@ public class DashboardController extends GenericController{
     @FXML private Label nextGoal;
     @FXML private Label BMI;
     @FXML private Label suggestion;
+    @FXML private BarChart ExerciseBar;
+    @FXML private PieChart ConsumedCal;
 
     /**
      * sets the user to the user that is logged in
@@ -145,6 +152,43 @@ public class DashboardController extends GenericController{
             Random random = new Random();
             suggestion.setText(suggestions.get(random.nextInt(suggestions.size())));
         }
+
+
+        XYChart.Series series1 = new XYChart.Series();
+        series1.setName("Calories");
+        //hashmap
+        HashMap<String,Integer> data = new HashMap<>();
+        for (int i = 0;i<14;i++){
+            ArrayList<ExerciseSession> day = ExerciseSession.getDays(User,Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(i).atStartOfDay(ZoneId.systemDefault()))));
+            for (ExerciseSession s:day){
+                if(data.containsKey(s.getExerciseName())){
+                    data.put(s.getExerciseName(),data.get(s.getExerciseName()) + s.getCaloriesBurned());
+                } else {
+                    data.put(s.getExerciseName(),s.getCaloriesBurned());
+                }
+            }
+        }
+        for (Map.Entry<String,Integer> entry : data.entrySet()){
+            series1.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
+        }
+        ExerciseBar.getData().addAll(series1);
+
+        HashMap<String,Integer> dataPie = new HashMap<>();
+        for (int i = 0;i<14;i++){
+            ArrayList<Meal> day = Meal.getDays(User,Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(i).atStartOfDay(ZoneId.systemDefault()))));
+            for (Meal m:day){
+                if(dataPie.containsKey(m.getType())){
+                    dataPie.put(m.getType(),data.get(m.getType()) + m.getCalories());
+                } else {
+                    dataPie.put(m.getType(),m.getCalories());
+                }
+            }
+        }
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+        for (Map.Entry<String,Integer> entry : dataPie.entrySet()){
+            pieChartData.add(new PieChart.Data(entry.getKey(), entry.getValue()));
+        }
+        ConsumedCal.getData().addAll(pieChartData);
 
     }
 

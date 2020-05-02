@@ -3,11 +3,26 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.collections.FXCollections?>
 <VBox fx:controller="Controller.DashboardController" xmlns:fx="http://javafx.com/fxml" minWidth="800" minHeight="800">
     <children>
         <BorderPane xmlns:fx="http://javafx.com/fxml/1" >
             <center>
-
+                <GridPane alignment="CENTER" hgap="10" vgap="10" >
+                    <BarChart fx:id="ExerciseBar" GridPane.columnIndex="1" GridPane.rowIndex="0" title="Calories lost in two weeks" minHeight="400.0" minWidth="400.0" legendVisible="false">
+                        <xAxis>
+                            <CategoryAxis label="Exercise" fx:id="xAxisCal" autoRanging="true" tickLabelRotation="-90" animated="false"/>
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis fx:id="yAxisCal" label="Calories" side="LEFT" autoRanging="true"/>
+                        </yAxis>
+                    </BarChart>
+                    <PieChart fx:id="ConsumedCal" GridPane.columnIndex="0" GridPane.rowIndex="0" title="Meal types" minHeight="400.0" minWidth="400.0" legendVisible="false" labelLineLength="10" />
+                </GridPane>
             </center>
             <left>
                 <GridPane alignment="CENTER_LEFT" hgap="10" vgap="10" GridPane.columnIndex="0" GridPane.rowIndex="0" >
