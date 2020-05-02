@@ -36,7 +36,7 @@ public class DashboardController extends GenericController{
     @FXML private PieChart ConsumedCal;
 
     /**
-     * sets the user to the user that is logged in
+     * Sets the user to the user that is logged in
      * @param User Person object logged in
      */
     public void setUser(Model.User User){
@@ -44,12 +44,13 @@ public class DashboardController extends GenericController{
     }
     /**
      * Sets up the display
-     * gets any goals that have expired or been competed and removes them with a message
-     * gets bmi
-     * gets the calories of that day both consumed and burned and works out calories left
-     * gets the weight of the upcoming goal
-     * gets the weights and dates
-     * only displays the chart of the last 2 weeks to track weight
+     * Gets any goals that have expired or been competed and removes them with a message
+     * Gets bmi
+     * Gets the calories of that day both consumed and burned and works out calories left
+     * Gets the weight of the upcoming goal
+     * Displays the amount of calories eaten by each mealtype in a pie chart
+     * Displays how many calories are burnt by each exercise in a bar chart
+     * Only displays the charts with the last 2 weeks of data on
      */
     public void setUpDisplay() {
         name.setText("Welcome " + User.getForename());
@@ -192,7 +193,7 @@ public class DashboardController extends GenericController{
     }
 
     /**
-     * take the user to the add weight button
+     * Take the user to the add measurement page
      * @param event button pushed to add weight
      */
     @FXML
@@ -214,7 +215,7 @@ public class DashboardController extends GenericController{
         stage.show();
     }
     /**
-     * goes to the add exercise page
+     * Goes to the add exercise page
      * @param event add exercise button pressed
      */
     @FXML
@@ -236,7 +237,7 @@ public class DashboardController extends GenericController{
         stage.show();
     }
     /**
-     * goes to the add food page
+     * Goes to the add food page
      * @param event add food button pushed
      */
     @FXML
@@ -258,7 +259,7 @@ public class DashboardController extends GenericController{
         stage.show();
     }
     /**
-     * goes to the add goal page
+     * Goes to the add goal page
      * @param event add goal button pressed
      */
     @FXML
@@ -279,6 +280,10 @@ public class DashboardController extends GenericController{
         stage.setFullScreen(true);
         stage.show();
     }
+    /**
+     * Goes to the personal details page
+     * @param event go to personal detail button is pushed
+     */
     @FXML
     private void GoToPersonalDetailsButtonAction (ActionEvent event) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../View/PersonalDetails.fxml"));
@@ -297,6 +302,10 @@ public class DashboardController extends GenericController{
         stage.setFullScreen(true);
         stage.show();
     }
+    /**
+     * Goes to the history page
+     * @param event history button pushed
+     */
     @FXML
     private void GoToHistoryButtonAction (ActionEvent event) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../View/History.fxml"));
@@ -315,9 +324,8 @@ public class DashboardController extends GenericController{
         stage.setFullScreen(true);
         stage.show();
     }
-
     /**
-     * signs out the user by not passing the user and going to login page
+     * Signs out the user by not passing the user and going to login page
      * @param event sign out button pushed
      */
     @FXML
