@@ -21,22 +21,25 @@ import java.util.Date;
 
 public class AddFoodController extends GenericController{
     private Model.User User;//the user that the food is being added to
-    @FXML private TextField txt_search;
-    @FXML private ComboBox Foods;
-    @FXML private TextField quantity;
-    @FXML private ComboBox MealType;
-    @FXML private Label errorMsg;
-    @FXML private Label name;
-    @FXML private TableView Consumed;
+    @FXML private TextField txt_search;//search box
+    @FXML private ComboBox Foods;//food dropdown
+    @FXML private TextField quantity;//quantity of food box
+    @FXML private ComboBox MealType;//mealType drop down
+    @FXML private Label errorMsg;//error message label to inform the user of any errors
+    @FXML private Label name;//name of the user at the top of the page
+    @FXML private TableView Consumed;//table of all the food eaten that day
     /**
-     * sets the user to the user signed in
+     * Sets the user to the user signed in
      * @param User logged in user
      */
     public void setUser(Model.User User){
         this.User = User;
     }
     /**
-     * sets the drop down of food to all the food
+     * Sets the drop down of food to all the food
+     * Gets all the food eaten that day by the user
+     * Displays each meal eaten by the user in a table
+     * If nothing has been eaten that day, hides the table
      */
     public void setUpDisplay(){
         name.setText("Hello, " + User.getForename());
@@ -75,6 +78,10 @@ public class AddFoodController extends GenericController{
             addButtonToTable();
         }
     }
+    /**
+     * Adds a column onto the tableview to have a button in
+     * The button when pressed removes the food from that days worth of food that the user has eaten that day
+     */
     private void addButtonToTable() {
         TableColumn<Meal, Void> colBtn = new TableColumn("Delete");
         Callback<TableColumn<Meal, Void>, TableCell<Meal, Void>> cellFactory = new Callback<TableColumn<Meal, Void>, TableCell<Meal, Void>>() {
@@ -121,7 +128,7 @@ public class AddFoodController extends GenericController{
         Consumed.getColumns().add(colBtn);
     }
     /**
-     * go to the dashboard
+     * Goes to the dashboard
      * @param event button pushed
      */
     @FXML
@@ -129,9 +136,10 @@ public class AddFoodController extends GenericController{
         goToDash(User,event);
     }
     /**
-     * adds meal
-     * adds diet
-     * go to dashboard
+     * Validates everything
+     * Attempts to find the meal in the database
+     * If it exists just links it
+     * Else add the meal to the database then link it
      * @param event add food button pressed
      */
     @FXML
@@ -185,7 +193,7 @@ public class AddFoodController extends GenericController{
         }
     }
     /**
-     * adjusts the result in the drop down of food
+     * Adjusts the result in the drop down of food
      * @param event search button pushed
      */
     @FXML
@@ -200,7 +208,4 @@ public class AddFoodController extends GenericController{
             e.printStackTrace();
         }
     }
-    @FXML
-    private void Remove(ActionEvent event) {}
-
 }

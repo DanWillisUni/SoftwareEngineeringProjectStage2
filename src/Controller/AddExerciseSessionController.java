@@ -228,7 +228,7 @@ public class AddExerciseSessionController extends GenericController{
         }
     }
     /**
-     * get all like search box from the exercise table and put it in the drop down
+     * Get all like search box from the exercise table and put it in the drop down
      * @param event button pushed
      */
     @FXML
