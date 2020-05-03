@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `softwareengineering`.`GoalWeight` (
   `idGoalWeight` INT NOT NULL,
   `idUser` INT NOT NULL,
   `weightGoal` SMALLINT NOT NULL,
-  `dateSet` DATE NULL,
+  `dateSet` DATE NOT NULL,
   `targetDate` DATE NOT NULL,
   `toLoose` TINYINT NOT NULL,
   PRIMARY KEY (`idGoalWeight`),
@@ -26,11 +26,11 @@ CREATE TABLE IF NOT EXISTS `softwareengineering`.`GoalWeight` (
   CONSTRAINT `idUserinGoal`
     FOREIGN KEY (`idUser`)
     REFERENCES `softwareengineering`.`User` (`idUser`)
-    ON DELETE CASCADE
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 CREATE TABLE IF NOT EXISTS `softwareengineering`.`Exercise` (
   `idExerciseType` INT NOT NULL,
-  `calsPerMinute` DECIMAL(10) NOT NULL,
+  `calsPerMinute` smallint(10) NOT NULL,
   `exerciseName` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idExerciseType`),
   UNIQUE INDEX `idExerciseType_UNIQUE` (`idExerciseType` ASC) VISIBLE);
@@ -42,9 +42,9 @@ CREATE TABLE IF NOT EXISTS `softwareengineering`.`ExerciseSession` (
   PRIMARY KEY (`idExerciseSession`),
   UNIQUE INDEX `idExcerciseSession_UNIQUE` (`idExerciseSession` ASC) VISIBLE,
   CONSTRAINT `idExerciseTypeinExerciseSession`
-    FOREIGN KEY (`idExerciseSession`)
+    FOREIGN KEY (`idExerciseType`)
     REFERENCES `softwareengineering`.`Exercise` (`idExerciseType`)
-    ON DELETE CASCADE
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 CREATE TABLE IF NOT EXISTS `softwareengineering`.`ExerciseLink` (
   `idLink` INT NOT NULL,
@@ -55,12 +55,12 @@ CREATE TABLE IF NOT EXISTS `softwareengineering`.`ExerciseLink` (
   CONSTRAINT `idUserinLink`
     FOREIGN KEY (`idUser`)
     REFERENCES `softwareengineering`.`User` (`idUser`)
-    ON DELETE CASCADE
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `idsessioninLink`
     FOREIGN KEY (`idExerciseSession`)
     REFERENCES `softwareengineering`.`exercisesession` (`idExerciseSession`)
-    ON DELETE CASCADE
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 CREATE TABLE IF NOT EXISTS `softwareengineering`.`Foods` (
   `idFood` INT NOT NULL,
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `softwareengineering`.`Meal` (
   CONSTRAINT `idFoodinMeal`
     FOREIGN KEY (`idFood`)
     REFERENCES `softwareengineering`.`Foods` (`idFood`)
-    ON DELETE CASCADE
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 CREATE TABLE IF NOT EXISTS `softwareengineering`.`Diet` (
   `idDiet` INT NOT NULL,
@@ -92,12 +92,12 @@ CREATE TABLE IF NOT EXISTS `softwareengineering`.`Diet` (
   CONSTRAINT `idUserinDiet`
     FOREIGN KEY (`idUser`)
     REFERENCES `softwareengineering`.`User` (`idUser`)
-    ON DELETE CASCADE
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `idMealinDiet`
     FOREIGN KEY (`idMeal`)
     REFERENCES `softwareengineering`.`Meal` (`idMeal`)
-    ON DELETE CASCADE
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 CREATE TABLE IF NOT EXISTS `softwareengineering`.`WeightTracking` (
   `idWeightTracking` INT NOT NULL,
@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `softwareengineering`.`WeightTracking` (
   CONSTRAINT `idUserinWeightTracking`
     FOREIGN KEY (`idUser`)
     REFERENCES `softwareengineering`.`User` (`idUser`)
-    ON DELETE CASCADE
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
 insert into softwareengineering.exercise values(0,0,'other');

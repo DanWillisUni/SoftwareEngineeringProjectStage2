@@ -28,7 +28,7 @@
                         <NumberAxis label="Date" fx:id="xAxisCal" tickLabelRotation="-90" autoRanging="false" tickMarkVisible="true" tickUnit="86400000"/>
                     </xAxis>
                     <yAxis>
-                        <NumberAxis fx:id="yAxisCal" label="Consumed" side="LEFT" autoRanging="false"/>
+                        <NumberAxis fx:id="yAxisCal" label="Calories" side="LEFT" autoRanging="false"/>
                     </yAxis>
                 </LineChart>
 

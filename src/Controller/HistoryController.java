@@ -1,7 +1,6 @@
 package Controller;
 
 import Model.*;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -142,15 +141,19 @@ public class HistoryController extends GenericController{
         ArrayList<Integer> Burn = new ArrayList<>();//gets all the calories
         ArrayList<java.util.Date> datesBurn = new ArrayList<>();//gets all the dates
         int highestBurn = Integer.MIN_VALUE;
+        int smallestBurn = Integer.MAX_VALUE;
         for (int i = howManyDaysBackEnd;i<howManyDaysBackBeginning;i++){
             ArrayList<ExerciseSession> sessions = ExerciseSession.getDays(User,Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(i).atStartOfDay(ZoneId.systemDefault()))));
             int totalCal = 0;
             for (ExerciseSession s:sessions){
-                totalCal= s.getCaloriesBurned();
+                totalCal+= s.getCaloriesBurned();
             }
             if (totalCal>0){
                 if (totalCal>highestCal){
-                    highestCal = totalCal;
+                    highestBurn = totalCal;
+                }
+                if (totalCal < smallestBurn){
+                    smallestBurn = totalCal;
                 }
                 Burn.add(totalCal);
                 datesBurn.add(Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(i).atStartOfDay(ZoneId.systemDefault()))));
@@ -164,11 +167,15 @@ public class HistoryController extends GenericController{
         BurningTracking.getData().add(seriesBurn);//adds the series to the linechart
         NumberAxis yAxisBurn = (NumberAxis) BurningTracking.getYAxis();
         if (highestBurn!=Integer.MIN_VALUE){
-            yAxisBurn.setUpperBound(highestCal+50.0);
+            yAxisBurn.setUpperBound(highestBurn+50.0);
         } else {
             yAxisBurn.setUpperBound(100);
         }
-        yAxisBurn.setLowerBound(0);
+        if (smallestBurn-50 > 0) {
+            yAxisBurn.setLowerBound(smallestBurn - 50);
+        } else {
+            yAxisBurn.setLowerBound(0);
+        }
         NumberAxis xAxisBurn = (NumberAxis) BurningTracking.getXAxis();
         xAxisBurn.setUpperBound(Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(howManyDaysBackEnd).atStartOfDay(ZoneId.systemDefault()))).getTime());//sets the x axis upperbound to 1 day in the future from now
         xAxisBurn.setLowerBound(Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(howManyDaysBackBeginning).atStartOfDay(ZoneId.systemDefault()))).getTime());//sets the x axis lower bound to 2 weeks ago
