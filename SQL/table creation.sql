@@ -111,7 +111,21 @@ CREATE TABLE IF NOT EXISTS `softwareengineering`.`WeightTracking` (
     REFERENCES `softwareengineering`.`User` (`idUser`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-
+CREATE TABLE IF NOT EXISTS `softwareengineering`.`WeeklySummary` (
+  `idWeeklySummary` INT NOT NULL,
+  `idUser` INT NOT NULL,
+  `weekCommencing` DATE NOT NULL,
+  `caloriesBurnt` SMALLINT NOT NULL,
+  `caloriesConsumed` SMALLINT NOT NULL,  
+  `weight` TINYINT NOT NULL,
+  PRIMARY KEY (`idWeeklySummary`),
+  UNIQUE INDEX `idWeeklySummary_UNIQUE` (`idWeeklySummary` ASC) VISIBLE,
+  CONSTRAINT `idUserinSummary`
+    FOREIGN KEY (`idUser`)
+    REFERENCES `softwareengineering`.`User` (`idUser`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+    
 insert into softwareengineering.exercise values(0,0,'other');
 insert into softwareengineering.exercise values(1,11,'swimming');
 insert into softwareengineering.exercise values(2,12,'tennis');

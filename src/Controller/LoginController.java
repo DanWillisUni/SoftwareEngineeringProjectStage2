@@ -1,5 +1,7 @@
 package Controller;
 
+import Model.ExerciseSession;
+import Model.GenericDatabaseController;
 import Model.User;
 import Model.WeightGoal;
 import javafx.application.Platform;
@@ -16,7 +18,13 @@ import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
 
 public class LoginController extends GenericController{
     @FXML private Label errorMsg;//error message label
@@ -43,6 +51,20 @@ public class LoginController extends GenericController{
         User u = User.getFromEmail(email.getText().toString());
         if (u!=null){//if there is a user with that email
             if (u.getPassword().equals(User.passwordHash(password.getText()))){//if the hashed password matches the users hashed password
+                //putting data in weekly summary
+                HashMap<Date,ExerciseSession> all = ExerciseSession.getDateAll(u);
+                for (Map.Entry<Date,ExerciseSession> entry : all.entrySet()){
+                    if(entry.getKey().getTime()<Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(28).atStartOfDay(ZoneId.systemDefault()))).getTime()){
+                        java.util.Date d = entry.getKey();
+                        ExerciseSession s = entry.getValue();
+                        sortExerciseSessionToWeeklySummary(u,d,s);
+                        //add it to the current data in weekly summary
+                        s.removeLink(u,d);
+                    }
+                }
+
+
+
                 //load dashboard
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("../View/Dashboard.fxml"));
                 Parent root = null;
@@ -76,6 +98,32 @@ public class LoginController extends GenericController{
             errorMsg.setText("Incorrect email details");//email was wrong
             password.setText("");
             email.setText("");
+        }
+    }
+    private void sortExerciseSessionToWeeklySummary(User u,java.util.Date d,ExerciseSession s){
+        Calendar c = Calendar.getInstance();
+        c.setTime(d);
+        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+        //Date.from(Instant.from(d.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().minusDays()));
+        c.add(Calendar.DATE,dayOfWeek*-1);
+        Date commence = c.getTime();
+        ArrayList<String> sum = u.getWeeklySummary(commence);
+        if(sum.isEmpty()){
+            int previousWeight = 0;
+            c.setTime(commence);
+            c.add(Calendar.DATE,-7);
+            Date prevCommence = c.getTime();
+            ArrayList<String> prevWeek = u.getWeeklySummary(prevCommence);
+            if (!prevWeek.isEmpty()){
+                previousWeight = Integer.parseInt(prevWeek.get(5));
+            }
+            u.newSummary(commence,s.getCaloriesBurned(),0,previousWeight);
+        } else {
+            int id = Integer.parseInt(sum.get(0));
+            int newCalBurn = Integer.parseInt(sum.get(3)) + s.getCaloriesBurned();
+            int newCalCons = Integer.parseInt(sum.get(4));
+            int newWeight = Integer.parseInt(sum.get(5));
+            u.updateSummary(id,newCalBurn,newCalCons,newWeight);
         }
     }
     /**

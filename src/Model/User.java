@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -262,5 +263,51 @@ public class User {
             e.printStackTrace();
         }
         return r;
+    }
+
+    public ArrayList<String> getWeeklySummary(Date commencing){
+        GenericDatabaseController db = new GenericDatabaseController();
+        ArrayList<String> r = new ArrayList<>();
+        try (
+                Statement stmnt = db.getConnection().createStatement();
+                ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.weeklySummary where idUser = "+getId() + " and weekCommencing = '"+new java.sql.Date(commencing.getTime()) +"'");
+
+        ){
+            if(rs.next()) {
+                r.add(rs.getString("idWeeklySummary"));
+                r.add(rs.getString("idUser"));
+                r.add(rs.getString("weekCommencing"));
+                r.add(rs.getString("caloriesBurnt"));
+                r.add(rs.getString("caloriesConsumed"));
+                r.add(rs.getString("weight"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return r;
+    }
+    public void updateSummary(int id,int calDuringExercise,int calDuringEating,int weight){
+        GenericDatabaseController db = new GenericDatabaseController();
+        final String query = "UPDATE softwareengineering.WeeklySummary SET caloriesBurnt="+calDuringExercise+",caloriesConsumed="+calDuringEating+",weight="+weight+" Where idWeeklySummary= "+ id;
+        try (
+                PreparedStatement pstmt = db.getConnection().prepareStatement(query)
+        ){
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void newSummary(Date commencing,int calDuringExercise,int calDuringEating,int weight){
+        GenericDatabaseController db = new GenericDatabaseController();
+        try {
+            final String query = "Insert Into softwareengineering.WeeklySummary Values("+db.genID("WeeklySummary","idWeeklySummary")+","+getId()+",'"+new java.sql.Date(commencing.getTime()) +"',"+calDuringExercise+","+calDuringEating+","+weight+")";
+            try (
+                    PreparedStatement pstmt = db.getConnection().prepareStatement(query)
+            ){
+                pstmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -210,7 +210,9 @@ public class AddExerciseSessionController extends GenericController{
                 exercise = Model.Exercise.getExerciseFromName(Exercise.getValue().toString());
                 if (!validCal){
                     caloriesBurned = durationNum*(exercise.getCaloriesBurned());//if the calories are not valid, calculate them
-                    caloriesBurned = (int)((User.getWeight()/62.0) * caloriesBurned);//burns more calories the more you weight
+                    if (User.getWeight()>0){
+                        caloriesBurned = (int)((User.getWeight()/62.0) * caloriesBurned);//burns more calories the more you weight
+                    }
                 }
             }
             //set the calories if they are valid

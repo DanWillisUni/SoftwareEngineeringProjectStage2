@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class ExerciseSession {
     int id;
@@ -158,6 +159,38 @@ public class ExerciseSession {
         ){
             while(rs.next()) {
                 r.add(ExerciseSession.getFromID(rs.getInt("idExerciseSession")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return r;
+    }
+    public static ArrayList<ExerciseSession> getAll(User u){
+        GenericDatabaseController db = new GenericDatabaseController();
+        ArrayList<ExerciseSession> r = new ArrayList<>();
+        try (
+                Statement stmnt = db.getConnection().createStatement();
+                ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.exerciselink where idUser = "+u.getId());
+
+        ){
+            while(rs.next()) {
+                r.add(ExerciseSession.getFromID(rs.getInt("idExerciseSession")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return r;
+    }
+    public static HashMap<Date,ExerciseSession> getDateAll(User u){
+        GenericDatabaseController db = new GenericDatabaseController();
+        HashMap<Date,ExerciseSession> r = new HashMap<>();
+        try (
+                Statement stmnt = db.getConnection().createStatement();
+                ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.exerciselink where idUser = "+u.getId());
+
+        ){
+            while(rs.next()) {
+                r.put(rs.getDate("date"),ExerciseSession.getFromID(rs.getInt("idExerciseSession")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
