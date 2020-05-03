@@ -37,6 +37,8 @@ public class AddExerciseSessionController extends GenericController{
     }
     /**
      * Sets up the drop down for all the exercises
+     * Fills the table with all the exercise that has been done that day
+     * If there is none then it hides the table
      */
     public void setUpDisplay(){
         try {
@@ -67,10 +69,22 @@ public class AddExerciseSessionController extends GenericController{
         calories.setMinWidth(100);
         calories.setCellValueFactory(
                 new PropertyValueFactory<ExerciseSession, String>("caloriesBurned"));
-        Burned.setItems(data);
-        Burned.getColumns().addAll(exercise, duration, calories);
-        addButtonToTable();
+        Burned.setPrefWidth(400);
+        if (data.isEmpty()){
+            Burned.setVisible(false);
+        } else {
+            Burned.setItems(data);
+            Burned.getColumns().addAll(exercise, duration, calories);
+            addButtonToTable();
+        }
+
     }
+    /**
+     * Adds an end button onto the end column of the table
+     * This button is used to remove any food that the user wants
+     * When the button is pressed the exercise session is removed
+     * The same page is then loaded
+     */
     private void addButtonToTable() {
         TableColumn<ExerciseSession, Void> colBtn = new TableColumn("Delete");
         Callback<TableColumn<ExerciseSession, Void>, TableCell<ExerciseSession,Void>> cellFactory = new Callback<>() {
@@ -80,8 +94,9 @@ public class AddExerciseSessionController extends GenericController{
                     private final Button btn = new Button("Remove");
                     {
                         btn.setOnAction((ActionEvent event) -> {
-                            ExerciseSession data = getTableView().getItems().get(getIndex());
-                            data.removeLink(User,new Date());
+                            ExerciseSession data = getTableView().getItems().get(getIndex());//get the exercise session obj that is in the table
+                            data.removeLink(User,new Date());//remove link between the user and the exercise session
+                            //reloads the page
                             FXMLLoader loader = new FXMLLoader(getClass().getResource("../View/AddExerciseSession.fxml"));
                             Parent root = null;
                             try {
@@ -99,7 +114,6 @@ public class AddExerciseSessionController extends GenericController{
                             stage.show();
                         });
                     }
-
                     @Override
                     public void updateItem(Void item, boolean empty) {
                         super.updateItem(item, empty);
@@ -138,7 +152,7 @@ public class AddExerciseSessionController extends GenericController{
 
         //validation of calories burned
         if (!calBurned.getText().equals("")){
-            if (calBurned.getText().matches("^([1-9][0-9]*(\\.[0-9]+)?|0+\\.[0-9]*[1-9][0-9]*)$")){
+            if (calBurned.getText().matches("^[1-9][0-9]*$")){
                 int i = Integer.parseInt(calBurned.getText());
                 if (i>2500){
                     errorMsg.setText("Error: calories > 2500");
@@ -147,7 +161,7 @@ public class AddExerciseSessionController extends GenericController{
                     validCal = true;
                 }
             } else {
-                errorMsg.setText("Error: calories not positive number");
+                errorMsg.setText("Error: calories not positive integer number");
                 calBurned.setText("");
             }
         }
@@ -176,7 +190,7 @@ public class AddExerciseSessionController extends GenericController{
             }
         }
         //validate the duration
-        if (duration.getText().matches("^([1-9][0-9]*(\\.[0-9]+)?|0+\\.[0-9]*[1-9][0-9]*)$")){
+        if (duration.getText().matches("^[1-9][0-9]*$")){
             int i = Integer.parseInt(duration.getText());
             if (i>240){
                 errorMsg.setText("Error: duration greater than 4 hours");
@@ -196,6 +210,7 @@ public class AddExerciseSessionController extends GenericController{
                 exercise = Model.Exercise.getExerciseFromName(Exercise.getValue().toString());
                 if (!validCal){
                     caloriesBurned = durationNum*(exercise.getCaloriesBurned());//if the calories are not valid, calculate them
+                    caloriesBurned = (int)((User.getWeight()/62.0) * caloriesBurned);//burns more calories the more you weight
                 }
             }
             //set the calories if they are valid

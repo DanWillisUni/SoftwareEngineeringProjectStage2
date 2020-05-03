@@ -7,7 +7,6 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.PieChart?>
-<?import javafx.collections.FXCollections?>
 <VBox fx:controller="Controller.DashboardController" xmlns:fx="http://javafx.com/fxml" minWidth="800" minHeight="800">
     <children>
         <BorderPane xmlns:fx="http://javafx.com/fxml/1" >

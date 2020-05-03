@@ -1,6 +1,5 @@
 package Controller;
-//my imports
-//fx imports
+
 import Model.WeightGoal;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -73,9 +72,9 @@ public class AddGoalController extends GenericController{
         targetSuggestion.setCellValueFactory(
                 new PropertyValueFactory<WeightGoal, String>("targetWeight"));
         TableColumn DateDueSuggestion = new TableColumn("Due Date");
-        DateDueSuggestion.setMinWidth(250);
+        DateDueSuggestion.setMinWidth(200);
         DateDueSuggestion.setCellValueFactory(
-                new PropertyValueFactory<WeightGoal, String>("due"));
+                new PropertyValueFactory<WeightGoal, String>("dueStr"));
 
         SuggestedGoals.setItems(dataSuggestion);
         SuggestedGoals.getColumns().addAll(targetSuggestion, DateDueSuggestion);
@@ -92,13 +91,16 @@ public class AddGoalController extends GenericController{
         target.setCellValueFactory(
                 new PropertyValueFactory<WeightGoal, String>("targetWeight"));
         TableColumn DateDue = new TableColumn("Due Date");
-        DateDue.setMinWidth(250);
+        DateDue.setMinWidth(200);
         DateDue.setCellValueFactory(
-                new PropertyValueFactory<WeightGoal, String>("due"));
-
-        Goals.setItems(data);
-        Goals.getColumns().addAll(target, DateDue);
-        addButtonToTable();
+                new PropertyValueFactory<WeightGoal, String>("dueStr"));
+        if (data.isEmpty()){
+            Goals.setVisible(false);
+        } else {
+            Goals.setItems(data);
+            Goals.getColumns().addAll(target, DateDue);
+            addButtonToTable();
+        }
     }
     private void addButtonToTable() {
         TableColumn<WeightGoal, Void> colBtn = new TableColumn("Delete");
@@ -147,7 +149,7 @@ public class AddGoalController extends GenericController{
         Goals.getColumns().add(colBtn);
     }
     private void addButtonToTableSuggestion() {
-        TableColumn<WeightGoal, Void> colBtn = new TableColumn("Add Goal");
+        TableColumn<WeightGoal, Void> colBtn = new TableColumn("Add");
         Callback<TableColumn<WeightGoal, Void>, TableCell<WeightGoal, Void>> cellFactory = new Callback<>() {
             @Override
             public TableCell<WeightGoal, Void> call(final TableColumn<WeightGoal, Void> param) {

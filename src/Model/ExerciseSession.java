@@ -1,7 +1,5 @@
 package Model;
 
-import Controller.GenericController;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,7 +11,6 @@ public class ExerciseSession {
     int id;
     User user;
     Exercise exercise;
-    String exerciseName;
     int duration;
     int caloriesBurned;
 
@@ -21,7 +18,6 @@ public class ExerciseSession {
         this.id = id;
         this.user = user;
         this.exercise = exercise;
-        this.exerciseName = exercise.getName();
         this.duration = duration;
         this.caloriesBurned = caloriesBurned;
     }
@@ -30,7 +26,6 @@ public class ExerciseSession {
         this.id = db.genID("exercisesession","idExerciseSession");
         this.user=user;
         this.exercise = exercise;
-        this.exerciseName = exercise.getName();
         this.duration = duration;
         this.caloriesBurned = caloriesBurned;
     }
@@ -38,7 +33,6 @@ public class ExerciseSession {
         this.id = id;
         this.user=null;
         this.exercise = exercise;
-        this.exerciseName = exercise.getName();
         this.duration = duration;
         this.caloriesBurned = caloriesBurned;
     }
@@ -51,7 +45,7 @@ public class ExerciseSession {
         return exercise;
     }
     public String getExerciseName() {
-        return exerciseName;
+        return getExercise().getName();
     }
     public int getDuration() {
         return duration;
@@ -130,6 +124,9 @@ public class ExerciseSession {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        if(!checkIfSessionInUse()){
+            remove();
         }
     }
     public static ExerciseSession getFromID(int id){

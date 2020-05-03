@@ -12,15 +12,11 @@ public class Meal {
     User user;
     FoodItem food;
     int quantity;
-    String foodName;
     String type;
-    int calories;
 
     Meal(int id, FoodItem food, int quantity, String type){
         this.id=id;
         this.user=null;
-        this.foodName=food.getName();
-        this.calories=quantity*food.getAmountOfCalories();
         this.food = food;
         this.quantity = quantity;
         this.type = type;
@@ -30,8 +26,6 @@ public class Meal {
         this.id=db.genID("meal","idMeal");
         this.user=user;
         this.food = food;
-        this.foodName=food.getName();
-        this.calories=quantity*food.getAmountOfCalories();
         this.quantity = quantity;
         this.type = type;
     }
@@ -52,10 +46,10 @@ public class Meal {
         return user;
     }
     public String getFoodName() {
-        return foodName;
+        return getFood().getName();
     }
     public int getCalories() {
-        return calories;
+        return getQuantity() * getFood().getAmountOfCalories();
     }
     public void setUser(User user){
         this.user=user;

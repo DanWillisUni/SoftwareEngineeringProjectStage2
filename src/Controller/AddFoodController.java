@@ -1,14 +1,9 @@
 package Controller;
 //javafx imports
 import Model.*;
-import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -72,9 +67,13 @@ public class AddFoodController extends GenericController{
         calories.setMinWidth(100);
         calories.setCellValueFactory(
                 new PropertyValueFactory<Meal, String>("calories"));
-        Consumed.setItems(data);
-        Consumed.getColumns().addAll(name, quantity, calories);
-        addButtonToTable();
+        if (data.isEmpty()){
+            Consumed.setVisible(false);
+        } else {
+            Consumed.setItems(data);
+            Consumed.getColumns().addAll(name, quantity, calories);
+            addButtonToTable();
+        }
     }
     private void addButtonToTable() {
         TableColumn<Meal, Void> colBtn = new TableColumn("Delete");

@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -47,6 +49,10 @@ public class WeightGoal {
     }
     public Date getDue() {
         return due;
+    }
+    public String getDueStr(){
+        DateFormat newFormat = new SimpleDateFormat("dd-MM-yyyy");
+        return  newFormat.format(getDue());
     }
     public boolean getToLoose() {
         return toLoose;
