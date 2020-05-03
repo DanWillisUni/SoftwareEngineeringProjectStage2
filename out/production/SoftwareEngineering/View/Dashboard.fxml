@@ -50,8 +50,10 @@
                 </GridPane>
             </left>
             <top>
-                <Label id="name" fx:id="name" text="" prefHeight="20.0" alignment="CENTER"/>
-                <Label fx:id="suggestion" text="" prefHeight="20.0" alignment="CENTER"/>
+                <GridPane alignment="CENTER">
+                    <Label id="name" fx:id="name" GridPane.columnIndex="0" GridPane.rowIndex="0" text="" prefHeight="20.0" alignment="CENTER_LEFT"/>
+                    <Label fx:id="suggestion" text="" GridPane.columnIndex="0" GridPane.rowIndex="1" prefHeight="20.0" alignment="CENTER"/>
+                </GridPane>
             </top>
             <bottom>
                 <GridPane alignment="BOTTOM_CENTER">

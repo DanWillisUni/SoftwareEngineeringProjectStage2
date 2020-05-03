@@ -5,7 +5,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import java.net.URL?>
 <VBox fx:controller="Controller.LoginController" xmlns:fx="http://javafx.com/fxml" minHeight="200.0" minWidth="400.0">
@@ -21,8 +20,17 @@
                 <Button fx:id="SignIn" GridPane.columnIndex="1" GridPane.rowIndex="4" text="Sign In" onAction="#LoginHandleSubmitButtonAction"/>
                 <Button fx:id="Register"  GridPane.columnIndex="0" GridPane.rowIndex="4" text="Register" onAction="#GoToRegisterButtonAction"/>
             </GridPane>
-            <Button fx:id="exit" GridPane.columnIndex="0" GridPane.rowIndex="2" text="Exit" onAction="#Exit" />
-            <Label fx:id="errorMsg" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+            <Label fx:id="errorMsg" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <GridPane alignment="center" hgap="10" vgap="10" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="0" prefHeight="20.0" prefWidth="150.0"/>
+                <TextField fx:id="emailReset" GridPane.columnIndex="1" GridPane.rowIndex="0" prefHeight="20.0" prefWidth="150.0" promptText="Email"/>
+                <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="1" prefHeight="20.0" prefWidth="150.0"/>
+                <PasswordField fx:id="passwordReset" GridPane.columnIndex="1" GridPane.rowIndex="1" prefHeight="20.0" prefWidth="150.0" promptText="Password"/>
+                <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="2" prefHeight="20.0" prefWidth="150.0"/>
+                <PasswordField fx:id="passwordReset2" GridPane.columnIndex="1" GridPane.rowIndex="2" prefHeight="20.0" prefWidth="150.0" promptText="Password"/>
+                <Button fx:id="Reset" GridPane.columnIndex="1" GridPane.rowIndex="4" text="Reset" onAction="#LoginHandleResetButtonAction"/>
+                <Button fx:id="exit" GridPane.columnIndex="0" GridPane.rowIndex="4" text="Exit" onAction="#Exit" />
+            </GridPane>
         </GridPane>
     </children>
     <stylesheets>

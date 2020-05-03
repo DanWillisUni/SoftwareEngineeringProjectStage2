@@ -22,6 +22,9 @@ public class LoginController extends GenericController{
     @FXML private Label errorMsg;//error message label
     @FXML private TextField email;//email textbox
     @FXML private PasswordField password;//password password box
+    @FXML private TextField emailReset;//email to reset textbox
+    @FXML private PasswordField passwordReset;//password to reset box
+    @FXML private PasswordField passwordReset2;//password to reset repeat box
     /**
      * Attempt to get a new User obj from an email
      * If no User with that email exists, display appropriate error message
@@ -91,5 +94,41 @@ public class LoginController extends GenericController{
     private void Exit (ActionEvent event){
         Platform.exit();
         System.exit(0);
+    }
+
+    public void LoginHandleResetButtonAction(ActionEvent actionEvent) {
+        errorMsg.setText("");
+        //validation
+        User u = User.getFromEmail(emailReset.getText().toString());
+        if (u!=null){//if there is a user with that email
+            //password validation
+            if (passwordReset.getText()!=null){
+                if (!passwordReset.getText().equals("")){
+                    if (passwordReset.getText().toString().length()>=20){
+                        errorMsg.setText("Error: password too long for reset");
+                        passwordReset.setText("");
+                    } else {
+                        if (!passwordReset.getText().equals(passwordReset2.getText())) {
+                            errorMsg.setText("Passwords do not match");
+                            passwordReset2.setText("");
+                        } else {
+                            u.setPassword(passwordReset.getText());
+                            errorMsg.setText("Your password has been reset");
+                            passwordReset.setText("");
+                            passwordReset2.setText("");
+                            emailReset.setText("");
+                        }
+                    }
+                } else {
+                    errorMsg.setText("Error: password null for reset");
+                }
+            }else{
+                errorMsg.setText("Error: password null for reset");
+            }
+        } else {
+            errorMsg.setText("Incorrect email for reset details");//email was wrong
+            password.setText("");
+            email.setText("");
+        }
     }
 }
