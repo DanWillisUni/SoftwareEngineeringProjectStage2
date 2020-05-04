@@ -319,7 +319,7 @@ public class DashboardController extends GenericController{
         stage.setScene(new Scene(root));
         HistoryController controller = loader.<HistoryController>getController();
         controller.setUser(User);
-        controller.setUpDisplay(14,-1);
+        controller.setUpDisplay(7,-1);
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setFullScreen(true);
         stage.show();

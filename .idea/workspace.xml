@@ -109,9 +109,9 @@
     <property name="dynamic.classpath" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
@@ -265,7 +265,7 @@
       <workItem from="1588410982568" duration="20429000" />
       <workItem from="1588491677229" duration="10796000" />
       <workItem from="1588529529817" duration="13000" />
-      <workItem from="1588530422913" duration="8379000" />
+      <workItem from="1588530422913" duration="12269000" />
     </task>
     <servers />
   </component>
@@ -321,22 +321,22 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="491" y="255" key="Github.ShareDialog/0.0.1280.720@0.0.1280.720" timestamp="1581338973450" />
-    <state width="1236" height="145" key="GridCell.Tab.0.bottom" timestamp="1588541415932">
+    <state width="1236" height="145" key="GridCell.Tab.0.bottom" timestamp="1588589280789">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1588541415932" />
-    <state width="1236" height="145" key="GridCell.Tab.0.center" timestamp="1588541415932">
+    <state width="1236" height="145" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1588589280789" />
+    <state width="1236" height="145" key="GridCell.Tab.0.center" timestamp="1588589280788">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1588541415932" />
-    <state width="1236" height="145" key="GridCell.Tab.0.left" timestamp="1588541415932">
+    <state width="1236" height="145" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1588589280788" />
+    <state width="1236" height="145" key="GridCell.Tab.0.left" timestamp="1588589280788">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1588541415932" />
-    <state width="1236" height="145" key="GridCell.Tab.0.right" timestamp="1588541415932">
+    <state width="1236" height="145" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1588589280788" />
+    <state width="1236" height="145" key="GridCell.Tab.0.right" timestamp="1588589280788">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1588541415932" />
+    <state width="1236" height="145" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1588589280788" />
     <state width="1236" height="220" key="GridCell.Tab.1.bottom" timestamp="1588444595212">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
@@ -357,10 +357,10 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state width="198" height="457" key="HiddenNamespacesPopup/0.0.1280.720@0.0.1280.720" timestamp="1582569205035" />
-    <state x="142" y="3" key="SettingsEditor" timestamp="1582902689958">
+    <state x="142" y="0" key="SettingsEditor" timestamp="1588599512784">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="142" y="3" key="SettingsEditor/0.0.1280.720@0.0.1280.720" timestamp="1582902689958" />
+    <state x="142" y="0" key="SettingsEditor/0.0.1280.720@0.0.1280.720" timestamp="1588599512784" />
     <state x="337" y="185" key="com.intellij.ide.util.TipDialog" timestamp="1586859347230">
       <screen x="0" y="0" width="1280" height="720" />
     </state>

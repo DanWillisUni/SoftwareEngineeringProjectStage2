@@ -89,7 +89,21 @@ public class ExerciseSession {
     }
 
     public boolean checkIfSessionInUse(){
-        return true;
+        GenericDatabaseController db = new GenericDatabaseController();
+        try {
+            final String query = "SELECT * FROM softwareengineering.exerciselink WHERE idExerciseSession = " + getId();
+            try (
+                    PreparedStatement pstmt = db.getConnection().prepareStatement(query)
+            ){
+                ResultSet rs = pstmt.executeQuery();
+                if(rs.next()) {
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
     public static ExerciseSession getExerciseSession(Exercise exercise, int duration, int caloriesBurned){
         GenericDatabaseController db = new GenericDatabaseController();

@@ -52,6 +52,14 @@ public class HistoryController extends GenericController{
      * only displays the chart of the last 2 weeks to track weight
      */
     public void setUpDisplay(int howManyDaysBackBeginning,int howManyDaysBackEnd) {
+        if (howManyDaysBackEnd < -1){
+            howManyDaysBackEnd = -1;
+            howManyDaysBackBeginning = 7;
+        }
+        if (howManyDaysBackBeginning > 28){
+            howManyDaysBackBeginning = 28;
+            howManyDaysBackEnd = 20;
+        }
         this.howManyDaysBackBeginning=howManyDaysBackBeginning;
         this.howManyDaysBackEnd=howManyDaysBackEnd;
         name.setText("Welcome " + User.getForename());
@@ -171,7 +179,9 @@ public class HistoryController extends GenericController{
         } else {
             yAxisBurn.setUpperBound(100);
         }
-        if (smallestBurn-50 > 0) {
+        if (smallestBurn==Integer.MAX_VALUE) {
+            yAxisBurn.setLowerBound(0);
+        } else if (smallestBurn-50 > 0) {
             yAxisBurn.setLowerBound(smallestBurn - 50);
         } else {
             yAxisBurn.setLowerBound(0);
@@ -208,7 +218,7 @@ public class HistoryController extends GenericController{
         stage.setScene(new Scene(root));
         HistoryController controller = loader.<HistoryController>getController();
         controller.setUser(User);
-        controller.setUpDisplay(howManyDaysBackBeginning+14,howManyDaysBackBeginning-1);
+        controller.setUpDisplay(howManyDaysBackBeginning+7,howManyDaysBackBeginning-1);
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setFullScreen(true);
         stage.show();
@@ -226,7 +236,7 @@ public class HistoryController extends GenericController{
         stage.setScene(new Scene(root));
         HistoryController controller = loader.<HistoryController>getController();
         controller.setUser(User);
-        controller.setUpDisplay(howManyDaysBackEnd+1,howManyDaysBackEnd-14);
+        controller.setUpDisplay(howManyDaysBackEnd+1,howManyDaysBackEnd-7);
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setFullScreen(true);
         stage.show();

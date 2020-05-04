@@ -107,6 +107,23 @@ public class Meal {
         }
         return null;
     }
+    public boolean checkIfInUse(){
+        GenericDatabaseController db = new GenericDatabaseController();
+        try {
+            final String query = "SELECT * FROM softwareengineering.diet WHERE idMeal = " + getId();
+            try (
+                    PreparedStatement pstmt = db.getConnection().prepareStatement(query)
+            ){
+                ResultSet rs = pstmt.executeQuery();
+                if(rs.next()) {
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     public void addLink(){
         GenericDatabaseController db = new GenericDatabaseController();
@@ -132,6 +149,9 @@ public class Meal {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        if (!checkIfInUse()){
+            remove();
         }
     }
     public static ArrayList<Meal> getDays(User user,Date date){
