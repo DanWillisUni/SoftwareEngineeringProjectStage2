@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class Meal {
     int id;
@@ -143,6 +144,22 @@ public class Meal {
         ){
             while(rs.next()) {
                 r.add(Meal.getFromID(rs.getInt("idMeal")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return r;
+    }
+    public static HashMap<Date,Meal> getDateAll(User u){
+        GenericDatabaseController db = new GenericDatabaseController();
+        HashMap<Date,Meal> r = new HashMap<>();
+        try (
+                Statement stmnt = db.getConnection().createStatement();
+                ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.diet where idUser = "+u.getId());
+
+        ){
+            while(rs.next()) {
+                r.put(rs.getDate("date"),Meal.getFromID(rs.getInt("idMeal")));
             }
         } catch (SQLException e) {
             e.printStackTrace();

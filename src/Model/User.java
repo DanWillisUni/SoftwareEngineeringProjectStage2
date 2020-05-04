@@ -220,7 +220,7 @@ public class User {
     }
 
     public void addWeight(int w){
-        removeWeight();
+        removeWeight(new Date());
         setWeight(w);
         update();
         GenericDatabaseController db = new GenericDatabaseController();
@@ -235,10 +235,10 @@ public class User {
             e.printStackTrace();
         }
     }
-    public void removeWeight(){
+    public void removeWeight(Date d){
         GenericDatabaseController db = new GenericDatabaseController();
         try {
-            final String query = "DELETE FROM softwareengineering.weighttracking WHERE idUser = "+getId() + " AND date = '" + new java.sql.Date(new Date().getTime()) + "'" ;
+            final String query = "DELETE FROM softwareengineering.weighttracking WHERE idUser = "+getId() + " AND date = '" + new java.sql.Date(d.getTime()) + "'" ;
             try (
                     PreparedStatement pstmt = db.getConnection().prepareStatement(query)
             ){
