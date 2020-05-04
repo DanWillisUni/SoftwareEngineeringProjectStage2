@@ -30,6 +30,7 @@ public class AddGoalController extends GenericController{
     @FXML private Label name;
     @FXML private TableView Goals;
     @FXML private TableView SuggestedGoals;
+
     /**
      * sets the user that is signed in
      * @param User person to set to
@@ -102,6 +103,10 @@ public class AddGoalController extends GenericController{
             addButtonToTable();
         }
     }
+    /**
+     * Adds a button to the table of the users goals
+     * The button will remove the goal if the user pressed is
+     */
     private void addButtonToTable() {
         TableColumn<WeightGoal, Void> colBtn = new TableColumn("Delete");
         Callback<TableColumn<WeightGoal, Void>, TableCell<WeightGoal, Void>> cellFactory = new Callback<>() {
@@ -148,6 +153,10 @@ public class AddGoalController extends GenericController{
         colBtn.setCellFactory(cellFactory);
         Goals.getColumns().add(colBtn);
     }
+    /**
+     * Adds a button to the table of the suggested goals
+     * This will add the goal to the database if it is pressed
+     */
     private void addButtonToTableSuggestion() {
         TableColumn<WeightGoal, Void> colBtn = new TableColumn("Add");
         Callback<TableColumn<WeightGoal, Void>, TableCell<WeightGoal, Void>> cellFactory = new Callback<>() {
@@ -181,7 +190,7 @@ public class AddGoalController extends GenericController{
     }
 
     /**
-     * go to the dashboard
+     * Go to the dashboard
      * @param event back button pressed
      */
     @FXML
@@ -189,7 +198,9 @@ public class AddGoalController extends GenericController{
         goToDash(User,event);
     }
     /**
-     * adds goal
+     * Adds goal
+     * Validates everything
+     * Make a new weightGoal obj and add it to the database
      * @param event add goal button pressed
      */
     @FXML

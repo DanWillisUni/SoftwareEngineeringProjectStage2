@@ -12,25 +12,31 @@ import javafx.scene.control.TextField;
 import java.util.ArrayList;
 
 public class AddMeasurementsController extends GenericController{
-    private Model.User User;
-    @FXML private Label name;
-    @FXML private TextField weight;
-    @FXML private Label errorMsg;
-    @FXML private TextField height;
-    @FXML private Label currentWeight;
-    @FXML private Label currentHeight;
-    @FXML private Label heightConversion;
-    @FXML private ComboBox Feet;
-    @FXML private ComboBox Inches;
+    private Model.User User;//User logged in
+    @FXML private Label name;//label with the users name in
+    @FXML private TextField weight;//weight textbox
+    @FXML private Label errorMsg;//where error messages are displayed
+    @FXML private TextField height;//height box
+    @FXML private Label currentWeight;//current weight
+    @FXML private Label currentHeight;//current height
+    @FXML private Label heightConversion;//height conversion to cm from the dropdowns
+    @FXML private ComboBox Feet;//feet to convert
+    @FXML private ComboBox Inches;//inches to convert
+
     /**
-     * set the user
+     * Set the user
      * @param User current user that is signed in
      */
     public void setUser(Model.User User){
         this.User = User;
     }
     /**
-     * sets up the display for the user
+     * Sets up the display for the user
+     * Sets up the feet dropdown
+     * Sets up the inches dropdown
+     * Calculates the cm value of the feet and inches
+     * Get current weight
+     * Get current height
      */
     public void setUpDisplay(int feet,int inches){
         name.setText("Hi, " + User.getForename());
@@ -57,7 +63,7 @@ public class AddMeasurementsController extends GenericController{
         heightConversion.setText(Integer.toString((int)((30.48 * feet) + (2.54 * inches))));
     }
     /**
-     * go to the dashboard
+     * Go to the dashboard
      * @param event push the back button
      */
     @FXML
@@ -65,9 +71,9 @@ public class AddMeasurementsController extends GenericController{
         goToDash(User,event);
     }
     /**
-     * validation
-     * add weight
-     * go to dash
+     * Validation
+     * Add weight to database
+     * Go to dash
      * @param event add weight button pushed
      */
     @FXML
@@ -90,9 +96,9 @@ public class AddMeasurementsController extends GenericController{
         }
     }
     /**
-     * validation
-     * add weight
-     * go to dash
+     * Validation
+     * Update height
+     * Go to dash
      * @param event add weight button pushed
      */
     @FXML
@@ -117,6 +123,11 @@ public class AddMeasurementsController extends GenericController{
             GenericController.goToDash(User,event);
         }
     }
+    /**
+     * Calculate the value of cm
+     * Refresh the display
+     * @param event action to the feet or inches combobox
+     */
     @FXML
     public void Refresh(ActionEvent event) {
         int f = 0;
@@ -127,7 +138,6 @@ public class AddMeasurementsController extends GenericController{
         if (Inches.getValue()!=null){
             i= (int) Inches.getValue();
         }
-        System.out.println(f + "," + i);
         setUpDisplay(f,i);
     }
 }

@@ -28,6 +28,7 @@ public class AddFoodController extends GenericController{
     @FXML private Label errorMsg;//error message label to inform the user of any errors
     @FXML private Label name;//name of the user at the top of the page
     @FXML private TableView Consumed;//table of all the food eaten that day
+
     /**
      * Sets the user to the user signed in
      * @param User logged in user
@@ -127,6 +128,23 @@ public class AddFoodController extends GenericController{
         colBtn.setCellFactory(cellFactory);
         Consumed.getColumns().add(colBtn);
     }
+
+    /**
+     * Adjusts the result in the drop down of food
+     * @param event search button pushed
+     */
+    @FXML
+    private void goSearch(ActionEvent event) {
+        try {
+            String toSearch = txt_search.getText();
+            GenericDatabaseController db = new GenericDatabaseController();
+            ArrayList<String> results = db.getAllLike(toSearch,"foods","foodName");
+            ObservableList<String> observableList = FXCollections.observableList(results);
+            Foods.setItems(observableList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * Goes to the dashboard
      * @param event button pushed
@@ -190,22 +208,6 @@ public class AddFoodController extends GenericController{
             meal.setUser(User);
             meal.addLink();
             goToDash(User,event);
-        }
-    }
-    /**
-     * Adjusts the result in the drop down of food
-     * @param event search button pushed
-     */
-    @FXML
-    private void goSearch(ActionEvent event) {
-        try {
-            String toSearch = txt_search.getText();
-            GenericDatabaseController db = new GenericDatabaseController();
-            ArrayList<String> results = db.getAllLike(toSearch,"foods","foodName");
-            ObservableList<String> observableList = FXCollections.observableList(results);
-            Foods.setItems(observableList);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 }

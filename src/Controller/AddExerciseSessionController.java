@@ -28,6 +28,7 @@ public class AddExerciseSessionController extends GenericController{
     @FXML private Label errorMsg;//error message label
     @FXML private Label name;
     @FXML private TableView Burned;
+
     /**
      * Sets the current user that is signed into the health tracker
      * @param User Person that is signed in
@@ -132,12 +133,20 @@ public class AddExerciseSessionController extends GenericController{
     }
 
     /**
-     * Loads the dashboard on the push of the back button
-     * @param event button push
+     * Get all like search box from the exercise table and put it in the drop down
+     * @param event button pushed
      */
     @FXML
-    private void GoToDashButtonAction (ActionEvent event) {
-        goToDash(User,event);
+    private void goSearch(ActionEvent event) {
+        try {
+            String toSearch = txt_search.getText();
+            GenericDatabaseController db = new GenericDatabaseController();
+            ArrayList<String> results = db.getAllLike(toSearch,"exercise","exerciseName");
+            ObservableList<String> observableList = FXCollections.observableList(results);
+            Exercise.setItems(observableList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
      /**
      * Adds exercise when button pushed if it is valid otherwise it displays an error message
@@ -230,19 +239,11 @@ public class AddExerciseSessionController extends GenericController{
         }
     }
     /**
-     * Get all like search box from the exercise table and put it in the drop down
-     * @param event button pushed
+     * Loads the dashboard on the push of the back button
+     * @param event button push
      */
     @FXML
-    private void goSearch(ActionEvent event) {
-        try {
-            String toSearch = txt_search.getText();
-            GenericDatabaseController db = new GenericDatabaseController();
-            ArrayList<String> results = db.getAllLike(toSearch,"exercise","exerciseName");
-            ObservableList<String> observableList = FXCollections.observableList(results);
-            Exercise.setItems(observableList);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void GoToDashButtonAction (ActionEvent event) {
+        goToDash(User,event);
     }
 }

@@ -1,4 +1,4 @@
-package Model;
+package Controller;
 
 //java imports
 import java.sql.*;

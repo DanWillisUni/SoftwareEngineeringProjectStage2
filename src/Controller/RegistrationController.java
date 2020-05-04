@@ -1,6 +1,5 @@
 package Controller;
 
-import Model.GenericDatabaseController;
 import Model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

@@ -117,9 +117,9 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="Controller" />
       <recent name="Model" />
       <recent name="View" />
-      <recent name="Controller" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\danny\IdeaProjects\SoftwareEngineering\src\View" />
@@ -265,7 +265,7 @@
       <workItem from="1588410982568" duration="20429000" />
       <workItem from="1588491677229" duration="10796000" />
       <workItem from="1588529529817" duration="13000" />
-      <workItem from="1588530422913" duration="12269000" />
+      <workItem from="1588530422913" duration="17672000" />
     </task>
     <servers />
   </component>
@@ -301,10 +301,10 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="371" y="146" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1280.720@0.0.1280.720" timestamp="1581524644456" />
-    <state x="438" y="246" width="432" height="236" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1587999947725">
+    <state x="438" y="246" width="432" height="236" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1588615180844">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="438" y="246" width="432" height="236" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1280.720@0.0.1280.720" timestamp="1587999947725" />
+    <state x="438" y="246" width="432" height="236" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1280.720@0.0.1280.720" timestamp="1588615180844" />
     <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1588255763938">
       <screen x="0" y="0" width="1280" height="720" />
     </state>

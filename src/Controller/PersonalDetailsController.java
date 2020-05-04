@@ -1,30 +1,12 @@
 package Controller;
 
-import Model.GenericDatabaseController;
 import Model.User;
-import Model.WeightGoal;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCombination;
-import javafx.stage.Stage;
-import javafx.util.StringConverter;
 
-import java.io.IOException;
-import java.math.RoundingMode;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
 
 import static Controller.GenericController.goToDash;
