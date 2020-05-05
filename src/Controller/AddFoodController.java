@@ -46,37 +46,40 @@ public class AddFoodController extends GenericController{
         name.setText("Hello, " + User.getForename());
         try {
             GenericDatabaseController db = new GenericDatabaseController();
-            ArrayList<String> results = db.getAllLike("","foods","foodName");
-            ObservableList<String> observableList = FXCollections.observableList(results);
-            Foods.setItems(observableList);
+            ArrayList<String> results = db.getAllLike("","foods","foodName");//gets all the foodnames
+            ObservableList<String> observableList = FXCollections.observableList(results);//puts all foodnames into a observablelist
+            Foods.setItems(observableList);//set the food dropdown to all the foods
         } catch (Exception e) {
             e.printStackTrace();
         }
+        errorMsg.setText("");
+        quantity.setText("");
 
-        ArrayList<Model.Meal> todaysFood = Model.Meal.getDays(User,new Date());
+        ArrayList<Model.Meal> todaysFood = Model.Meal.getDays(User,new Date());//get all todays food
         ObservableList<Meal> data = FXCollections.observableArrayList();
         for (Model.Meal m:todaysFood) {
-            data.add(m);
+            data.add(m);//add the Meal to the tableview data
         }
-        Consumed.setEditable(true);
-        TableColumn name = new TableColumn("Name");
-        name.setMinWidth(200);
-        name.setCellValueFactory(
-                new PropertyValueFactory<Meal, String>("foodName"));
-        TableColumn quantity = new TableColumn("Quantity");
-        quantity.setMinWidth(100);
-        quantity.setCellValueFactory(
-                new PropertyValueFactory<Meal, String>("quantity"));
-        TableColumn calories = new TableColumn("Calories");
-        calories.setMinWidth(100);
-        calories.setCellValueFactory(
-                new PropertyValueFactory<Meal, String>("calories"));
-        if (data.isEmpty()){
-            Consumed.setVisible(false);
+
+        if (data.isEmpty()){//if no meals have been eaten today
+            Consumed.setVisible(false);//hide the table
         } else {
-            Consumed.setItems(data);
-            Consumed.getColumns().addAll(name, quantity, calories);
-            addButtonToTable();
+            Consumed.setEditable(true);
+            TableColumn name = new TableColumn("Name");//create a new column for the food name
+            name.setMinWidth(200);
+            name.setCellValueFactory(
+                    new PropertyValueFactory<Meal, String>("foodName"));//use Meal.getFoodName()
+            TableColumn quantity = new TableColumn("Quantity");//create a new column for the quantity
+            quantity.setMinWidth(100);
+            quantity.setCellValueFactory(
+                    new PropertyValueFactory<Meal, String>("quantity"));//use Meal.getQuantity()
+            TableColumn calories = new TableColumn("Calories");//create a new column for the calories
+            calories.setMinWidth(100);
+            calories.setCellValueFactory(
+                    new PropertyValueFactory<Meal, String>("calories"));//use Meal.getCalories()
+            Consumed.setItems(data);//set all the data
+            Consumed.getColumns().setAll(name, quantity, calories);//put in the columns
+            addButtonToTable();//add the remove button column
         }
     }
     /**
@@ -85,35 +88,20 @@ public class AddFoodController extends GenericController{
      */
     private void addButtonToTable() {
         TableColumn<Meal, Void> colBtn = new TableColumn("Delete");
-        Callback<TableColumn<Meal, Void>, TableCell<Meal, Void>> cellFactory = new Callback<TableColumn<Meal, Void>, TableCell<Meal, Void>>() {
+        Callback<TableColumn<Meal, Void>, TableCell<Meal, Void>> cellFactory = new Callback<TableColumn<Meal, Void>, TableCell<Meal, Void>>() {//new call back
             @Override
             public TableCell<Meal, Void> call(final TableColumn<Meal, Void> param) {
                 final TableCell<Meal, Void> cell = new TableCell<Meal, Void>() {
-                    private final Button btn = new Button("Remove");
+                    private final Button btn = new Button("Remove");//add remove button
                     {
-                        btn.setOnAction((ActionEvent event) -> {
-                            Meal data = getTableView().getItems().get(getIndex());
-                            data.removeLink(User,new Date());
-                            FXMLLoader loader = new FXMLLoader(getClass().getResource("../View/AddFood.fxml"));
-                            Parent root = null;
-                            try {
-                                root = loader.load();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-                            stage.setScene(new Scene(root));
-                            AddFoodController controller = loader.<AddFoodController>getController();
-                            controller.setUser(User);
-                            controller.setUpDisplay();
-                            stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-                            stage.setFullScreen(true);
-                            stage.show();
+                        btn.setOnAction((ActionEvent event) -> {//on button press
+                            Meal data = getTableView().getItems().get(getIndex());//get the meal
+                            data.removeLink(User,new Date());//remove the link in diet
+                            setUpDisplay();//refresh the display
                         });
                     }
-
                     @Override
-                    public void updateItem(Void item, boolean empty) {
+                    public void updateItem(Void item, boolean empty) {//this is required as it is implenting the callback
                         super.updateItem(item, empty);
                         if (empty) {
                             setGraphic(null);
@@ -125,8 +113,8 @@ public class AddFoodController extends GenericController{
                 return cell;
             }
         };
-        colBtn.setCellFactory(cellFactory);
-        Consumed.getColumns().add(colBtn);
+        colBtn.setCellFactory(cellFactory);//generates the buttons
+        Consumed.getColumns().add(colBtn);//adds the buttons
     }
 
     /**
@@ -138,9 +126,9 @@ public class AddFoodController extends GenericController{
         try {
             String toSearch = txt_search.getText();
             GenericDatabaseController db = new GenericDatabaseController();
-            ArrayList<String> results = db.getAllLike(toSearch,"foods","foodName");
-            ObservableList<String> observableList = FXCollections.observableList(results);
-            Foods.setItems(observableList);
+            ArrayList<String> results = db.getAllLike(toSearch,"foods","foodName");//get all like
+            ObservableList<String> observableList = FXCollections.observableList(results);//put results in a observable list
+            Foods.setItems(observableList);//set the dropdown
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -165,14 +153,14 @@ public class AddFoodController extends GenericController{
         errorMsg.setText("");
         GenericDatabaseController db = new GenericDatabaseController();
         //validation for quantity
-        if (quantity.getText().matches("^[1-9][0-9]*$")){
+        if (quantity.getText().matches("^[1-9]$")){
             int i = Integer.parseInt(quantity.getText());
-            if (i>10){
-                errorMsg.setText("Error: quantity greater than 10");
+            if (i>9){
+                errorMsg.setText("Error: quantity greater than 9");
                 quantity.setText("");
             }
         } else {
-            errorMsg.setText("Error: quantity not positive");
+            errorMsg.setText("Error: quantity not positive integer");
             quantity.setText("");
         }
         //validation of dropdown
@@ -199,15 +187,15 @@ public class AddFoodController extends GenericController{
         }
 
         if (errorMsg.getText().equals("")){
-            FoodItem foodItem = FoodItem.getFoodFromName(Foods.getValue().toString());
-            Meal meal = Meal.getMeal(foodItem,Integer.parseInt(quantity.getText()),MealType.getValue().toString());
-            if (meal==null){
-                meal = new Meal(User,foodItem,Integer.parseInt(quantity.getText()),MealType.getValue().toString());
-                meal.add();
+            FoodItem foodItem = FoodItem.getFoodFromName(Foods.getValue().toString());//get the food item obj
+            Meal meal = Meal.getMeal(foodItem,Integer.parseInt(quantity.getText()),MealType.getValue().toString());//attempt to get the meal
+            if (meal==null){//if the meal is not in the database
+                meal = new Meal(User,foodItem,Integer.parseInt(quantity.getText()),MealType.getValue().toString());//make a new meal obj
+                meal.add();//add the meal to the database
             }
-            meal.setUser(User);
-            meal.addLink();
-            goToDash(User,event);
+            meal.setUser(User);//set the user of the meal
+            meal.addLink();//add a link between the user and the meal
+            setUpDisplay();//refresh the page
         }
     }
 }

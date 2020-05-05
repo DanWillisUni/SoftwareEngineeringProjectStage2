@@ -9,9 +9,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.util.Date;
 
-import static Controller.GenericController.goToDash;
-
-public class PersonalDetailsController {
+public class PersonalDetailsController extends GenericController{
     private Model.User User;
     @FXML private TextField forename;
     @FXML private TextField surname;
