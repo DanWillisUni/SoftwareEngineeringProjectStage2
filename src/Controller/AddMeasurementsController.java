@@ -37,30 +37,32 @@ public class AddMeasurementsController extends GenericController{
      * Calculates the cm value of the feet and inches
      * Get current weight
      * Get current height
+     * @param feet feet dropdown
+     * @param inches inches dropdown
      */
     public void setUpDisplay(int feet,int inches){
         name.setText("Hi, " + User.getForename());
         ArrayList<Integer> feetArr = new ArrayList<Integer>();
         for (int i = 0;i<10;i++){
-            feetArr.add(i);
+            feetArr.add(i);//add 0 to 9 to feet
         }
-        ObservableList<Integer> observableList = (ObservableList<Integer>) FXCollections.observableList(feetArr);
-        Feet.setItems(observableList);
+        ObservableList<Integer> observableList = (ObservableList<Integer>) FXCollections.observableList(feetArr);//create feet converter observable list
+        Feet.setItems(observableList);//dropdown for feet setup
         ArrayList<Integer> inchesArr = new ArrayList<Integer>();
-        inchesArr.addAll(feetArr);
-        for (int i = 10;i<13;i++){
-            inchesArr.add(i);
+        inchesArr.addAll(feetArr);//add all the feet to the inches array
+        for (int i = 10;i<12;i++){
+            inchesArr.add(i);//add 10 and 11 to the array for inches
         }
-        ObservableList<Integer> observableListInch = (ObservableList<Integer>) FXCollections.observableList(inchesArr);
-        Inches.setItems(observableListInch);
+        ObservableList<Integer> observableListInch = (ObservableList<Integer>) FXCollections.observableList(inchesArr);//set observableList to inches
+        Inches.setItems(observableListInch);//set inches dropdown
 
-        if (User.getHeight()>0){
-            currentHeight.setText(Integer.toString(User.getHeight()));
+        if (User.getHeight()>0){//if the user has entered a height
+            currentHeight.setText(Integer.toString(User.getHeight()));//set the current height
         }
-        if (User.getWeight()>0){
-            currentWeight.setText(Double.toString(User.getWeight()));
+        if (User.getWeight()>0){//if the user has entered a weight
+            currentWeight.setText(Double.toString(User.getWeight()));//set the current weight
         }
-        heightConversion.setText(Integer.toString((int)((30.48 * feet) + (2.54 * inches))));
+        heightConversion.setText(Integer.toString((int)((30.48 * feet) + (2.54 * inches))));//set the height conversion label
     }
     /**
      * Go to the dashboard
@@ -91,8 +93,8 @@ public class AddMeasurementsController extends GenericController{
             weight.setText("");
         }
         if(errorMsg.getText().equals("")){
-            User.addWeight(Double.parseDouble(weight.getText()));
-            GenericController.goToDash(User,event);
+            User.addWeight(Double.parseDouble(weight.getText()));//add weight to user
+            goToDash(User,event);//go to the dashboard
         }
     }
     /**
@@ -118,9 +120,9 @@ public class AddMeasurementsController extends GenericController{
             height.setText("");
         }
         if(errorMsg.getText().equals("")){
-            User.setHeight(Integer.parseInt(height.getText()));
-            User.update();
-            GenericController.goToDash(User,event);
+            User.setHeight(Integer.parseInt(height.getText()));//set the height of the user
+            User.update();//update the user in the database
+            goToDash(User,event);//go to the dashboard
         }
     }
     /**
@@ -131,13 +133,13 @@ public class AddMeasurementsController extends GenericController{
     @FXML
     public void Refresh(ActionEvent event) {
         int f = 0;
-        if (Feet.getValue()!=null){
-            f= Integer.parseInt((String) Feet.getValue());
+        if (Feet.getValue()!=null){//if feet selected
+            f= Integer.parseInt((String) Feet.getValue());//set the feet value
         }
         int i = 0;
-        if (Inches.getValue()!=null){
-            i= (int) Inches.getValue();
+        if (Inches.getValue()!=null){//if inches selected
+            i= Integer.parseInt((String)Inches.getValue());//set inches
         }
-        setUpDisplay(f,i);
+        setUpDisplay(f,i);//refresh the display with the current values
     }
 }
