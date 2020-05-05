@@ -97,7 +97,7 @@ public class DashboardController extends GenericController{
             int toMaintainCal = (int)(10*User.getWeight() + 6.25*User.getHeight() - (5 * age) + s);
             User.setCal((int)(toMaintainCal * 1.2));//multiplyed by 1.2 as that is roughly how many calories people burn from walking around each day and other exercise that is not going to be added in
             if (!allGoals.isEmpty()){
-                nextGoal.setText("The next goal is: " + Integer.toString(allGoals.get(0).getTargetWeight()) + "kg, on " + allGoals.get(0).getDue());
+                nextGoal.setText("The next goal is: " + Double.toString(allGoals.get(0).getTargetWeight()) + "kg, on " + allGoals.get(0).getDue());
                 double distanceToGoal = User.getWeight()-allGoals.get(0).getTargetWeight();
                 long timeMs = (new Date().getTime() - allGoals.get(0).getDue().getTime());
                 double daysTillGoal = Integer.parseInt(Long.toString(timeMs/(86400000L)));
@@ -129,7 +129,7 @@ public class DashboardController extends GenericController{
         } else if (User.getWeight()==0){
             suggestion.setText("Try going to Add Measurements");
         } else {
-            Map.Entry<Integer,Date> entry = User.getAllWeights().entrySet().iterator().next();
+            Map.Entry<Double,Date> entry = User.getAllWeights().entrySet().iterator().next();
             if(entry.getValue().getTime()<(((new Date()).getTime())-86400000L)){
                 suggestions.add("Try entering your weight for today");
             }

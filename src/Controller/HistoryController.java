@@ -64,12 +64,12 @@ public class HistoryController extends GenericController{
         this.howManyDaysBackEnd=howManyDaysBackEnd;
         name.setText("Welcome " + User.getForename());
         //line chart of weight
-        HashMap<Integer, Date> all = User.getAllWeights();
-        ArrayList<Integer> weights = new ArrayList<>();//gets all the weights
+        HashMap<Double, Date> all = User.getAllWeights();
+        ArrayList<Double> weights = new ArrayList<>();//gets all the weights
         ArrayList<java.util.Date> dates = new ArrayList<>();//gets all the dates
-        int smallestWeight = Integer.MAX_VALUE;
-        int highestWeight = Integer.MIN_VALUE;
-        for (Map.Entry<Integer,Date> entry : all.entrySet()){
+        double smallestWeight = Integer.MAX_VALUE;
+        double highestWeight = Integer.MIN_VALUE;
+        for (Map.Entry<Double,Date> entry : all.entrySet()){
             if (entry.getValue().getTime()>=Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(howManyDaysBackBeginning).atStartOfDay(ZoneId.systemDefault()))).getTime()&&entry.getValue().getTime()<=Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(howManyDaysBackEnd).atStartOfDay(ZoneId.systemDefault()))).getTime()){
                 weights.add(entry.getKey());
                 dates.add(entry.getValue());
@@ -83,18 +83,18 @@ public class HistoryController extends GenericController{
         }
         XYChart.Series series = new XYChart.Series();
         for (int i = 0; i < weights.size(); i++) {
-            series.getData().add(new XYChart.Data<Number,Number>(dates.get(i).getTime(), weights.get(i)));//puts the weights and dates into a series
+            series.getData().add(new XYChart.Data<Number,Double>(dates.get(i).getTime(), weights.get(i)));//puts the weights and dates into a series
         }
         series.setName("Weight");
         WeightTracking.getData().add(series);//adds the series to the linechart
         NumberAxis yAxis = (NumberAxis) WeightTracking.getYAxis();
         if (smallestWeight!=Integer.MAX_VALUE){
-            yAxis.setLowerBound(smallestWeight-5.0);
+            yAxis.setLowerBound(smallestWeight-2.5);
         } else {
             yAxis.setLowerBound(0);
         }
         if (highestWeight!=Integer.MIN_VALUE){
-            yAxis.setUpperBound(highestWeight+5.0);
+            yAxis.setUpperBound(highestWeight+2.5);
         } else {
             yAxis.setUpperBound(100);
         }

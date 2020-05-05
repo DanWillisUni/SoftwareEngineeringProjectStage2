@@ -69,11 +69,11 @@ public class LoginController extends GenericController{
                         m.removeLink(u,d);
                     }
                 }
-                HashMap<Integer,Date> weights = u.getAllWeights();
-                for (Map.Entry<Integer,Date> entry : weights.entrySet()){
+                HashMap<Double,Date> weights = u.getAllWeights();
+                for (Map.Entry<Double,Date> entry : weights.entrySet()){
                     if(entry.getValue().getTime()<Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(28).atStartOfDay(ZoneId.systemDefault()))).getTime()){
                         java.util.Date d = entry.getValue();
-                        int i = entry.getKey();
+                        double i = entry.getKey();
                         sortWeightToWeeklySummary(u,d,i);
                         //add it to the current data in weekly summary
                         u.removeWeight(d);
@@ -166,11 +166,10 @@ public class LoginController extends GenericController{
             u.updateSummary(id,newCalBurn,newCalCons,newWeight);
         }
     }
-    private void sortWeightToWeeklySummary(User u,java.util.Date d,int w){
+    private void sortWeightToWeeklySummary(User u,java.util.Date d,double w){
         Calendar c = Calendar.getInstance();
         c.setTime(d);
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-        //Date.from(Instant.from(d.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().minusDays()));
         c.add(Calendar.DATE,dayOfWeek*-1);
         Date commence = c.getTime();
         ArrayList<String> sum = u.getWeeklySummary(commence);

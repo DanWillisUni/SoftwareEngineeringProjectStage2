@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `softwareengineering`.`User` (
   `DOB` DATE NOT NULL,
   `height` SMALLINT,
   `gender` VARCHAR(1) NOT NULL,
-  `weight` SMALLINT,
+  `weight` DECIMAL(5,2),
   `calories` SMALLINT,
   UNIQUE INDEX `idUser_UNIQUE` (`idUser` ASC) VISIBLE,
   PRIMARY KEY (`idUser`),
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `softwareengineering`.`User` (
 CREATE TABLE IF NOT EXISTS `softwareengineering`.`GoalWeight` (
   `idGoalWeight` INT NOT NULL,
   `idUser` INT NOT NULL,
-  `weightGoal` SMALLINT NOT NULL,
+  `weightGoal` DECIMAL(5,2) NOT NULL,
   `dateSet` DATE NOT NULL,
   `targetDate` DATE NOT NULL,
   `toLoose` TINYINT NOT NULL,
@@ -117,7 +117,7 @@ CREATE TABLE IF NOT EXISTS `softwareengineering`.`WeeklySummary` (
   `weekCommencing` DATE NOT NULL,
   `caloriesBurnt` SMALLINT NOT NULL,
   `caloriesConsumed` SMALLINT NOT NULL,  
-  `weight` TINYINT NOT NULL,
+  `weight` DECIMAL(5,2) NOT NULL,
   PRIMARY KEY (`idWeeklySummary`),
   UNIQUE INDEX `idWeeklySummary_UNIQUE` (`idWeeklySummary` ASC) VISIBLE,
   CONSTRAINT `idUserinSummary`

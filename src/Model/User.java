@@ -20,7 +20,7 @@ public class User {
     Date DOB;
     int height;
     char gender;
-    int weight;
+    double weight;
     int cal;
     /**
      * sets all the parameters to the variables of the person
@@ -34,7 +34,7 @@ public class User {
      * @param height height of the user
      * @param gender gender of the user
      */
-    public User(int id, String forename, String surname, String username, String email, String password, Date DOB, int height, char gender, int weight){
+    public User(int id, String forename, String surname, String username, String email, String password, Date DOB, int height, char gender, double weight){
         this.id = id;
         this.forename = forename;
         this.surname = surname;
@@ -118,7 +118,7 @@ public class User {
      * get the weight of the user
      * @return weight of the user
      */
-    public int getWeight(){
+    public double getWeight(){
         return weight;
     }
     public int getCal(){
@@ -158,7 +158,7 @@ public class User {
     public void setGender(char gender) {
         this.gender = gender;
     }
-    public void setWeight(int weight) {
+    public void setWeight(double weight) {
         this.weight = weight;
         update();
     }
@@ -220,7 +220,7 @@ public class User {
         return null;
     }
 
-    public void addWeight(int w){
+    public void addWeight(double w){
         removeWeight(new Date());
         setWeight(w);
         update();
@@ -249,16 +249,16 @@ public class User {
             e.printStackTrace();
         }
     }
-    public LinkedHashMap<Integer,Date> getAllWeights(){
+    public LinkedHashMap<Double,Date> getAllWeights(){
         GenericDatabaseController db = new GenericDatabaseController();
-        LinkedHashMap<Integer,Date> r = new LinkedHashMap<>();
+        LinkedHashMap<Double,Date> r = new LinkedHashMap<>();
         try (
                 Statement stmnt = db.getConnection().createStatement();
                 ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.weighttracking where idUser ="+getId() + " order by date asc");
 
         ){
             while(rs.next()) {
-                r.put(rs.getInt("weight"),new java.util.Date(rs.getDate("date").getTime()));
+                r.put(rs.getDouble("weight"),new java.util.Date(rs.getDate("date").getTime()));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -287,7 +287,7 @@ public class User {
         }
         return r;
     }
-    public void updateSummary(int id,int calDuringExercise,int calDuringEating,int weight){
+    public void updateSummary(int id,int calDuringExercise,int calDuringEating,double weight){
         GenericDatabaseController db = new GenericDatabaseController();
         final String query = "UPDATE softwareengineering.WeeklySummary SET caloriesBurnt="+calDuringExercise+",caloriesConsumed="+calDuringEating+",weight="+weight+" Where idWeeklySummary= "+ id;
         try (
@@ -298,7 +298,7 @@ public class User {
             e.printStackTrace();
         }
     }
-    public void newSummary(Date commencing,int calDuringExercise,int calDuringEating,int weight){
+    public void newSummary(Date commencing,int calDuringExercise,int calDuringEating,double weight){
         GenericDatabaseController db = new GenericDatabaseController();
         try {
             final String query = "Insert Into softwareengineering.WeeklySummary Values("+db.genID("WeeklySummary","idWeeklySummary")+","+getId()+",'"+new java.sql.Date(commencing.getTime()) +"',"+calDuringExercise+","+calDuringEating+","+weight+")";

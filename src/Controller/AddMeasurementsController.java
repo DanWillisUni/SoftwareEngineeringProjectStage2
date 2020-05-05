@@ -58,7 +58,7 @@ public class AddMeasurementsController extends GenericController{
             currentHeight.setText(Integer.toString(User.getHeight()));
         }
         if (User.getWeight()>0){
-            currentWeight.setText(Integer.toString(User.getWeight()));
+            currentWeight.setText(Double.toString(User.getWeight()));
         }
         heightConversion.setText(Integer.toString((int)((30.48 * feet) + (2.54 * inches))));
     }
@@ -80,18 +80,18 @@ public class AddMeasurementsController extends GenericController{
     private void AddWeightAction (ActionEvent event) {
         errorMsg.setText("");
         //weight validation
-        if (weight.getText().matches("^[1-9][0-9]$")){
+        if (weight.getText().matches("^([1-9][0-9]*)(.[0-9][0-9]?)?$")){
             double i = Double.parseDouble(weight.getText());
             if (i>250){
                 errorMsg.setText("Error: weight greater than 250");
                 weight.setText("");
             }
         } else {
-            errorMsg.setText("Error: weight not positive integer");
+            errorMsg.setText("Error: weight not positive number or over 2dp");
             weight.setText("");
         }
         if(errorMsg.getText().equals("")){
-            User.addWeight(Integer.parseInt(weight.getText()));
+            User.addWeight(Double.parseDouble(weight.getText()));
             GenericController.goToDash(User,event);
         }
     }

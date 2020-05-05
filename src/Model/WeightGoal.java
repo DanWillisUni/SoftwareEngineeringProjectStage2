@@ -14,12 +14,12 @@ import java.util.Date;
 public class WeightGoal {
     int id;
     User user;
-    int targetWeight;
+    double targetWeight;
     Date set;
     Date due;
     boolean toLoose;//true if the goal is to get under targetweight
 
-    WeightGoal(int id, User user, int targetWeight, Date set, Date due, boolean toLoose){
+    WeightGoal(int id, User user, double targetWeight, Date set, Date due, boolean toLoose){
         this.id = id;
         this.user=user;
         this.targetWeight=targetWeight;
@@ -27,7 +27,7 @@ public class WeightGoal {
         this.due=due;
         this.toLoose=toLoose;
     }
-    public WeightGoal(User user, int targetWeight, Date due, boolean toLoose){
+    public WeightGoal(User user, double targetWeight, Date due, boolean toLoose){
         GenericDatabaseController db = new GenericDatabaseController();
         this.id = db.genID("GoalWeight","idGoalWeight");
         this.user=user;
@@ -43,7 +43,7 @@ public class WeightGoal {
     public User getUser() {
         return user;
     }
-    public int getTargetWeight() {
+    public double getTargetWeight() {
         return targetWeight;
     }
     public Date getSet() {
