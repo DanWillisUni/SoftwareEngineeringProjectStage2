@@ -44,99 +44,97 @@ public class AddGoalController extends GenericController{
     public void setUpDisplay(){
         name.setText("Hi, " + User.getForename());
 
-        int perfectWeight = (int)(22.5 * Math.pow((double)(User.getHeight()/100.0),2.0));
+        double perfectWeight = (22.5 * Math.pow((double)(User.getHeight()/100.0),2.0));//works out the users perfect weight using bmi and height
         int multiplyer = 1;
-        if (perfectWeight < User.getWeight()){
+        if (perfectWeight < User.getWeight()){//determines if the user is above or below thier perfect weight
             multiplyer = -1;
         }
-        ArrayList<Model.WeightGoal> goalsSuggestion = new ArrayList<>();
-        if (User.getWeight()==perfectWeight){
-            goalsSuggestion.add(new WeightGoal(User,perfectWeight,Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).plusDays(7).atStartOfDay(ZoneId.systemDefault()))),true));
+        ArrayList<Model.WeightGoal> goalsSuggestion = new ArrayList<>();//create new arraylist to put all the weight goals obj in
+        if (User.getWeight()==perfectWeight){//if the user is thier perfect weight
+            goalsSuggestion.add(new WeightGoal(User,perfectWeight,Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).plusDays(7).atStartOfDay(ZoneId.systemDefault()))),true));//set a suggestion goal to maintain for a week
         } else {
             boolean toLoose = multiplyer==1;
-            goalsSuggestion.add(new WeightGoal(User,User.getWeight()+multiplyer,Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).plusDays(28).atStartOfDay(ZoneId.systemDefault()))),toLoose));
-            if (User.getWeight()+multiplyer!=perfectWeight){
-                goalsSuggestion.add(new WeightGoal(User,User.getWeight()+(3*multiplyer),Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).plusDays(28*3).atStartOfDay(ZoneId.systemDefault()))),toLoose));
-                if (User.getWeight()+(2*multiplyer)!=perfectWeight&&User.getWeight()+(3*multiplyer)!=perfectWeight){
-                    goalsSuggestion.add(new WeightGoal(User,User.getWeight()+(5*multiplyer),Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).plusDays(5*28).atStartOfDay(ZoneId.systemDefault()))),toLoose));
+            for (double i = 0.25;i<=1.5;i=i+0.25){//for 1.5 kg towards thier ideal weight at 0.25 increments
+                if (!closerThan(User.getWeight(),User.getWeight()+(i*multiplyer),perfectWeight)){//if it is closer
+                    //add 3 different suggestions with 3 different timesscales
+                    goalsSuggestion.add(new WeightGoal(User,User.getWeight()+(i*multiplyer),Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).plusDays((long)(7*i/0.1)).atStartOfDay(ZoneId.systemDefault()))),toLoose));//slow
+                    goalsSuggestion.add(new WeightGoal(User,User.getWeight()+(i*multiplyer),Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).plusDays((long)(7*i/0.25)).atStartOfDay(ZoneId.systemDefault()))),toLoose));//medium
+                    goalsSuggestion.add(new WeightGoal(User,User.getWeight()+(i*multiplyer),Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).plusDays((long)(7*i/0.5)).atStartOfDay(ZoneId.systemDefault()))),toLoose));//fast
                 }
             }
         }
 
         ObservableList<WeightGoal> dataSuggestion = FXCollections.observableArrayList();
-        for (Model.WeightGoal wg:goalsSuggestion) {
-            dataSuggestion.add(wg);
+        for (Model.WeightGoal wg:goalsSuggestion) {//for all the suggestions
+            dataSuggestion.add(wg);//add them to the data
         }
-        Goals.setEditable(true);
-        TableColumn targetSuggestion = new TableColumn("Target");
+        SuggestedGoals.setEditable(true);
+        TableColumn targetSuggestion = new TableColumn("Target");//make new columns
         targetSuggestion.setMinWidth(100);
         targetSuggestion.setCellValueFactory(
-                new PropertyValueFactory<WeightGoal, String>("targetWeight"));
-        TableColumn DateDueSuggestion = new TableColumn("Due Date");
+                new PropertyValueFactory<WeightGoal, String>("targetWeight"));//use getTargetWeight()
+        TableColumn DateDueSuggestion = new TableColumn("Due Date");//create new column
         DateDueSuggestion.setMinWidth(200);
         DateDueSuggestion.setCellValueFactory(
-                new PropertyValueFactory<WeightGoal, String>("dueStr"));
+                new PropertyValueFactory<WeightGoal, String>("dueStr"));//use getDueStr()
 
-        SuggestedGoals.setItems(dataSuggestion);
-        SuggestedGoals.getColumns().addAll(targetSuggestion, DateDueSuggestion);
-        addButtonToTableSuggestion();
+        SuggestedGoals.setItems(dataSuggestion);//set the data
+        SuggestedGoals.getColumns().setAll(targetSuggestion, DateDueSuggestion);//add the columns
+        addButtonToTableSuggestion();//add the add button onto the rightmost column
 
-        ArrayList<Model.WeightGoal> goals = Model.WeightGoal.getAll(User);
+        ArrayList<Model.WeightGoal> goals = Model.WeightGoal.getAll(User);//get all the weight goals of the user
         ObservableList<WeightGoal> data = FXCollections.observableArrayList();
-        for (Model.WeightGoal wg:goals) {
-            data.add(wg);
+        for (Model.WeightGoal wg:goals) {//for each goal
+            data.add(wg);//add the goal to the data
         }
-        Goals.setEditable(true);
-        TableColumn target = new TableColumn("Target");
-        target.setMinWidth(100);
-        target.setCellValueFactory(
-                new PropertyValueFactory<WeightGoal, String>("targetWeight"));
-        TableColumn DateDue = new TableColumn("Due Date");
-        DateDue.setMinWidth(200);
-        DateDue.setCellValueFactory(
-                new PropertyValueFactory<WeightGoal, String>("dueStr"));
-        if (data.isEmpty()){
-            Goals.setVisible(false);
+        if (data.isEmpty()){//if there is no data
+            Goals.setVisible(false);//hide it
         } else {
-            Goals.setItems(data);
-            Goals.getColumns().addAll(target, DateDue);
-            addButtonToTable();
+            Goals.setEditable(true);
+            TableColumn target = new TableColumn("Target");//create column called target
+            target.setMinWidth(100);
+            target.setCellValueFactory(
+                    new PropertyValueFactory<WeightGoal, String>("targetWeight"));//use GetTargetWeight()
+            TableColumn DateDue = new TableColumn("Due Date");//create a new due column
+            DateDue.setMinWidth(200);
+            DateDue.setCellValueFactory(
+                    new PropertyValueFactory<WeightGoal, String>("dueStr"));//use getDueStr()
+            Goals.setItems(data);//set all the data
+            Goals.getColumns().setAll(target, DateDue);//add the columns
+            addButtonToTable();//add the remove button column
         }
+    }
+    /**
+     * Calculate if a is closer to t than b is closer to t
+     * @param a first double
+     * @param b second double
+     * @param t target double
+     * @return if a closer to t than b
+     */
+    private boolean closerThan(double a,double b,double t){
+        if (Math.abs(t-a)>Math.abs(t-b)){//if the difference of t,a is greater than the difference between t and b
+            return false;
+        }
+        return true;
     }
     /**
      * Adds a button to the table of the users goals
      * The button will remove the goal if the user pressed is
      */
     private void addButtonToTable() {
-        TableColumn<WeightGoal, Void> colBtn = new TableColumn("Delete");
-        Callback<TableColumn<WeightGoal, Void>, TableCell<WeightGoal, Void>> cellFactory = new Callback<>() {
+        TableColumn<WeightGoal, Void> colBtn = new TableColumn("Delete");//create a new column
+        Callback<TableColumn<WeightGoal, Void>, TableCell<WeightGoal, Void>> cellFactory = new Callback<>() {//make a new callback
             @Override
-            public TableCell<WeightGoal, Void> call(final TableColumn<WeightGoal, Void> param) {
+            public TableCell<WeightGoal, Void> call(final TableColumn<WeightGoal, Void> param) {//impliment method
                 final TableCell<WeightGoal, Void> cell = new TableCell<WeightGoal, Void>() {
-                    private final Button btn = new Button("Remove");
+                    private final Button btn = new Button("Remove");//put a button in the column
                     {
-                        btn.setOnAction((ActionEvent event) -> {
-                            WeightGoal data = getTableView().getItems().get(getIndex());
-                            data.remove();
-
-                            FXMLLoader loader = new FXMLLoader(getClass().getResource("../View/AddGoal.fxml"));
-                            Parent root = null;
-                            try {
-                                root = loader.load();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-                            stage.setScene(new Scene(root));
-                            AddGoalController controller = loader.<AddGoalController>getController();
-                            controller.setUser(User);
-                            controller.setUpDisplay();
-                            stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-                            stage.setFullScreen(true);
-                            stage.show();
+                        btn.setOnAction((ActionEvent event) -> {//on action
+                            WeightGoal data = getTableView().getItems().get(getIndex());//get the weight goal obj that needs to be removed
+                            data.remove();//remove the goal
+                            setUpDisplay();//refresh
                         });
                     }
-
                     @Override
                     public void updateItem(Void item, boolean empty) {
                         super.updateItem(item, empty);
@@ -151,7 +149,7 @@ public class AddGoalController extends GenericController{
             }
         };
         colBtn.setCellFactory(cellFactory);
-        Goals.getColumns().add(colBtn);
+        Goals.getColumns().add(colBtn);//add the button column to the tableview
     }
     /**
      * Adds a button to the table of the suggested goals
@@ -162,13 +160,13 @@ public class AddGoalController extends GenericController{
         Callback<TableColumn<WeightGoal, Void>, TableCell<WeightGoal, Void>> cellFactory = new Callback<>() {
             @Override
             public TableCell<WeightGoal, Void> call(final TableColumn<WeightGoal, Void> param) {
-                final TableCell<WeightGoal, Void> cell = new TableCell<WeightGoal, Void>() {
-                    private final Button btn = new Button("Add");
+                final TableCell<WeightGoal, Void> cell = new TableCell<WeightGoal, Void>() {//create a ne wtable cell
+                    private final Button btn = new Button("Add");//create a new button
                     {
                         btn.setOnAction((ActionEvent event) -> {
-                            WeightGoal data = getTableView().getItems().get(getIndex());
-                            data.add();
-                            goToDash(User,event);
+                            WeightGoal data = getTableView().getItems().get(getIndex());//get the data in the row
+                            data.add();//add the data
+                            setUpDisplay();//refresh
                         });
                     }
 
@@ -186,7 +184,7 @@ public class AddGoalController extends GenericController{
             }
         };
         colBtn.setCellFactory(cellFactory);
-        SuggestedGoals.getColumns().add(colBtn);
+        SuggestedGoals.getColumns().add(colBtn);//add the column onto the suggested goals
     }
 
     /**
@@ -222,7 +220,7 @@ public class AddGoalController extends GenericController{
             Long d = Date.from(Instant.from(targetDate.getValue().atStartOfDay(ZoneId.systemDefault()))).getTime();
             Long c = new Date().getTime();
             if (c<=d){
-                if (c + 31536000000L < d){
+                if (c + 31536000000L < d){//a year ago
                     errorMsg.setText("Error: target date to far ahead");
                 }
             } else {
@@ -233,12 +231,12 @@ public class AddGoalController extends GenericController{
         }
         if (errorMsg.getText().equals("")){
             boolean toLoose = true;
-            if (User.getWeight()<Integer.parseInt(TargetWeight.getText())){
+            if (User.getWeight()<Integer.parseInt(TargetWeight.getText())){//if current weight is less than target weight they want to gain weight
                 toLoose=false;
             }
-            WeightGoal g = new WeightGoal(User,Integer.parseInt(TargetWeight.getText()),Date.from(Instant.from(targetDate.getValue().atStartOfDay(ZoneId.systemDefault()))),toLoose);
-            g.add();
-            goToDash(User,event);
+            WeightGoal g = new WeightGoal(User,Integer.parseInt(TargetWeight.getText()),Date.from(Instant.from(targetDate.getValue().atStartOfDay(ZoneId.systemDefault()))),toLoose);//new weight goal
+            g.add();//add new weight goal to database
+            goToDash(User,event);//goes to dashboard
         }
     }
 }
