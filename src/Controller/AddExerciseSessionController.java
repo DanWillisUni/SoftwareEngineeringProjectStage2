@@ -59,6 +59,7 @@ public class AddExerciseSessionController extends GenericController{
         if (data.isEmpty()){//if there is no exercise sessions to display
             Burned.setVisible(false);//hide the tableview
         } else {
+            Burned.setVisible(true);//show the tableview
             Burned.setEditable(true);//enable editing on the tableview
             TableColumn exercise = new TableColumn("Exercise");//create a new column
             exercise.setMinWidth(200);

@@ -54,6 +54,8 @@ public class AddFoodController extends GenericController{
         }
         errorMsg.setText("");
         quantity.setText("");
+        Foods.setValue("");
+        MealType.setValue("");
 
         ArrayList<Model.Meal> todaysFood = Model.Meal.getDays(User,new Date());//get all todays food
         ObservableList<Meal> data = FXCollections.observableArrayList();
@@ -64,6 +66,7 @@ public class AddFoodController extends GenericController{
         if (data.isEmpty()){//if no meals have been eaten today
             Consumed.setVisible(false);//hide the table
         } else {
+            Consumed.setVisible(true);//show the table
             Consumed.setEditable(true);
             TableColumn name = new TableColumn("Name");//create a new column for the food name
             name.setMinWidth(200);

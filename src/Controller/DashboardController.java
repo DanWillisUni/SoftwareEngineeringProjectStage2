@@ -27,13 +27,13 @@ import java.util.*;
 public class DashboardController extends GenericController{
     private Model.User User;
     @FXML private Label name;
-    @FXML private Label calLeft;
-    @FXML Label GoalDone;
-    @FXML private Label nextGoal;
-    @FXML private Label BMI;
-    @FXML private Label suggestion;
-    @FXML private BarChart ExerciseBar;
-    @FXML private PieChart ConsumedCal;
+    @FXML private Label calLeft;//calories left statement
+    @FXML Label GoalDone;//message box for the user to have a goal
+    @FXML private Label nextGoal;//next goal of the user
+    @FXML private Label BMI;//bmi of the user
+    @FXML private Label suggestion;//a suggestion of an activity for them to do
+    @FXML private BarChart ExerciseBar;//exercise bar chart
+    @FXML private PieChart ConsumedCal;//mealtype piechart
 
     /**
      * Sets the user to the user that is logged in
@@ -54,49 +54,50 @@ public class DashboardController extends GenericController{
      */
     public void setUpDisplay() {
         name.setText("Welcome " + User.getForename());
-
-        if (User.getHeight()>0 && User.getWeight()>0){
+        //bmi
+        if (User.getHeight()>0 && User.getWeight()>0){//if both the height and weight have been entered
             DecimalFormat df = new DecimalFormat("#.##");//format of decimal of bmi
             df.setRoundingMode(RoundingMode.CEILING);
             double bmi = User.getWeight()/Math.pow((double)(User.getHeight()/100.0),2.0);//works out bmi
             if (bmi > 0) {
-                String bmiCategory = "";
+                String bmiCategory = "";//essentially a switch case
                 if (bmi < 16) {
-                    bmiCategory = " severly underweight";
+                    bmiCategory = " - severly underweight";
                 } else if(bmi>= 16 && bmi < 19){
-                    bmiCategory = " underweight";
+                    bmiCategory = " - underweight";
                 } else if(bmi>= 19 && bmi < 25){
-                    bmiCategory = " healthy";
+                    bmiCategory = " - healthy";
                 } else if(bmi>= 25 && bmi < 30){
-                    bmiCategory = " overweight";
+                    bmiCategory = " - overweight";
                 }else if(bmi>= 30 && bmi < 40){
-                    bmiCategory = " obese";
+                    bmiCategory = " - obese";
                 } else {
-                    bmiCategory = " serverly obese";
+                    bmiCategory = " - serverly obese";
                 }
-                BMI.setText("Your BMI is: " + df.format(bmi) + bmiCategory);//sets bmi label
+                BMI.setText("Your BMI is: " + df.format(bmi) + bmiCategory);//sets bmi label and category
+            }
+        }
+        //get rid of competed goals
+        ArrayList<WeightGoal> allGoals = WeightGoal.getAll(User);//get all the goals
+        for(WeightGoal wg: allGoals){//for all the goals
+            if (wg.isMet()){//if the goal is met
+                wg.remove();//remove the goal
+                GoalDone.setText("Congratulations, You completed your goal!");//message about completed goal
             }
         }
 
-        ArrayList<WeightGoal> allGoals = WeightGoal.getAll(User);
-        for(WeightGoal wg: allGoals){
-            if (wg.isMet()){
-                wg.remove();
-                GoalDone.setText("Congratulations, You completed your goal!");
-            }
-        }
         int calRemaining = 0;
-        //Mifflin-St. Jeor equation
-        if (User.getHeight()>0 && User.getWeight()>0){
+        if (User.getHeight()>0 && User.getWeight()>0){//if the user has entered a weight and a height
             long ageMs = new Date().getTime() - User.getDOB().getTime();
-            int age = Integer.parseInt(Long.toString(ageMs/31536000000L));
-            int s = 5;
+            int age = Integer.parseInt(Long.toString(ageMs/31536000000L));//calculate age in years
+            int s = 5;//part of the equation
             if (User.getGender()=='F'){
                 s=-161;
             }
-            int toMaintainCal = (int)(10*User.getWeight() + 6.25*User.getHeight() - (5 * age) + s);
+            int toMaintainCal = (int)(10*User.getWeight() + 6.25*User.getHeight() - (5 * age) + s);//Mifflin-St. Jeor equation
             User.setCal((int)(toMaintainCal * 1.2));//multiplyed by 1.2 as that is roughly how many calories people burn from walking around each day and other exercise that is not going to be added in
-            if (!allGoals.isEmpty()){
+            //do a percentage of the calories based upon how far, away thier goal is
+            if (!allGoals.isEmpty()){//there is goals
                 nextGoal.setText("The next goal is: " + Double.toString(allGoals.get(0).getTargetWeight()) + "kg, on " + allGoals.get(0).getDue());
                 double distanceToGoal = User.getWeight()-allGoals.get(0).getTargetWeight();
                 long timeMs = (new Date().getTime() - allGoals.get(0).getDue().getTime());
@@ -107,42 +108,43 @@ public class DashboardController extends GenericController{
                     User.setCal(cals);
                 }
             }
-            User.update();
+            User.update();//update the caloreis on the user in the database
+            //set up calories for the day
             int totalCal = User.getCal();
             int calBurned = 0;
-            ArrayList<ExerciseSession> exerciseLinks = ExerciseSession.getDays(User,new Date());
-            for (ExerciseSession el:exerciseLinks){
-                calBurned += el.getCaloriesBurned();
+            ArrayList<ExerciseSession> exerciseLinks = ExerciseSession.getDays(User,new Date());//get todays exercise sessions
+            for (ExerciseSession el:exerciseLinks){//for all exercises session that day
+                calBurned += el.getCaloriesBurned();//add up the caliroes burned
             }
             int calConsumed = 0;
             ArrayList<Meal> meals = Meal.getDays(User,new Date());
-            for (Meal d:meals){
-                calConsumed += (d.getCalories());
+            for (Meal m:meals){//for all meals that day
+                calConsumed += (m.getCalories());
             }
-            calRemaining = (totalCal-calConsumed+calBurned);
+            calRemaining = (totalCal-calConsumed+calBurned);//work out calories remaining for that day
             calLeft.setText(totalCal + " - " + calConsumed + " + " + calBurned + " = " + calRemaining);
         }
-
+        //suggestion label
         ArrayList<String> suggestions = new ArrayList<>();
-        if (User.getHeight()==0){
-            suggestion.setText("Try going to Add Measurements and entering your height");
-        } else if (User.getWeight()==0){
-            suggestion.setText("Try going to Add Measurements");
+        if (User.getHeight()==0){//if the user hasnt entered a height
+            suggestion.setText("Try going to Add Measurements and entering your height");//suggest they add a height
+        } else if (User.getWeight()==0){//if the user hasnt entered a weight
+            suggestion.setText("Try going to Add Measurements and enter your weight");//suggest they do so
         } else {
-            Map.Entry<Double,Date> entry = User.getAllWeights().entrySet().iterator().next();
-            if(entry.getValue().getTime()<(((new Date()).getTime())-86400000L)){
+            Map.Entry<Double,Date> entry = User.getAllWeights().entrySet().iterator().next();//gets all the weights of the user
+            if(entry.getValue().getTime()<(((new Date()).getTime())-86400000L)){//weight not entered today
                 suggestions.add("Try entering your weight for today");
             }
-            if (WeightGoal.getAll(User).isEmpty()){
+            if (WeightGoal.getAll(User).isEmpty()){//if the user has no goals
                 suggestions.add("Try going to add goal and setting a personal goal");
             }
-            if (calRemaining>100){
+            if (calRemaining>100){//if the user has calories left to eat
                 suggestions.add("Remember you have more calories to eat");
             }
-            if (calRemaining<-100){
+            if (calRemaining<-100){//the user has over eaten
                 suggestions.add("Oh dear, You have over eaten, try doing an exercise");
             }
-            if (suggestions.isEmpty()){
+            if (suggestions.isEmpty()){//if all the above conditions are met
                 suggestions.add("Go do some exercise, come back and add it");
                 suggestions.add("Well Done!!");
                 suggestions.add("Keep working towards your goals");
@@ -151,45 +153,44 @@ public class DashboardController extends GenericController{
         }
         if (suggestion.getText().equals("")){
             Random random = new Random();
-            suggestion.setText(suggestions.get(random.nextInt(suggestions.size())));
+            suggestion.setText(suggestions.get(random.nextInt(suggestions.size())));//pick a random suggestion
         }
-
-
-        XYChart.Series series1 = new XYChart.Series();
-        series1.setName("Calories");
+        //exercise bar chart
+        XYChart.Series exerciseSessionSeries = new XYChart.Series();
+        exerciseSessionSeries.setName("Calories");
         //hashmap
-        HashMap<String,Integer> data = new HashMap<>();
-        for (int i = 0;i<14;i++){
+        HashMap<String,Integer> exerciseSessionTypeChartData = new HashMap<>();//datahashmap
+        for (int i = 0;i<14;i++){//up to 14 days ago
             ArrayList<ExerciseSession> day = ExerciseSession.getDays(User,Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(i).atStartOfDay(ZoneId.systemDefault()))));
-            for (ExerciseSession s:day){
-                if(data.containsKey(s.getExerciseName())){
-                    data.put(s.getExerciseName(),data.get(s.getExerciseName()) + s.getCaloriesBurned());
+            for (ExerciseSession s:day){//for the day
+                if(exerciseSessionTypeChartData.containsKey(s.getExerciseName())){//if the map already contains the exercise type
+                    exerciseSessionTypeChartData.put(s.getExerciseName(),exerciseSessionTypeChartData.get(s.getExerciseName()) + s.getCaloriesBurned());//add the value back in with the added calories
                 } else {
-                    data.put(s.getExerciseName(),s.getCaloriesBurned());
+                    exerciseSessionTypeChartData.put(s.getExerciseName(),s.getCaloriesBurned());//add a new item into the hashmap
                 }
             }
         }
-        for (Map.Entry<String,Integer> entry : data.entrySet()){
-            series1.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));
+        for (Map.Entry<String,Integer> entry : exerciseSessionTypeChartData.entrySet()){//for each element of the hashmap
+            exerciseSessionSeries.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));//adding the data to the series
         }
-        ExerciseBar.getData().addAll(series1);
-
-        HashMap<String,Integer> dataPie = new HashMap<>();
-        for (int i = 0;i<14;i++){
-            ArrayList<Meal> day = Meal.getDays(User,Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(i).atStartOfDay(ZoneId.systemDefault()))));
-            for (Meal m:day){
-                if(dataPie.containsKey(m.getType())){
-                    dataPie.put(m.getType(),data.get(m.getType()) + m.getCalories());
+        ExerciseBar.getData().addAll(exerciseSessionSeries);//add the series to the bar chart
+        //pie chart
+        HashMap<String,Integer> dataPie = new HashMap<>();//make hashmap of the meals for the pie chart
+        for (int i = 0;i<14;i++){//for all the days up to 13 days ago
+            ArrayList<Meal> day = Meal.getDays(User,Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(i).atStartOfDay(ZoneId.systemDefault()))));//get i days ago meals meals
+            for (Meal m:day){//for all the meals on that day
+                if(dataPie.containsKey(m.getType())){//if the data already contains the mealtype
+                    dataPie.put(m.getType(),exerciseSessionTypeChartData.get(m.getType()) + m.getCalories());//add to the calories
                 } else {
-                    dataPie.put(m.getType(),m.getCalories());
+                    dataPie.put(m.getType(),m.getCalories());//make a new mealtype section
                 }
             }
         }
-        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
-        for (Map.Entry<String,Integer> entry : dataPie.entrySet()){
-            pieChartData.add(new PieChart.Data(entry.getKey(), entry.getValue()));
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();//data observable list create
+        for (Map.Entry<String,Integer> entry : dataPie.entrySet()){//for all the elements in the hashmap
+            pieChartData.add(new PieChart.Data(entry.getKey(), entry.getValue()));//add them to the data
         }
-        ConsumedCal.getData().addAll(pieChartData);
+        ConsumedCal.getData().addAll(pieChartData);//add the data to the pie chart
     }
 
     /**

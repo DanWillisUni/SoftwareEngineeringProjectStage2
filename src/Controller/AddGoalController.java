@@ -90,6 +90,7 @@ public class AddGoalController extends GenericController{
         if (data.isEmpty()){//if there is no data
             Goals.setVisible(false);//hide it
         } else {
+            Goals.setVisible(true);//show the table view
             Goals.setEditable(true);
             TableColumn target = new TableColumn("Target");//create column called target
             target.setMinWidth(100);
