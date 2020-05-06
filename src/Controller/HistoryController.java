@@ -27,16 +27,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HistoryController extends GenericController{
-    private Model.User User;
-    @FXML private Label name;
-    @FXML private LineChart WeightTracking;
-    @FXML private LineChart CalorieTracking;
-    @FXML private LineChart BurningTracking;
-    private int howManyDaysBackBeginning;
-    private int howManyDaysBackEnd;
+    private Model.User User;//user obj
+    @FXML private Label name;//name label at the top
+    @FXML private LineChart WeightTracking;//linechart of weight
+    @FXML private LineChart CalorieTracking;//linechart of calories consumed each day
+    @FXML private LineChart BurningTracking;//linechart of calories burnt each day
+    private int howManyDaysBackBeginning;//how many days back till the begining of the x axis
+    private int howManyDaysBackEnd;//how many days back till the right most side of the x axis
 
     /**
-     * sets the user to the user that is logged in
+     * Sets the user to the user that is logged in
      * @param User Person object logged in
      */
     public void setUser(Model.User User){
@@ -44,50 +44,52 @@ public class HistoryController extends GenericController{
     }
     /**
      * Sets up the display
-     * gets any goals that have expired or been competed and removes them with a message
-     * gets bmi
-     * gets the calories of that day both consumed and burned and works out calories left
-     * gets the weight of the upcoming goal
-     * gets the weights and dates
-     * only displays the chart of the last 2 weeks to track weight
+     * Resets the days back if they are too far back or too far forward
+     * Get all the weights
+     * If they are within that date add them to the data arraylist
+     * For each element in the arraylist add them to the observable array also getting the highest and lowest
+     *
+     * @param howManyDaysBackBeginning how many days to the begining of the chart
+     * @param howManyDaysBackEnd how many days back till the end of the chart x axis
      */
     public void setUpDisplay(int howManyDaysBackBeginning,int howManyDaysBackEnd) {
-        if (howManyDaysBackEnd < -1){
+        if (howManyDaysBackEnd < -1){//if trying to go into the furture
             howManyDaysBackEnd = -1;
             howManyDaysBackBeginning = 7;
         }
-        if (howManyDaysBackBeginning > 28){
+        if (howManyDaysBackBeginning > 28){//if trying to go into the past more than 4 weeks
             howManyDaysBackBeginning = 28;
             howManyDaysBackEnd = 20;
         }
-        this.howManyDaysBackBeginning=howManyDaysBackBeginning;
-        this.howManyDaysBackEnd=howManyDaysBackEnd;
+        this.howManyDaysBackBeginning=howManyDaysBackBeginning;//set the days
+        this.howManyDaysBackEnd=howManyDaysBackEnd;//set the days
         name.setText("Welcome " + User.getForename());
         //line chart of weight
-        HashMap<Double, Date> all = User.getAllWeights();
+        HashMap<Date, Double> all = User.getAllWeights();
         ArrayList<Double> weights = new ArrayList<>();//gets all the weights
         ArrayList<java.util.Date> dates = new ArrayList<>();//gets all the dates
         double smallestWeight = Integer.MAX_VALUE;
         double highestWeight = Integer.MIN_VALUE;
-        for (Map.Entry<Double,Date> entry : all.entrySet()){
-            if (entry.getValue().getTime()>=Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(howManyDaysBackBeginning).atStartOfDay(ZoneId.systemDefault()))).getTime()&&entry.getValue().getTime()<=Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(howManyDaysBackEnd).atStartOfDay(ZoneId.systemDefault()))).getTime()){
-                weights.add(entry.getKey());
-                dates.add(entry.getValue());
-                if (entry.getKey()<smallestWeight){
-                    smallestWeight = entry.getKey();
+        for (Map.Entry<Date,Double> entry : all.entrySet()){//for each weight and date in the hashmap
+            if (entry.getKey().getTime()>=Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(howManyDaysBackBeginning).atStartOfDay(ZoneId.systemDefault()))).getTime()&&entry.getKey().getTime()<=Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(howManyDaysBackEnd).atStartOfDay(ZoneId.systemDefault()))).getTime()){//if it is within the dates selected
+                weights.add(entry.getValue());//adds weight to array
+                dates.add(entry.getKey());//adds date to the array
+                if (entry.getValue()<smallestWeight){//keeps track of the smallest weight
+                    smallestWeight = entry.getValue();
                 }
-                if (entry.getKey()>highestWeight){
-                    highestWeight = entry.getKey();
+                if (entry.getValue()>highestWeight){//keeps track of the largest weight
+                    highestWeight = entry.getValue();
                 }
             }
         }
-        XYChart.Series series = new XYChart.Series();
-        for (int i = 0; i < weights.size(); i++) {
-            series.getData().add(new XYChart.Data<Number,Double>(dates.get(i).getTime(), weights.get(i)));//puts the weights and dates into a series
+        XYChart.Series weightSeries = new XYChart.Series();//create new series for the weight
+        for (int i = 0; i < weights.size(); i++) {//for everything in the weight array
+            weightSeries.getData().add(new XYChart.Data<Number,Double>(dates.get(i).getTime(), weights.get(i)));//puts the weights and dates into a series
         }
-        series.setName("Weight");
-        WeightTracking.getData().add(series);//adds the series to the linechart
+        weightSeries.setName("Weight");//set the series name
+        WeightTracking.getData().add(weightSeries);//adds the series to the linechart
         NumberAxis yAxis = (NumberAxis) WeightTracking.getYAxis();
+        //sets the smallest and largest value +/- 2.5kg as the upper and lower limits of y axis
         if (smallestWeight!=Integer.MAX_VALUE){
             yAxis.setLowerBound(smallestWeight-2.5);
         } else {
@@ -101,36 +103,38 @@ public class HistoryController extends GenericController{
         NumberAxis xAxis = (NumberAxis) WeightTracking.getXAxis();
         xAxis.setUpperBound(Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(howManyDaysBackEnd).atStartOfDay(ZoneId.systemDefault()))).getTime());//sets the x axis upperbound to 1 day in the future from now
         xAxis.setLowerBound(Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(howManyDaysBackBeginning).atStartOfDay(ZoneId.systemDefault()))).getTime());//sets the x axis lower bound to 2 weeks ago
-        xAxis.setTickLabelFormatter(numberToDate);
+        xAxis.setTickLabelFormatter(numberToDate);//set the number to be formatted as a date
 
-        ArrayList<Integer> Cal = new ArrayList<>();//gets all the calories
+        ArrayList<Integer> Cal = new ArrayList<>();//create new array for calories
         ArrayList<java.util.Date> datesCal = new ArrayList<>();//gets all the dates
         int smallestCal = Integer.MAX_VALUE;
         int highestCal = Integer.MIN_VALUE;
-        for (int i = howManyDaysBackEnd;i<howManyDaysBackBeginning;i++){
-            ArrayList<Meal> meals = Meal.getDays(User,Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(i).atStartOfDay(ZoneId.systemDefault()))));
-            int totalCal = 0;
-            for (Meal meal:meals){
-               totalCal= meal.getCalories();
+        for (int i = howManyDaysBackEnd;i<howManyDaysBackBeginning;i++){//for all the days
+            ArrayList<Meal> meals = Meal.getDays(User,Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(i).atStartOfDay(ZoneId.systemDefault()))));//get meals on this day
+            int totalCal = 0;//set the total for that day to 0
+            for (Meal meal:meals){//for all meals
+               totalCal= meal.getCalories();//add the calories of the meal to the total
             }
-            if (totalCal>0){
+            if (totalCal>0){//if the total calories is more than 0
+                //if the calories are higher or smaller than the pervious highest or smallest update accordingly
                 if (totalCal>highestCal){
                     highestCal = totalCal;
                 }
                 if (totalCal<smallestCal){
                     smallestCal = totalCal;
                 }
-                Cal.add(totalCal);
-                datesCal.add(Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(i).atStartOfDay(ZoneId.systemDefault()))));
+                Cal.add(totalCal);//add the total calories to the calories array
+                datesCal.add(Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(i).atStartOfDay(ZoneId.systemDefault()))));//add the date to the date array
             }
         }
-        XYChart.Series seriesCal = new XYChart.Series();
-        for (int i = 0; i < datesCal.size(); i++) {
-            seriesCal.getData().add(new XYChart.Data<Number,Number>(datesCal.get(i).getTime(), Cal.get(i)));//puts the calories and dates into a series
+        XYChart.Series ConsumptionSeries = new XYChart.Series();
+        for (int i = 0; i < datesCal.size(); i++) {//for all the dates in the arraylist
+            ConsumptionSeries.getData().add(new XYChart.Data<Number,Number>(datesCal.get(i).getTime(), Cal.get(i)));//puts the calories and dates into a series
         }
-        seriesCal.setName("Calories Consumed");
-        CalorieTracking.getData().add(seriesCal);//adds the series to the linechart
+        ConsumptionSeries.setName("Calories Consumed");
+        CalorieTracking.getData().add(ConsumptionSeries);//adds the series to the linechart
         NumberAxis yAxisCal = (NumberAxis) CalorieTracking.getYAxis();
+        //set the upper and lower bounds accoridingly to the highest and lowest
         if (smallestCal!=Integer.MAX_VALUE){
             yAxisCal.setLowerBound(smallestCal-50.0);
         } else {
@@ -144,7 +148,7 @@ public class HistoryController extends GenericController{
         NumberAxis xAxisCal = (NumberAxis) CalorieTracking.getXAxis();
         xAxisCal.setUpperBound(Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(howManyDaysBackEnd).atStartOfDay(ZoneId.systemDefault()))).getTime());//sets the x axis upperbound to 1 day in the future from now
         xAxisCal.setLowerBound(Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(howManyDaysBackBeginning).atStartOfDay(ZoneId.systemDefault()))).getTime());//sets the x axis lower bound to 2 weeks ago
-        xAxisCal.setTickLabelFormatter(numberToDate);
+        xAxisCal.setTickLabelFormatter(numberToDate);//format the number to be in date format
 
         ArrayList<Integer> Burn = new ArrayList<>();//gets all the calories
         ArrayList<java.util.Date> datesBurn = new ArrayList<>();//gets all the dates
@@ -153,27 +157,30 @@ public class HistoryController extends GenericController{
         for (int i = howManyDaysBackEnd;i<howManyDaysBackBeginning;i++){
             ArrayList<ExerciseSession> sessions = ExerciseSession.getDays(User,Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(i).atStartOfDay(ZoneId.systemDefault()))));
             int totalCal = 0;
-            for (ExerciseSession s:sessions){
-                totalCal+= s.getCaloriesBurned();
+            for (ExerciseSession s:sessions){//forall sessions
+                totalCal+= s.getCaloriesBurned();//add to the total
             }
-            if (totalCal>0){
+
+            if (totalCal>0){//if there was exercise that day
+                //get the highest and lowest comparison for upper and lower bounds
                 if (totalCal>highestCal){
                     highestBurn = totalCal;
                 }
                 if (totalCal < smallestBurn){
                     smallestBurn = totalCal;
                 }
-                Burn.add(totalCal);
-                datesBurn.add(Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(i).atStartOfDay(ZoneId.systemDefault()))));
+                Burn.add(totalCal);//add to the arraylist
+                datesBurn.add(Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(i).atStartOfDay(ZoneId.systemDefault()))));//add the date to the array list
             }
         }
         XYChart.Series seriesBurn = new XYChart.Series();
-        for (int i = 0; i < datesBurn.size(); i++) {
+        for (int i = 0; i < datesBurn.size(); i++) {//add the data to the
             seriesBurn.getData().add(new XYChart.Data<Number,Number>(datesBurn.get(i).getTime(), Burn.get(i)));//puts the calories and dates into a series
         }
         seriesBurn.setName("Calories Burnt");
         BurningTracking.getData().add(seriesBurn);//adds the series to the linechart
         NumberAxis yAxisBurn = (NumberAxis) BurningTracking.getYAxis();
+        //setting upper and lower bound of the y axis
         if (highestBurn!=Integer.MIN_VALUE){
             yAxisBurn.setUpperBound(highestBurn+50.0);
         } else {
@@ -189,60 +196,40 @@ public class HistoryController extends GenericController{
         NumberAxis xAxisBurn = (NumberAxis) BurningTracking.getXAxis();
         xAxisBurn.setUpperBound(Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(howManyDaysBackEnd).atStartOfDay(ZoneId.systemDefault()))).getTime());//sets the x axis upperbound to 1 day in the future from now
         xAxisBurn.setLowerBound(Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(howManyDaysBackBeginning).atStartOfDay(ZoneId.systemDefault()))).getTime());//sets the x axis lower bound to 2 weeks ago
-        xAxisBurn.setTickLabelFormatter(numberToDate);
+        xAxisBurn.setTickLabelFormatter(numberToDate);//setting the number to date string formatter
     }
     StringConverter<Number> numberToDate = new StringConverter<Number>() {//create a tick label formatter
         @Override
-        public String toString(Number n) {//overide number tostring method converts it to a date
-            long i = n.longValue();
-            java.util.Date date = new Date(i);
-            DateFormat newFormat = new SimpleDateFormat("dd-MM-yyyy");
+        public String toString(Number n) {//override number tostring method converts it to a date
+            long i = n.longValue();//converts the number to a long
+            java.util.Date date = new Date(i);//creates a new Date obj
+            DateFormat newFormat = new SimpleDateFormat("dd-MM-yyyy");//puts the date object into this format
             return  newFormat.format(date);
         }
         @Override
         public Number fromString(String string) {//has to be here however isnt used so i didnt write it properly
             return 0;
-        }
+        }//not used but required
     };
 
+    /**
+     * Sets up display with adjusted days to go a week in the past
+     * @param event past button pressed
+     */
     @FXML
     private void GoToPastButtonAction (ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../View/History.fxml"));
-        Parent root = null;
-        try {
-            root = loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        HistoryController controller = loader.<HistoryController>getController();
-        controller.setUser(User);
-        controller.setUpDisplay(howManyDaysBackBeginning+7,howManyDaysBackBeginning-1);
-        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-        stage.setFullScreen(true);
-        stage.show();
-    }
-    @FXML
-    private void GoToFutureButtonAction (ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../View/History.fxml"));
-        Parent root = null;
-        try {
-            root = loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        HistoryController controller = loader.<HistoryController>getController();
-        controller.setUser(User);
-        controller.setUpDisplay(howManyDaysBackEnd+1,howManyDaysBackEnd-7);
-        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-        stage.setFullScreen(true);
-        stage.show();
+        setUpDisplay(howManyDaysBackBeginning+7,howManyDaysBackBeginning-1);
     }
     /**
-     * go to the dashboard
+     * Set up the display with adjusted numbers to go one week into the future
+     * @param event future button pressed
+     */
+    @FXML
+    private void GoToFutureButtonAction (ActionEvent event) {
+        setUpDisplay(howManyDaysBackEnd+1,howManyDaysBackEnd-7);
+    }
+    /**
+     * Go to the dashboard
      * @param event push the back button
      */
     @FXML

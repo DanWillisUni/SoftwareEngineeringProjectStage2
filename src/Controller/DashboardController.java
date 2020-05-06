@@ -131,8 +131,8 @@ public class DashboardController extends GenericController{
         } else if (User.getWeight()==0){//if the user hasnt entered a weight
             suggestion.setText("Try going to Add Measurements and enter your weight");//suggest they do so
         } else {
-            Map.Entry<Double,Date> entry = User.getAllWeights().entrySet().iterator().next();//gets all the weights of the user
-            if(entry.getValue().getTime()<(((new Date()).getTime())-86400000L)){//weight not entered today
+            Map.Entry<Date,Double> entry = User.getAllWeights().entrySet().iterator().next();//gets all the weights of the user
+            if(entry.getKey().getTime()<(((new Date()).getTime())-86400000L)){//weight not entered today
                 suggestions.add("Try entering your weight for today");
             }
             if (WeightGoal.getAll(User).isEmpty()){//if the user has no goals

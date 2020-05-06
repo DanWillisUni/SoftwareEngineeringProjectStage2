@@ -69,11 +69,11 @@ public class LoginController extends GenericController{
                         m.removeLink(u,d);
                     }
                 }
-                HashMap<Double,Date> weights = u.getAllWeights();
-                for (Map.Entry<Double,Date> entry : weights.entrySet()){
-                    if(entry.getValue().getTime()<Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(28).atStartOfDay(ZoneId.systemDefault()))).getTime()){
-                        java.util.Date d = entry.getValue();
-                        double i = entry.getKey();
+                HashMap<Date,Double> weights = u.getAllWeights();
+                for (Map.Entry<Date,Double> entry : weights.entrySet()){
+                    if(entry.getKey().getTime()<Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(28).atStartOfDay(ZoneId.systemDefault()))).getTime()){
+                        java.util.Date d = entry.getKey();
+                        double i = entry.getValue();
                         sortWeightToWeeklySummary(u,d,i);
                         //add it to the current data in weekly summary
                         u.removeWeight(d);

@@ -249,16 +249,16 @@ public class User {
             e.printStackTrace();
         }
     }
-    public LinkedHashMap<Double,Date> getAllWeights(){
+    public LinkedHashMap<Date,Double> getAllWeights(){
         GenericDatabaseController db = new GenericDatabaseController();
-        LinkedHashMap<Double,Date> r = new LinkedHashMap<>();
+        LinkedHashMap<Date,Double> r = new LinkedHashMap<>();
         try (
                 Statement stmnt = db.getConnection().createStatement();
                 ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.weighttracking where idUser ="+getId() + " order by date asc");
 
         ){
             while(rs.next()) {
-                r.put(rs.getDouble("weight"),new java.util.Date(rs.getDate("date").getTime()));
+                r.put(new java.util.Date(rs.getDate("date").getTime()),rs.getDouble("weight"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
