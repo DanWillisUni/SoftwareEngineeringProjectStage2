@@ -27,7 +27,7 @@ public class PersonalDetailsController extends GenericController{
     @FXML private Label currentDOB;
     @FXML private Label currentGender;
     /**
-     * sets the user to the user that is logged in
+     * Sets the user to the user that is logged in
      * @param User Person object logged in
      */
     public void setUser(Model.User User){
@@ -43,6 +43,7 @@ public class PersonalDetailsController extends GenericController{
      * only displays the chart of the last 2 weeks to track weight
      */
     public void setUpDisplay() {
+        //sets all the current details onto the form
         currentForename.setText(User.getForename());
         currentSurname.setText(User.getSurname());
         currentUsername.setText(User.getUsername());
@@ -71,7 +72,7 @@ public class PersonalDetailsController extends GenericController{
                 }
             }
         }
-        //surename validation
+        //surname validation
         if (surname.getText()!=null){
             if (!surname.getText().equals("")){
                 if(surname.getText().matches("^([a-z]|[A-Z])+$")){
@@ -165,24 +166,19 @@ public class PersonalDetailsController extends GenericController{
                 }
             }
         }
-
-
-
-
         if (errorMsg.getText().equals("")){
-            User.update();
+            User.update();//update the user in the database
             goToDash(User,event);
         } else {
-            User = copy;
+            User = copy;//user set back to its original
         }
     }
     /**
-     * go to the dashboard
+     * Go to the dashboard
      * @param event back button pressed
      */
     @FXML
     private void GoToDashButtonAction (ActionEvent event){
         goToDash(User,event);
     }
-
 }
