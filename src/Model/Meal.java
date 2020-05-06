@@ -12,22 +12,19 @@ import java.util.HashMap;
 
 public class Meal {
     int id;
-    User user;
     FoodItem food;
     int quantity;
     String type;
 
     Meal(int id, FoodItem food, int quantity, String type){
         this.id=id;
-        this.user=null;
         this.food = food;
         this.quantity = quantity;
         this.type = type;
     }
-    public Meal(User user,FoodItem food, int quantity, String type){
+    public Meal(FoodItem food, int quantity, String type){
         GenericDatabaseController db = new GenericDatabaseController();
         this.id=db.genID("meal","idMeal");
-        this.user=user;
         this.food = food;
         this.quantity = quantity;
         this.type = type;
@@ -45,17 +42,11 @@ public class Meal {
     public String getType() {
         return type;
     }
-    public User getUser() {
-        return user;
-    }
     public String getFoodName() {
         return getFood().getName();
     }
     public int getCalories() {
         return getQuantity() * getFood().getAmountOfCalories();
-    }
-    public void setUser(User user){
-        this.user=user;
     }
 
     public void add(){
@@ -127,35 +118,6 @@ public class Meal {
         return false;
     }
 
-    public void addLink(){
-        GenericDatabaseController db = new GenericDatabaseController();
-        try {
-            final String query = "Insert Into softwareengineering.diet Values("+ db.genID("diet","idDiet") + ", '" + getUser().getId() + "', '" + getId()+ "', '" + new java.sql.Date(new Date().getTime())+ "' )";
-            try (
-                    PreparedStatement pstmt = db.getConnection().prepareStatement(query)
-            ){
-                pstmt.executeUpdate();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    public void removeLink(User user,Date date){
-        GenericDatabaseController db = new GenericDatabaseController();
-        try {
-            final String query = "DELETE FROM softwareengineering.diet WHERE idUser=" + user.getId() + " and idMeal="+ getId() + " and date='" + new java.sql.Date(date.getTime()) + "'";
-            try (
-                    PreparedStatement pstmt = db.getConnection().prepareStatement(query)
-            ){
-                pstmt.executeUpdate();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        if (!checkIfInUse()){
-            remove();
-        }
-    }
     public static ArrayList<Meal> getDays(User user,Date date){
         GenericDatabaseController db = new GenericDatabaseController();
         ArrayList<Meal> r = new ArrayList<>();

@@ -48,25 +48,26 @@ public class LoginController extends GenericController{
         User u = User.getFromEmail(email.getText().toString());
         if (u!=null){//if there is a user with that email
             if (u.getPassword().equals(User.passwordHash(password.getText()))){//if the hashed password matches the users hashed password
-                //putting data in weekly summary
-                HashMap<Date,ExerciseSession> sessionHashMap = ExerciseSession.getDateAll(u);
-                for (Map.Entry<Date,ExerciseSession> entry : sessionHashMap.entrySet()){
-                    if(entry.getKey().getTime()<Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(28).atStartOfDay(ZoneId.systemDefault()))).getTime()){
+                //putting all the data in weekly summary
+                HashMap<Date,ExerciseSession> sessionHashMap = ExerciseSession.getDateAll(u);//weekly summary for exercise sessions
+                for (Map.Entry<Date,ExerciseSession> entry : sessionHashMap.entrySet()){//for all exercisesessions
+                    if(entry.getKey().getTime()<Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(28).atStartOfDay(ZoneId.systemDefault()))).getTime()){//if they are over 4 weeks ago
+                        //add it to the current data in weekly summary
                         java.util.Date d = entry.getKey();
                         ExerciseSession s = entry.getValue();
-                        sortExerciseSessionToWeeklySummary(u,d,s);
-                        //add it to the current data in weekly summary
-                        s.removeLink(u,d);
+                        sortExerciseSessionToWeeklySummary(u,d,s);//sorts putting the exercise session into the weekly summary
+                        u.removeExerciseSessionLink(d,s);//removes the link
                     }
                 }
+                //food weekly summary
                 HashMap<Date, Meal> foodHashMap = Meal.getDateAll(u);
                 for (Map.Entry<Date,Meal> entry : foodHashMap.entrySet()){
                     if(entry.getKey().getTime()<Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(28).atStartOfDay(ZoneId.systemDefault()))).getTime()){
+                        //add it to the current data in weekly summary
                         java.util.Date d = entry.getKey();
                         Meal m = entry.getValue();
                         sortMealToWeeklySummary(u,d,m);
-                        //add it to the current data in weekly summary
-                        m.removeLink(u,d);
+                        u.removeFoodLink(d,m);//remove the link
                     }
                 }
                 HashMap<Date,Double> weights = u.getAllWeights();
@@ -74,9 +75,8 @@ public class LoginController extends GenericController{
                     if(entry.getKey().getTime()<Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(28).atStartOfDay(ZoneId.systemDefault()))).getTime()){
                         java.util.Date d = entry.getKey();
                         double i = entry.getValue();
-                        sortWeightToWeeklySummary(u,d,i);
-                        //add it to the current data in weekly summary
-                        u.removeWeight(d);
+                        sortWeightToWeeklySummary(u,d,i); //add it to the current data in weekly summary
+                        u.removeWeight(d);//remove the link
                     }
                 }
                 //load dashboard
@@ -114,20 +114,28 @@ public class LoginController extends GenericController{
             email.setText("");
         }
     }
+    /**
+     * Get the week commencing date by using a calender instance
+     * Get the weekly summary of that week already
+     * If it doesnt exist create one and add in the previous weeks weight
+     * If it already exists add it and update it
+     * @param u user obj
+     * @param d date of exercise
+     * @param s exerciseSession obj
+     */
     private void sortExerciseSessionToWeeklySummary(User u,java.util.Date d,ExerciseSession s){
         Calendar c = Calendar.getInstance();
         c.setTime(d);
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-        //Date.from(Instant.from(d.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().minusDays()));
         c.add(Calendar.DATE,dayOfWeek*-1);
         Date commence = c.getTime();
-        ArrayList<String> sum = u.getWeeklySummary(commence);
+        ArrayList<String> sum = u.getWeeklySummary(commence);//get the weekly summary as a arraylist
         if(sum.isEmpty()){
             int previousWeight = 0;
             c.setTime(commence);
             c.add(Calendar.DATE,-7);
             Date prevCommence = c.getTime();
-            ArrayList<String> prevWeek = u.getWeeklySummary(prevCommence);
+            ArrayList<String> prevWeek = u.getWeeklySummary(prevCommence);//getting the previous week weekly summary
             if (!prevWeek.isEmpty()){
                 previousWeight = Integer.parseInt(prevWeek.get(5));
             }
@@ -140,6 +148,15 @@ public class LoginController extends GenericController{
             u.updateSummary(id,newCalBurn,newCalCons,newWeight);
         }
     }
+    /**
+     * Get the week commencing date by using a calender instance
+     * Get the weekly summary of that week already
+     * If it doesnt exist create one and add in the previous weeks weight
+     * If it already exists add it and update it
+     * @param u user obj
+     * @param d date of exercise
+     * @param m Meal obj
+     */
     private void sortMealToWeeklySummary(User u,java.util.Date d,Meal m){
         Calendar c = Calendar.getInstance();
         c.setTime(d);
@@ -166,6 +183,15 @@ public class LoginController extends GenericController{
             u.updateSummary(id,newCalBurn,newCalCons,newWeight);
         }
     }
+    /**
+     * Get the week commencing date by using a calender instance
+     * Get the weekly summary of that week already
+     * If it doesnt exist create one and add in the previous weeks weight
+     * If it already exists add it and update it
+     * @param u user obj
+     * @param d date of exercise
+     * @param w weight
+     */
     private void sortWeightToWeeklySummary(User u,java.util.Date d,double w){
         Calendar c = Calendar.getInstance();
         c.setTime(d);
@@ -204,6 +230,8 @@ public class LoginController extends GenericController{
         errorMsg.setText("");
         //validation
         User u = User.getFromEmail(emailReset.getText().toString());
+        //in real life somewhere here a confirmation email would be sent to the email
+        //then the user would click a link in the email that confirms the reset
         if (u!=null){//if there is a user with that email
             //password validation
             if (passwordReset.getText()!=null){
@@ -216,7 +244,7 @@ public class LoginController extends GenericController{
                             errorMsg.setText("Passwords do not match");
                             passwordReset2.setText("");
                         } else {
-                            u.setPassword(passwordReset.getText());
+                            u.setPassword(passwordReset.getText());//reset the password
                             errorMsg.setText("Your password has been reset");
                             passwordReset.setText("");
                             passwordReset2.setText("");

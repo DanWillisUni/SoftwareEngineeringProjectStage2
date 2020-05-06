@@ -12,29 +12,19 @@ import java.util.HashMap;
 
 public class ExerciseSession {
     int id;
-    User user;
     Exercise exercise;
     int duration;
     int caloriesBurned;
 
-    public ExerciseSession(int id,User user, Exercise exercise, int duration, int caloriesBurned) {
+    public ExerciseSession(int id, Exercise exercise, int duration, int caloriesBurned) {
         this.id = id;
-        this.user = user;
         this.exercise = exercise;
         this.duration = duration;
         this.caloriesBurned = caloriesBurned;
     }
-    public ExerciseSession(Exercise exercise,User user, int duration, int caloriesBurned) {
+    public ExerciseSession(Exercise exercise, int duration, int caloriesBurned) {
         GenericDatabaseController db = new GenericDatabaseController();
         this.id = db.genID("exercisesession","idExerciseSession");
-        this.user=user;
-        this.exercise = exercise;
-        this.duration = duration;
-        this.caloriesBurned = caloriesBurned;
-    }
-    public ExerciseSession(int id,Exercise exercise, int duration, int caloriesBurned) {
-        this.id = id;
-        this.user=null;
         this.exercise = exercise;
         this.duration = duration;
         this.caloriesBurned = caloriesBurned;
@@ -43,7 +33,6 @@ public class ExerciseSession {
     public int getId() {
         return id;
     }
-    public User getUser(){return user;}
     public Exercise getExercise() {
         return exercise;
     }
@@ -55,9 +44,6 @@ public class ExerciseSession {
     }
     public int getCaloriesBurned() {
         return caloriesBurned;
-    }
-    public void setUser(User user){
-        this.user=user;
     }
 
     public void add() {
@@ -76,20 +62,6 @@ public class ExerciseSession {
             }
         }
     }
-    public void addLink(){
-        GenericDatabaseController db = new GenericDatabaseController();
-        try {
-            final String query = "Insert Into softwareengineering.exerciseLink Values("+ db.genID("exerciseLink","idLink") + ", '" + getUser().getId() + "', '" + getId()+ "', '" +new java.sql.Date(new Date().getTime())+ "' )";
-            try (
-                    PreparedStatement pstmt = db.getConnection().prepareStatement(query)
-            ){
-                pstmt.executeUpdate();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     public boolean checkIfSessionInUse(){
         GenericDatabaseController db = new GenericDatabaseController();
         try {
@@ -107,6 +79,11 @@ public class ExerciseSession {
         }
         return false;
     }
+    public void remove(){
+        GenericDatabaseController db = new GenericDatabaseController();
+        db.remove(getId(),"exercisesession","idExerciseSession");
+    }
+
     public static ExerciseSession getExerciseSession(Exercise exercise, int duration, int caloriesBurned){
         GenericDatabaseController db = new GenericDatabaseController();
         ExerciseSession r = null;
@@ -124,27 +101,6 @@ public class ExerciseSession {
             e.printStackTrace();
         }
         return r;
-    }
-    public void remove(){
-        GenericDatabaseController db = new GenericDatabaseController();
-        db.remove(getId(),"exercisesession","idExerciseSession");
-    }
-
-    public void removeLink(User user,Date date){
-        GenericDatabaseController db = new GenericDatabaseController();
-        try {
-            final String query = "DELETE FROM softwareengineering.exerciselink WHERE idUser=" + user.getId() + " and idExerciseSession="+ getId() + " and date='" + new java.sql.Date(date.getTime()) + "'";
-            try (
-                    PreparedStatement pstmt = db.getConnection().prepareStatement(query)
-            ){
-                pstmt.executeUpdate();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        if(!checkIfSessionInUse()){
-            remove();
-        }
     }
     public static ExerciseSession getFromID(int id){
         GenericDatabaseController db = new GenericDatabaseController();
@@ -171,22 +127,6 @@ public class ExerciseSession {
         try (
                 Statement stmnt = db.getConnection().createStatement();
                 ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.exerciselink where idUser = "+u.getId() +" And date = '" + new java.sql.Date(date.getTime()) + "'");
-
-        ){
-            while(rs.next()) {
-                r.add(ExerciseSession.getFromID(rs.getInt("idExerciseSession")));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return r;
-    }
-    public static ArrayList<ExerciseSession> getAll(User u){
-        GenericDatabaseController db = new GenericDatabaseController();
-        ArrayList<ExerciseSession> r = new ArrayList<>();
-        try (
-                Statement stmnt = db.getConnection().createStatement();
-                ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.exerciselink where idUser = "+u.getId());
 
         ){
             while(rs.next()) {

@@ -95,7 +95,7 @@ public class AddExerciseSessionController extends GenericController{
                     {
                         btn.setOnAction((ActionEvent event) -> {//on action of the button
                             ExerciseSession data = getTableView().getItems().get(getIndex());//get the exercise session obj that is in the table
-                            data.removeLink(User,new Date());//remove link between the user and the exercise session
+                            User.removeExerciseSessionLink(new Date(),data);//remove link between the user and the exercise session
                             setUpDisplay();//refresh the page
                         });
                     }
@@ -217,11 +217,10 @@ public class AddExerciseSessionController extends GenericController{
             }
             ExerciseSession exerciseSession = ExerciseSession.getExerciseSession(exercise,durationNum,caloriesBurned);//get the exercise session
             if (exerciseSession == null){//if it doesnt exist
-                exerciseSession = new ExerciseSession(exercise,User,durationNum,caloriesBurned);//make a new session
+                exerciseSession = new ExerciseSession(exercise,durationNum,caloriesBurned);//make a new session
                 exerciseSession.add();//add it to the database
             }
-            exerciseSession.setUser(User);//set the user of the session
-            exerciseSession.addLink();//add the link to the session to the database
+            User.addExerciseSessionLink(exerciseSession);//add the link to the session to the database
             setUpDisplay();//refresh the page
         }
     }

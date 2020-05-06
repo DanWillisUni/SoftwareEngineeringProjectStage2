@@ -266,6 +266,66 @@ public class User {
         return r;
     }
 
+    public void addExerciseSessionLink(ExerciseSession exerciseSession){
+        GenericDatabaseController db = new GenericDatabaseController();
+        try {
+            final String query = "Insert Into softwareengineering.exerciseLink Values("+ db.genID("exerciseLink","idLink") + ", '" + getId() + "', '" + exerciseSession.getId()+ "', '" +new java.sql.Date(new Date().getTime())+ "' )";
+            try (
+                    PreparedStatement pstmt = db.getConnection().prepareStatement(query)
+            ){
+                pstmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void removeExerciseSessionLink(Date date,ExerciseSession exerciseSession){
+        GenericDatabaseController db = new GenericDatabaseController();
+        try {
+            final String query = "DELETE FROM softwareengineering.exerciselink WHERE idUser=" + getId() + " and idExerciseSession="+ exerciseSession.getId() + " and date='" + new java.sql.Date(date.getTime()) + "'";
+            try (
+                    PreparedStatement pstmt = db.getConnection().prepareStatement(query)
+            ){
+                pstmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if(!exerciseSession.checkIfSessionInUse()){
+            exerciseSession.remove();
+        }
+    }
+
+    public void addFoodLink(Meal meal){
+        GenericDatabaseController db = new GenericDatabaseController();
+        try {
+            final String query = "Insert Into softwareengineering.diet Values("+ db.genID("diet","idDiet") + ", '" + getId() + "', '" + meal.getId()+ "', '" + new java.sql.Date(new Date().getTime())+ "' )";
+            try (
+                    PreparedStatement pstmt = db.getConnection().prepareStatement(query)
+            ){
+                pstmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void removeFoodLink(Date date,Meal meal){
+        GenericDatabaseController db = new GenericDatabaseController();
+        try {
+            final String query = "DELETE FROM softwareengineering.diet WHERE idUser=" + getId() + " and idMeal="+ meal.getId() + " and date='" + new java.sql.Date(date.getTime()) + "'";
+            try (
+                    PreparedStatement pstmt = db.getConnection().prepareStatement(query)
+            ){
+                pstmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (!meal.checkIfInUse()){
+            meal.remove();
+        }
+    }
+
     public ArrayList<String> getWeeklySummary(Date commencing){
         GenericDatabaseController db = new GenericDatabaseController();
         ArrayList<String> r = new ArrayList<>();

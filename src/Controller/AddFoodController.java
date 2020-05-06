@@ -99,7 +99,7 @@ public class AddFoodController extends GenericController{
                     {
                         btn.setOnAction((ActionEvent event) -> {//on button press
                             Meal data = getTableView().getItems().get(getIndex());//get the meal
-                            data.removeLink(User,new Date());//remove the link in diet
+                            User.removeFoodLink(new Date(),data);//remove the link in diet
                             setUpDisplay();//refresh the display
                         });
                     }
@@ -193,11 +193,10 @@ public class AddFoodController extends GenericController{
             FoodItem foodItem = FoodItem.getFoodFromName(Foods.getValue().toString());//get the food item obj
             Meal meal = Meal.getMeal(foodItem,Integer.parseInt(quantity.getText()),MealType.getValue().toString());//attempt to get the meal
             if (meal==null){//if the meal is not in the database
-                meal = new Meal(User,foodItem,Integer.parseInt(quantity.getText()),MealType.getValue().toString());//make a new meal obj
+                meal = new Meal(foodItem,Integer.parseInt(quantity.getText()),MealType.getValue().toString());//make a new meal obj
                 meal.add();//add the meal to the database
             }
-            meal.setUser(User);//set the user of the meal
-            meal.addLink();//add a link between the user and the meal
+            User.addFoodLink(meal);//add a link between the user and the meal
             setUpDisplay();//refresh the page
         }
     }
