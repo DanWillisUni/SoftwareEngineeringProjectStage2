@@ -49,26 +49,35 @@ public class LoginController extends GenericController{
         if (u!=null){//if there is a user with that email
             if (u.getPassword().equals(User.passwordHash(password.getText()))){//if the hashed password matches the users hashed password
                 //putting all the data in weekly summary
-                HashMap<Date,ExerciseSession> sessionHashMap = ExerciseSession.getDateAll(u);//weekly summary for exercise sessions
-                for (Map.Entry<Date,ExerciseSession> entry : sessionHashMap.entrySet()){//for all exercisesessions
-                    if(entry.getKey().getTime()<Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(28).atStartOfDay(ZoneId.systemDefault()))).getTime()){//if they are over 4 weeks ago
-                        //add it to the current data in weekly summary
-                        java.util.Date d = entry.getKey();
-                        ExerciseSession s = entry.getValue();
-                        sortExerciseSessionToWeeklySummary(u,d,s);//sorts putting the exercise session into the weekly summary
-                        u.removeExerciseSessionLink(d,s);//removes the link
+                HashMap<ArrayList<Date>,ArrayList<ExerciseSession>> sessionHashMap = ExerciseSession.getDateAll(u);//weekly summary for exercise sessions
+                for (Map.Entry<ArrayList<Date>,ArrayList<ExerciseSession>> entry : sessionHashMap.entrySet()){//for all exercisesessions
+                    ArrayList<Date> datesArr = entry.getKey();
+                    ArrayList<ExerciseSession> sessions = entry.getValue();
+                    for (int i = 0;i<datesArr.size();i++){
+                        if(datesArr.get(i).getTime()<Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(28).atStartOfDay(ZoneId.systemDefault()))).getTime()){//if they are over 4 weeks ago
+                            //add it to the current data in weekly summary
+                            java.util.Date d = datesArr.get(i);
+                            ExerciseSession s = sessions.get(i);
+                            sortExerciseSessionToWeeklySummary(u,d,s);//sorts putting the exercise session into the weekly summary
+                            u.removeExerciseSessionLink(d,s);//removes the link
+                        }
                     }
                 }
                 //food weekly summary
-                HashMap<Date, Meal> foodHashMap = Meal.getDateAll(u);
-                for (Map.Entry<Date,Meal> entry : foodHashMap.entrySet()){
-                    if(entry.getKey().getTime()<Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(28).atStartOfDay(ZoneId.systemDefault()))).getTime()){
-                        //add it to the current data in weekly summary
-                        java.util.Date d = entry.getKey();
-                        Meal m = entry.getValue();
-                        sortMealToWeeklySummary(u,d,m);
-                        u.removeFoodLink(d,m);//remove the link
+                HashMap<ArrayList<Date>, ArrayList<Meal>> foodHashMap = Meal.getDateAll(u);
+                for (Map.Entry<ArrayList<Date>, ArrayList<Meal>> entry : foodHashMap.entrySet()){
+                    ArrayList<Date> dates = entry.getKey();
+                    ArrayList<Meal> meals = entry.getValue();
+                    for (int i = 0;i<dates.size();i++){
+                        if(dates.get(i).getTime()<Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(28).atStartOfDay(ZoneId.systemDefault()))).getTime()){
+                            //add it to the current data in weekly summary
+                            java.util.Date d = dates.get(i);
+                            Meal m = meals.get(i);
+                            sortMealToWeeklySummary(u,d,m);
+                            u.removeFoodLink(d,m);//remove the link
+                        }
                     }
+
                 }
                 HashMap<Date,Double> weights = u.getAllWeights();
                 for (Map.Entry<Date,Double> entry : weights.entrySet()){

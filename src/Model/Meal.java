@@ -134,20 +134,24 @@ public class Meal {
         }
         return r;
     }
-    public static HashMap<Date,Meal> getDateAll(User u){
+    public static HashMap<ArrayList<Date>,ArrayList<Meal>> getDateAll(User u){
         GenericDatabaseController db = new GenericDatabaseController();
-        HashMap<Date,Meal> r = new HashMap<>();
+        HashMap<ArrayList<Date>,ArrayList<Meal>> r = new HashMap<>();
+        ArrayList<Date> d = new ArrayList<>();
+        ArrayList<Meal> m = new ArrayList<>();
         try (
                 Statement stmnt = db.getConnection().createStatement();
                 ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.diet where idUser = "+u.getId());
 
         ){
             while(rs.next()) {
-                r.put(rs.getDate("date"),Meal.getFromID(rs.getInt("idMeal")));
+                d.add(rs.getDate("date"));
+                m.add(Meal.getFromID(rs.getInt("idMeal")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        r.put(d,m);
         return r;
     }
 }
