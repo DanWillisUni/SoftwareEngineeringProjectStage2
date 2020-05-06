@@ -11,17 +11,32 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class Meal {
-    int id;
-    FoodItem food;
-    int quantity;
-    String type;
+    int id;//id of the meal
+    FoodItem food;//food object that was eaten
+    int quantity;//quantity of the meal
+    String type;//type of the meal
 
+    /**
+     * Constructor
+     * Make a meal obj that is in the database already
+     * @param id id of the meal obj
+     * @param food food obj eaten
+     * @param quantity quantity eaten
+     * @param type type of meal
+     */
     Meal(int id, FoodItem food, int quantity, String type){
         this.id=id;
         this.food = food;
         this.quantity = quantity;
         this.type = type;
     }
+    /**
+     * Constructor
+     * Used to generate a new meal by a user
+     * @param food food obj that was eaten
+     * @param quantity quantity of food eaten
+     * @param type type of meal
+     */
     public Meal(FoodItem food, int quantity, String type){
         GenericDatabaseController db = new GenericDatabaseController();
         this.id=db.genID("meal","idMeal");
@@ -30,25 +45,52 @@ public class Meal {
         this.type = type;
     }
 
+    /**
+     * Get the id of the meal
+     * @return the id of the meal
+     */
     public int getId() {
         return id;
     }
+    /**
+     * Get the food obj of the meal
+     * @return food obj
+     */
     public FoodItem getFood() {
         return food;
     }
+    /**
+     * Get the quantity
+     * @return the quantity of the meal
+     */
     public int getQuantity() {
         return quantity;
     }
+    /**
+     * Get the type of meal
+     * @return the type of meal
+     */
     public String getType() {
         return type;
     }
+    /**
+     * Get the food objects name
+     * @return the food objects name
+     */
     public String getFoodName() {
         return getFood().getName();
     }
+    /**
+     * Get the amount of calories consumed in the meal
+     * @return quantity mutiplies by the amount of caloires in the food
+     */
     public int getCalories() {
         return getQuantity() * getFood().getAmountOfCalories();
     }
 
+    /**
+     * Adds the meal to the database
+     */
     public void add(){
         GenericDatabaseController db = new GenericDatabaseController();
         try {
@@ -62,6 +104,14 @@ public class Meal {
             e.printStackTrace();
         }
     }
+    /**
+     * Get the meal item that was already in the database
+     * And return null if none exists
+     * @param food the food object in the meal
+     * @param quantity the quantity in the meal
+     * @param type the type of meal
+     * @return the meal item from the database
+     */
     public static Meal getMeal(FoodItem food, int quantity, String type){
         GenericDatabaseController db = new GenericDatabaseController();
         Meal r = null;
@@ -80,11 +130,19 @@ public class Meal {
         }
         return r;
     }
+    /**
+     * Remove the Meal from the database
+     */
     public void remove(){
         GenericDatabaseController db = new GenericDatabaseController();
         db.remove(getId(),"meal","idMeal");
     }
 
+    /**
+     * Get the meal obj with the id id
+     * @param id id of the meal
+     * @return meal obj with id id
+     */
     public static Meal getFromID(int id){
         GenericDatabaseController db = new GenericDatabaseController();
         try (
@@ -100,6 +158,10 @@ public class Meal {
         }
         return null;
     }
+    /**
+     * Checks to see if the meal is in use
+     * @return true if it is in use by someone in the database
+     */
     public boolean checkIfInUse(){
         GenericDatabaseController db = new GenericDatabaseController();
         try {
@@ -118,6 +180,12 @@ public class Meal {
         return false;
     }
 
+    /**
+     * Gets a list of meals eaten on date by the user
+     * @param user user
+     * @param date date to get from
+     * @return list of meals eaten by user on date
+     */
     public static ArrayList<Meal> getDays(User user,Date date){
         GenericDatabaseController db = new GenericDatabaseController();
         ArrayList<Meal> r = new ArrayList<>();
@@ -134,6 +202,11 @@ public class Meal {
         }
         return r;
     }
+    /**
+     * Needed it to return both arraylists hence a hashmap of arraylists
+     * @param u user
+     * @return hashmap of arraylist of all the dates and arraylist of all the meals
+     */
     public static HashMap<ArrayList<Date>,ArrayList<Meal>> getDateAll(User u){
         GenericDatabaseController db = new GenericDatabaseController();
         HashMap<ArrayList<Date>,ArrayList<Meal>> r = new HashMap<>();
