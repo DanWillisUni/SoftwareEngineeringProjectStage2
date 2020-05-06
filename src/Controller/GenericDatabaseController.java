@@ -7,7 +7,6 @@ import java.util.Collections;
 
 public class GenericDatabaseController {
     private Connection connection;//connection to the database
-    //used everywhere
     /**
      * Creates a connection to the server
      */
@@ -24,7 +23,7 @@ public class GenericDatabaseController {
         }
     }
     /**
-     * closes the connection to the local server
+     * Closes the connection to the local server
      */
     public void shutdown() {
         if (connection != null) {
@@ -39,7 +38,6 @@ public class GenericDatabaseController {
         return connection;
     }
 
-    //generic functions
     /**
      * Generates an id that hasnt been used before
      * Selects all the ids in that column
@@ -92,9 +90,9 @@ public class GenericDatabaseController {
         return r;
     }
     /**
-     * select all from the column
-     * if any of them match str return true
-     * if none match str return false
+     * Select all from the column
+     * If any of them match str return true
+     * If none match str return false
      * @param str element to search for
      * @param TableName the name of the table to look in
      * @param ColumnName the column to look in
@@ -117,7 +115,7 @@ public class GenericDatabaseController {
         return false;
     }
     /**
-     * select the id column from TableName where ColumnName is equal to name
+     * Select the id column from TableName where ColumnName is equal to name
      * @param name the name to match
      * @param TableName the table name
      * @param ColumnName the name column
@@ -138,6 +136,12 @@ public class GenericDatabaseController {
         }
         return r;
     }
+    /**
+     * Remove the row in the table where the column = id
+     * @param id to match id
+     * @param TableName table to remove from
+     * @param ColumnName column of the id
+     */
     public void remove(int id,String TableName,String ColumnName){
         try {
             final String query = "DELETE FROM softwareengineering."+TableName+" WHERE "+ ColumnName + "="+id;
