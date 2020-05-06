@@ -152,9 +152,9 @@ public class RegistrationController extends GenericController{
             password2.setText("");
         }
         if (errorMsg.getText().equals("")){
-            User newUser = new User(db.genID("user","idUser"),forename.getText(),surname.getText(),username.getText(),email.getText(),password.getText(), Date.from(Instant.from(DOB.getValue().atStartOfDay(ZoneId.systemDefault()))),0, gender.getValue().toString().charAt(0),0);
-            newUser.add();
-            goToPage("../View/Login.fxml",event);
+            User newUser = new User(db.genID("user","idUser"),forename.getText(),surname.getText(),username.getText(),email.getText(),password.getText(), Date.from(Instant.from(DOB.getValue().atStartOfDay(ZoneId.systemDefault()))),0, gender.getValue().toString().charAt(0),0);//create a new user
+            newUser.add();//put the user in the database
+            goToPage("../View/Login.fxml",event);//go to login page
         }
     }
     /**
