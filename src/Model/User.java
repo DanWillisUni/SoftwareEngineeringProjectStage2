@@ -11,19 +11,21 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 
 public class User {
-    int id;
-    String forename;
-    String surname;
-    String username;
-    String email;
-    String password;
-    Date DOB;
-    int height;
-    char gender;
-    double weight;
-    int cal;
+    int id;//id of the user
+    String forename;//users first name
+    String surname;//users last name
+    String username;//users selected username
+    String email;//users email address
+    String password;//users password
+    Date DOB;//users date of birth
+    int height;//users height in cm
+    char gender;//users gender
+    double weight;//user weight in kg
+    int cal;//calories the user has to consume
+
     /**
-     * sets all the parameters to the variables of the person
+     * Constructor
+     * Sets all the parameters to the variables of the person
      * @param id id of the person
      * @param forename forename of the user
      * @param surname surname of the user
@@ -50,93 +52,115 @@ public class User {
             cal=2000;
         }
     }
-    public static String passwordHash(String p){
-        return "hash" + p;
-    }
     /**
-     * gets the id
+     * Gets the id
      * @return id of user
      */
     public int getId(){
         return id;
     }
     /**
-     * gets the forename
+     * Gets the forename
      * @return forename of the user
      */
     public String getForename(){
         return forename;
     }
     /**
-     * gets the surname of the user
+     * Gets the surname of the user
      * @return surname of the user
      */
     public String getSurname(){
         return surname;
     }
     /**
-     * gets the username of the user
+     * Gets the username of the user
      * @return username of the user
      */
     public String getUsername(){
         return username;
     }
     /**
-     * gets email
+     * Gets email address
      * @return email of the user
      */
     public String getEmail(){
         return email;
     }
     /**
-     * gets the password
+     * Gets the password
      * @return password of the user
      */
     public String getPassword(){
         return password;
     }
     /**
-     * get the DOB of the user
+     * Get the DOB of the user
      * @return date of birth of the user
      */
     public Date getDOB(){
         return DOB;
     }
     /**
-     * get the height of the user
+     * Get the height of the user
      * @return height of the user
      */
     public int getHeight(){
         return height;
     }
     /**
-     * get the gender of the user
+     * Get the gender of the user
      * @return gender of the user
      */
     public char getGender(){return gender;}
     /**
-     * get the weight of the user
+     * Get the weight of the user
      * @return weight of the user
      */
     public double getWeight(){
         return weight;
     }
+    /**
+     * Gets the calories the user has to consume daily
+     * @return the calories
+     */
     public int getCal(){
         return cal;
     }
 
+    /**
+     * Sets the Users forename to forename
+     * @param forename new forename
+     */
     public void setForename(String forename) {
         this.forename = forename;
     }
+    /**
+     * Sets the Users surname to surname
+     * @param surname new surname
+     */
     public void setSurname(String surname) {
         this.surname = surname;
     }
+    /**
+     * Sets the Users username to username
+     * @param username new Username
+     */
     public void setUsername(String username) {
         this.username = username;
     }
+    /**
+     * Sets the Users email to email
+     * @param email new email
+     */
     public void setEmail(String email) {
         this.email = email;
     }
+    /**
+     * Updates the users table in the database to set the password
+     * Hashes the password before putting it into the database
+     * @param password new password as plain text
+     */
     public void setPassword(String password) {
         this.password = password;
         GenericDatabaseController db = new GenericDatabaseController();
@@ -149,23 +173,46 @@ public class User {
             e.printStackTrace();
         }
     }
+    /**
+     * Sets the Users date of birth to DOB
+     * @param DOB new date of birth
+     */
     public void setDOB(Date DOB) {
         this.DOB = DOB;
     }
+    /**
+     * Sets the Users height to height
+     * @param height new height
+     */
     public void setHeight(int height) {
         this.height = height;
     }
+    /**
+     * Sets the Users gender to gender
+     * @param gender new gender
+     */
     public void setGender(char gender) {
         this.gender = gender;
     }
+    /**
+     * Sets the Users weight to weight
+     * @param weight new weight
+     */
     public void setWeight(double weight) {
         this.weight = weight;
         update();
     }
+    /**
+     * Sets the Users calories to cal
+     * @param cal new calories
+     */
     public void setCal(int cal){
         this.cal=cal;
     }
 
+    /**
+     * Adds a user to the database
+     */
     public void add(){
         GenericDatabaseController db = new GenericDatabaseController();
         try {
@@ -179,6 +226,11 @@ public class User {
             e.printStackTrace();
         }
     }
+    /**
+     * Updates the user with the id the same as this
+     * Sets all the columns except the password column
+     * To the current attributes of the user
+     */
     public void update(){
         GenericDatabaseController db = new GenericDatabaseController();
         final String query = "UPDATE softwareengineering.User SET forename = '"+getForename()+"', surname = '"+ getSurname()+"',email = '"+ getEmail()+"',username = '"+ getUsername()+"',DOB = '"+ new java.sql.Date(getDOB().getTime())+"',height = "+ getHeight()+",gender = '"+ getGender()+"',weight = "+ getWeight()+ ",calories="+cal+" Where idUser= "+ getId();
@@ -191,6 +243,22 @@ public class User {
         }
     }
 
+    /**
+     * Hashes the password
+     * @param p plaintext password
+     * @return the hashed password
+     */
+    public static String passwordHash(String p){
+        return "hash" + p;
+    }
+
+    /**
+     * Gets the user obj of the user that has the email, email
+     * If there is no such user
+     * Return null
+     * @param email email address of the user
+     * @return the user obj that has the email
+     */
     public static User getFromEmail(String email){
         GenericDatabaseController db = new GenericDatabaseController();
         try (
@@ -205,6 +273,13 @@ public class User {
         }
         return null;
     }
+    /**
+     * Gets the user obj of the user that has the id, id
+     * If there is no such user
+     * Return null
+     * @param id id of the user
+     * @return the user obj with id as id
+     */
     public static User getFromID(int id){
         GenericDatabaseController db = new GenericDatabaseController();
         try (
@@ -220,6 +295,11 @@ public class User {
         return null;
     }
 
+    /**
+     * Removes a weight tracking value if there is one on the current day
+     * Adds new weight to the weight tracking
+     * @param w new weight
+     */
     public void addWeight(double w){
         removeWeight(new Date());
         setWeight(w);
@@ -236,6 +316,10 @@ public class User {
             e.printStackTrace();
         }
     }
+    /**
+     * Removes the weight tracking column for this user on date d
+     * @param d date to remove on
+     */
     public void removeWeight(Date d){
         GenericDatabaseController db = new GenericDatabaseController();
         try {
@@ -249,6 +333,11 @@ public class User {
             e.printStackTrace();
         }
     }
+    /**
+     * Get all the weight trackings of the user
+     * Add the date and weight to the hashmap
+     * @return all the weights the user has entered in the last 4 weeks, with corrosponding dates
+     */
     public LinkedHashMap<Date,Double> getAllWeights(){
         GenericDatabaseController db = new GenericDatabaseController();
         LinkedHashMap<Date,Double> r = new LinkedHashMap<>();
@@ -266,6 +355,10 @@ public class User {
         return r;
     }
 
+    /**
+     * Add an exerciseSessionLink between exerciseSession and the user on todays date
+     * @param exerciseSession exerciseSession to create link with
+     */
     public void addExerciseSessionLink(ExerciseSession exerciseSession){
         GenericDatabaseController db = new GenericDatabaseController();
         try {
@@ -279,10 +372,29 @@ public class User {
             e.printStackTrace();
         }
     }
+    /**
+     * Removes the link with an exercise session
+     * @param date date
+     * @param exerciseSession exercise session to remove
+     */
     public void removeExerciseSessionLink(Date date,ExerciseSession exerciseSession){
         GenericDatabaseController db = new GenericDatabaseController();
+        //select one id of the exerciseSession
+        int firstID = -1;
+        try (
+                Statement stmnt = db.getConnection().createStatement();
+                ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.exerciselink WHERE idUser=" + getId() + " and idExerciseSession="+ exerciseSession.getId() + " and date='" + new java.sql.Date(date.getTime()) + "'");
+
+        ){
+            if(rs.next()) {
+                firstID = rs.getInt("idLink");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        //delete the exercise link with that id
         try {
-            final String query = "DELETE FROM softwareengineering.exerciselink WHERE idUser=" + getId() + " and idExerciseSession="+ exerciseSession.getId() + " and date='" + new java.sql.Date(date.getTime()) + "'";
+            final String query = "DELETE FROM softwareengineering.exerciselink WHERE idLink=" + firstID;
             try (
                     PreparedStatement pstmt = db.getConnection().prepareStatement(query)
             ){
@@ -291,11 +403,17 @@ public class User {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        if(!exerciseSession.checkIfSessionInUse()){
-            exerciseSession.remove();
+
+        if(!exerciseSession.checkIfSessionInUse()){//if the session is not in use
+            exerciseSession.remove();//remove the exercise session from the database
         }
     }
 
+    /**
+     * Adds a link into the table diet
+     * Between the user and the meal
+     * @param meal
+     */
     public void addFoodLink(Meal meal){
         GenericDatabaseController db = new GenericDatabaseController();
         try {
@@ -309,10 +427,31 @@ public class User {
             e.printStackTrace();
         }
     }
+    /**
+     * Gets the id of one of the meals on the date by the user
+     * Removes that link in diet table
+     * Checks to see if the meal is in use anywhere else
+     * If it isnt remove it
+     * @param date date to remove meal on
+     * @param meal meal to remove link with
+     */
     public void removeFoodLink(Date date,Meal meal){
         GenericDatabaseController db = new GenericDatabaseController();
+        int firstID = -1;
+        try (
+                Statement stmnt = db.getConnection().createStatement();
+                ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.diet WHERE idUser=" + getId() + " and idMeal="+ meal.getId() + " and date='" + new java.sql.Date(date.getTime()) + "'");
+
+        ){
+            if(rs.next()) {
+                firstID = rs.getInt("idDiet");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         try {
-            final String query = "DELETE FROM softwareengineering.diet WHERE idUser=" + getId() + " and idMeal="+ meal.getId() + " and date='" + new java.sql.Date(date.getTime()) + "'";
+            final String query = "DELETE FROM softwareengineering.Diet WHERE idDiet=" + firstID;
             try (
                     PreparedStatement pstmt = db.getConnection().prepareStatement(query)
             ){
@@ -321,11 +460,17 @@ public class User {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         if (!meal.checkIfInUse()){
             meal.remove();
         }
     }
 
+    /**
+     * Get all the attrubuites of a weekly summary
+     * @param commencing week commencing in this date
+     * @return all the attributes in the weekly summary as an arraylist
+     */
     public ArrayList<String> getWeeklySummary(Date commencing){
         GenericDatabaseController db = new GenericDatabaseController();
         ArrayList<String> r = new ArrayList<>();
@@ -347,6 +492,14 @@ public class User {
         }
         return r;
     }
+    /**
+     * Update the summary info of id
+     * To the calories during
+     * @param id id of the weekly summary to update
+     * @param calDuringExercise new calories burnt during exercise
+     * @param calDuringEating new calories eat
+     * @param weight new weight
+     */
     public void updateSummary(int id,int calDuringExercise,int calDuringEating,double weight){
         GenericDatabaseController db = new GenericDatabaseController();
         final String query = "UPDATE softwareengineering.WeeklySummary SET caloriesBurnt="+calDuringExercise+",caloriesConsumed="+calDuringEating+",weight="+weight+" Where idWeeklySummary= "+ id;
@@ -358,6 +511,13 @@ public class User {
             e.printStackTrace();
         }
     }
+    /**
+     *
+     * @param commencing the date of the start of the week
+     * @param calDuringExercise calories burnt during exercise
+     * @param calDuringEating calories during eating
+     * @param weight new weight
+     */
     public void newSummary(Date commencing,int calDuringExercise,int calDuringEating,double weight){
         GenericDatabaseController db = new GenericDatabaseController();
         try {
