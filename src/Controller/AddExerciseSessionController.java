@@ -49,7 +49,7 @@ public class AddExerciseSessionController extends GenericController{
         calBurned.setText("");
         duration.setText("");
         Exercise.setValue("");
-        name.setText("Hello, " + User.getForename());//setting name at the top of the page
+        name.setText("Hello, " + User.getUsername());//setting name at the top of the page
         //setting up the tableview
         ArrayList<Model.ExerciseSession> links = ExerciseSession.getDays(User,new Date());//get all of todays exercise sessions
         ObservableList<ExerciseSession> data = FXCollections.observableArrayList();

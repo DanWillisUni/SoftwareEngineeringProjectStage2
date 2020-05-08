@@ -6,9 +6,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
+import java.util.*;
+
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 
 public class User {
     int id;//id of the user
@@ -245,11 +253,30 @@ public class User {
 
     /**
      * Hashes the password
+     * Seeded the random obj that generated the salt by the User id
+     * This means for each user it will generate something different for the same password
      * @param p plaintext password
      * @return the hashed password
      */
-    public static String passwordHash(String p){
-        return "hash" + p;
+    public String passwordHash(String p){
+        byte[] salt = new byte[16];
+        Random random = new Random(getId());
+        random.nextBytes(salt);
+        KeySpec spec = new PBEKeySpec(p.toCharArray(), salt, 65536, 128);
+        SecretKeyFactory f = null;
+        try {
+            f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        byte[] hash = new byte[0];
+        try {
+            hash = f.generateSecret(spec).getEncoded();
+        } catch (InvalidKeySpecException e) {
+            e.printStackTrace();
+        }
+        Base64.Encoder enc = Base64.getEncoder();
+        return enc.encodeToString(hash);
     }
 
     /**

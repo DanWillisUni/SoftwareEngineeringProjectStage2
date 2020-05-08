@@ -26,6 +26,7 @@ public class PersonalDetailsController extends GenericController{
     @FXML private Label currentEmail;
     @FXML private Label currentDOB;
     @FXML private Label currentGender;
+    @FXML private Label name;
     /**
      * Sets the user to the user that is logged in
      * @param User Person object logged in
@@ -44,6 +45,7 @@ public class PersonalDetailsController extends GenericController{
      */
     public void setUpDisplay() {
         //sets all the current details onto the form
+        name.setText("Hello, " + User.getUsername());//setting name at the top of the page
         currentForename.setText(User.getForename());
         currentSurname.setText(User.getSurname());
         currentUsername.setText(User.getUsername());

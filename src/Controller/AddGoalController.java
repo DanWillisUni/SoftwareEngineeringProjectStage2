@@ -42,7 +42,7 @@ public class AddGoalController extends GenericController{
      * sets up the display
      */
     public void setUpDisplay(){
-        name.setText("Hi, " + User.getForename());
+        name.setText("Hello, " + User.getUsername());//setting name at the top of the page
 
         double perfectWeight = (22.5 * Math.pow((double)(User.getHeight()/100.0),2.0));//works out the users perfect weight using bmi and height
         int multiplyer = 1;

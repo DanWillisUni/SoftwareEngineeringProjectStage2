@@ -47,7 +47,7 @@ public class LoginController extends GenericController{
         //validation
         User u = User.getFromEmail(email.getText().toString());
         if (u!=null){//if there is a user with that email
-            if (u.getPassword().equals(User.passwordHash(password.getText()))){//if the hashed password matches the users hashed password
+            if (u.getPassword().equals(u.passwordHash(password.getText()))){//if the hashed password matches the users hashed password
                 //putting all the data in weekly summary
                 HashMap<ArrayList<Date>,ArrayList<ExerciseSession>> sessionHashMap = ExerciseSession.getDateAll(u);//weekly summary for exercise sessions
                 for (Map.Entry<ArrayList<Date>,ArrayList<ExerciseSession>> entry : sessionHashMap.entrySet()){//for all exercisesessions

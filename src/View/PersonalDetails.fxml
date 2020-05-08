@@ -15,7 +15,8 @@
     <children>
         <GridPane alignment="center" hgap="10" vgap="10" VBox.vgrow="ALWAYS">
             <Label GridPane.columnIndex="0" GridPane.rowIndex="0" prefHeight="20.0" text="Change Personal Details" />
-            <GridPane alignment="center" hgap="10" vgap="10" VBox.vgrow="ALWAYS" GridPane.columnIndex="0" GridPane.rowIndex="1">
+            <Label id="name" fx:id="name" GridPane.columnIndex="0" GridPane.rowIndex="1" prefHeight="20.0" text="" />
+            <GridPane alignment="center" hgap="10" vgap="10" VBox.vgrow="ALWAYS" GridPane.columnIndex="0" GridPane.rowIndex="2">
                 <TextField  id="forename" fx:id="forename" GridPane.columnIndex="2" GridPane.rowIndex="0" prefHeight="20.0" prefWidth="200.0" promptText="Forename" />
                 <TextField  id="surname" fx:id="surname" GridPane.columnIndex="2" GridPane.rowIndex="1" prefHeight="20.0" prefWidth="200.0" promptText="Surname" />
                 <TextField  id="username" fx:id="username" GridPane.columnIndex="2" GridPane.rowIndex="2" prefHeight="20.0" prefWidth="200.0" promptText="Username" />
@@ -51,7 +52,7 @@
                 <Label fx:id="currentGender" GridPane.columnIndex="1" GridPane.rowIndex="7" prefHeight="20.0" prefWidth="200.0" text="" />
                 <Label fx:id="currentHeight" GridPane.columnIndex="1" GridPane.rowIndex="8" prefHeight="20.0" prefWidth="200.0" text="" />
             </GridPane>
-            <Label  id="errorMsg" fx:id="errorMsg" GridPane.columnIndex="0" GridPane.rowIndex="2" prefHeight="20.0" text=""/>
+            <Label  id="errorMsg" fx:id="errorMsg" GridPane.columnIndex="0" GridPane.rowIndex="3" prefHeight="20.0" text=""/>
         </GridPane>
     </children>
     <stylesheets>

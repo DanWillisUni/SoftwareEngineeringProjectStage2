@@ -5,17 +5,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyCombination;
-import javafx.stage.Stage;
 import javafx.util.Callback;
-//java imports
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -43,7 +36,7 @@ public class AddFoodController extends GenericController{
      * If nothing has been eaten that day, hides the table
      */
     public void setUpDisplay(){
-        name.setText("Hello, " + User.getForename());
+        name.setText("Hello, " + User.getUsername());//setting name at the top of the page
         try {
             GenericDatabaseController db = new GenericDatabaseController();
             ArrayList<String> results = db.getAllLike("","foods","foodName");//gets all the foodnames

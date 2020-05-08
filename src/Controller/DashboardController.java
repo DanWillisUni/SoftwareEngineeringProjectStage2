@@ -53,7 +53,7 @@ public class DashboardController extends GenericController{
      * Only displays the charts with the last 2 weeks of data on
      */
     public void setUpDisplay() {
-        name.setText("Welcome " + User.getForename());
+        name.setText("Welcome, " + User.getUsername());//setting name at the top of the page
         //bmi
         if (User.getHeight()>0 && User.getWeight()>0){//if both the height and weight have been entered
             DecimalFormat df = new DecimalFormat("#.##");//format of decimal of bmi
@@ -173,7 +173,12 @@ public class DashboardController extends GenericController{
         for (Map.Entry<String,Integer> entry : exerciseSessionTypeChartData.entrySet()){//for each element of the hashmap
             exerciseSessionSeries.getData().add(new XYChart.Data(entry.getKey(), entry.getValue()));//adding the data to the series
         }
-        ExerciseBar.getData().addAll(exerciseSessionSeries);//add the series to the bar chart
+        if (exerciseSessionTypeChartData.isEmpty()){//if there is no data
+            ExerciseBar.setVisible(false);//hide
+        } else {
+            ExerciseBar.setVisible(true);//set to visible
+            ExerciseBar.getData().addAll(exerciseSessionSeries);//add the series to the bar chart
+        }
         //pie chart
         HashMap<String,Integer> dataPie = new HashMap<>();//make hashmap of the meals for the pie chart
         for (int i = 0;i<14;i++){//for all the days up to 13 days ago

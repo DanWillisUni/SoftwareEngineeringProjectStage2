@@ -63,7 +63,7 @@ public class HistoryController extends GenericController{
         }
         this.howManyDaysBackBeginning=howManyDaysBackBeginning;//set the days
         this.howManyDaysBackEnd=howManyDaysBackEnd;//set the days
-        name.setText("Welcome " + User.getForename());
+        name.setText("Hello, " + User.getUsername());//setting name at the top of the page
         //line chart of weight
         HashMap<Date, Double> all = User.getAllWeights();
         ArrayList<Double> weights = new ArrayList<>();//gets all the weights

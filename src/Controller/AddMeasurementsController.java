@@ -41,7 +41,7 @@ public class AddMeasurementsController extends GenericController{
      * @param inches inches dropdown
      */
     public void setUpDisplay(int feet,int inches){
-        name.setText("Hi, " + User.getForename());
+        name.setText("Hello, " + User.getUsername());//setting name at the top of the page
         ArrayList<Integer> feetArr = new ArrayList<Integer>();
         for (int i = 0;i<10;i++){
             feetArr.add(i);//add 0 to 9 to feet
