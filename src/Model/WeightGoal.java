@@ -1,6 +1,6 @@
 package Model;
 
-import Controller.GenericDatabaseController;
+import Controller.GenericController;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -44,7 +44,7 @@ public class WeightGoal {
      * @param toLoose if the goal is to loose
      */
     public WeightGoal(User user, double targetWeight, Date due, boolean toLoose){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         this.id = db.genID("GoalWeight","idGoalWeight");
         this.user=user;
         this.targetWeight=targetWeight;
@@ -141,7 +141,7 @@ public class WeightGoal {
      * Adds the goal to the database
      */
     public void add(){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         try {
             final String query = "Insert Into softwareengineering.goalweight Values("+ getId() + ", '" + getUser().getId() + "', '" + getTargetWeight()+ "', '" + new java.sql.Date(getSet().getTime())+ "', '" + new java.sql.Date(getDue().getTime())+  "', '" + (getToLoose() ? 1 : 0) +"' )";
             try (
@@ -157,7 +157,7 @@ public class WeightGoal {
      * Removes the goal from the database
      */
     public void remove(){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         db.remove(getId(),"goalweight","idgoalweight");
     }
 
@@ -167,7 +167,7 @@ public class WeightGoal {
      * @return arraylist of all the users goal
      */
     public static ArrayList<WeightGoal> getAll(User u){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         ArrayList<WeightGoal> r =  new ArrayList<>();
         try (
                 Statement stmnt = db.getConnection().createStatement();

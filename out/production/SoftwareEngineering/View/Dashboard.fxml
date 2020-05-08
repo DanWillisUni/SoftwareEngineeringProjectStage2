@@ -57,8 +57,8 @@
             <bottom>
                 <GridPane alignment="BOTTOM_CENTER">
                     <Label id="BMI" fx:id="BMI" GridPane.columnIndex="0" GridPane.rowIndex="0" text="" prefHeight="20.0"/>
-                    <Label GridPane.columnIndex="0" GridPane.rowIndex="1" text="Todays Calories Summary:" prefHeight="20.0"/>
-                    <Label GridPane.columnIndex="0" GridPane.rowIndex="2" text="Total Allowed - Calories Consumed + Calories Burned = Calories Left To Eat" prefHeight="20.0" />
+                    <Label id="cal1" fx:id="cal1" GridPane.columnIndex="0" GridPane.rowIndex="1" text="Todays Calories Summary:" prefHeight="20.0"/>
+                    <Label id="cal2" fx:id="cal2" GridPane.columnIndex="0" GridPane.rowIndex="2" text="Total Allowed - Calories Consumed + Calories Burned = Calories Left To Eat" prefHeight="20.0" />
                     <Label GridPane.columnIndex="0" GridPane.rowIndex="3" id="calLeft" fx:id="calLeft" text="" prefHeight="20.0"/>
                     <Label id="GoalDone" fx:id="GoalDone" GridPane.columnIndex="0" GridPane.rowIndex="4" text="" prefHeight="20.0" />
                     <Label id="nextGoal" fx:id="nextGoal" GridPane.columnIndex="0" GridPane.rowIndex="5" text="" prefHeight="20.0" />

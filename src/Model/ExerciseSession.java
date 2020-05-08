@@ -1,6 +1,6 @@
 package Model;
 
-import Controller.GenericDatabaseController;
+import Controller.GenericController;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,7 +38,7 @@ public class ExerciseSession {
      * @param caloriesBurned calories burnt
      */
     public ExerciseSession(Exercise exercise, int duration, int caloriesBurned) {
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         this.id = db.genID("exercisesession","idExerciseSession");
         this.exercise = exercise;
         this.duration = duration;
@@ -86,7 +86,7 @@ public class ExerciseSession {
     public void add() {
         ExerciseSession s = ExerciseSession.getExerciseSession(getExercise(),getDuration(),getCaloriesBurned());
         if(s==null){
-            GenericDatabaseController db = new GenericDatabaseController();
+            GenericController db = new GenericController();
             try {
                 final String query = "Insert Into softwareengineering.exerciseSession Values("+ getId() + ", '" + getDuration() + "', '" + getExercise().getId()+ "', '" +getCaloriesBurned()+ "' )";
                 try (
@@ -105,7 +105,7 @@ public class ExerciseSession {
      * @return true if the session is linked to
      */
     public boolean checkIfSessionInUse(){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         try {
             final String query = "SELECT * FROM softwareengineering.exerciselink WHERE idExerciseSession = " + getId();
             try (
@@ -125,7 +125,7 @@ public class ExerciseSession {
      * Removes the exercise session from the database
      */
     public void remove(){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         db.remove(getId(),"exercisesession","idExerciseSession");
     }
 
@@ -138,7 +138,7 @@ public class ExerciseSession {
      * @return exercise session obj of a session with the right inputs
      */
     public static ExerciseSession getExerciseSession(Exercise exercise, int duration, int caloriesBurned){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         ExerciseSession r = null;
         try {
             final String query = "SELECT * FROM softwareengineering.exercisesession WHERE idExerciseType = " + exercise.getId() + " AND durationMinutes = " + duration + " And caloriesBurned = " + caloriesBurned;
@@ -161,7 +161,7 @@ public class ExerciseSession {
      * @return exercise session obj with id, id
      */
     public static ExerciseSession getFromID(int id){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         ExerciseSession r = null;
         try {
             final String query = "SELECT * FROM softwareengineering.exercisesession WHERE idExerciseSession = " + id;
@@ -186,7 +186,7 @@ public class ExerciseSession {
      * @return list of all the exercise session done by user u on date date
      */
     public static ArrayList<ExerciseSession> getDays(User u,Date date){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         ArrayList<ExerciseSession> r = new ArrayList<>();
         try (
                 Statement stmnt = db.getConnection().createStatement();
@@ -207,7 +207,7 @@ public class ExerciseSession {
      * @return all the exercise session done and the date in arraylists in a hashmap
      */
     public static HashMap<ArrayList<Date>,ArrayList<ExerciseSession>> getDateAll(User u){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         HashMap<ArrayList<Date>,ArrayList<ExerciseSession>> r = new HashMap<>();
         ArrayList<Date> dates = new ArrayList<>();
         ArrayList<ExerciseSession> sessions = new ArrayList<>();

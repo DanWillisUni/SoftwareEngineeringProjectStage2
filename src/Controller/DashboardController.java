@@ -34,6 +34,8 @@ public class DashboardController extends GenericController{
     @FXML private Label suggestion;//a suggestion of an activity for them to do
     @FXML private BarChart ExerciseBar;//exercise bar chart
     @FXML private PieChart ConsumedCal;//mealtype piechart
+    @FXML private Label cal1;
+    @FXML private Label cal2;
 
     /**
      * Sets the user to the user that is logged in
@@ -88,6 +90,8 @@ public class DashboardController extends GenericController{
 
         int calRemaining = 0;
         if (User.getHeight()>0 && User.getWeight()>0){//if the user has entered a weight and a height
+            cal1.setVisible(true);
+            cal2.setVisible(true);
             long ageMs = new Date().getTime() - User.getDOB().getTime();
             int age = Integer.parseInt(Long.toString(ageMs/31536000000L));//calculate age in years
             int s = 5;//part of the equation
@@ -123,6 +127,9 @@ public class DashboardController extends GenericController{
             }
             calRemaining = (totalCal-calConsumed+calBurned);//work out calories remaining for that day
             calLeft.setText(totalCal + " - " + calConsumed + " + " + calBurned + " = " + calRemaining);
+        } else {
+            cal1.setVisible(false);
+            cal2.setVisible(false);
         }
         //suggestion label
         ArrayList<String> suggestions = new ArrayList<>();
@@ -195,7 +202,13 @@ public class DashboardController extends GenericController{
         for (Map.Entry<String,Integer> entry : dataPie.entrySet()){//for all the elements in the hashmap
             pieChartData.add(new PieChart.Data(entry.getKey(), entry.getValue()));//add them to the data
         }
-        ConsumedCal.getData().addAll(pieChartData);//add the data to the pie chart
+        if (pieChartData.isEmpty()){
+            ConsumedCal.setVisible(false);
+        } else {
+            ConsumedCal.setVisible(true);
+            ConsumedCal.getData().addAll(pieChartData);//add the data to the pie chart
+        }
+
     }
 
     /**

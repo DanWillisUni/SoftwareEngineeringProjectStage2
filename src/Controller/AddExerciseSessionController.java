@@ -37,7 +37,7 @@ public class AddExerciseSessionController extends GenericController{
     public void setUpDisplay(){
         //setting up the search box
         try {
-            GenericDatabaseController db = new GenericDatabaseController();
+            GenericController db = new GenericController();
             ArrayList<String> results = db.getAllLike("","exercise","exerciseName");//get all exercises with a name like "", this gets all of them
             ObservableList<String> observableList = FXCollections.observableList(results);//put the results into an observable list
             Exercise.setItems(observableList);//set the drop down to the observable list
@@ -124,7 +124,7 @@ public class AddExerciseSessionController extends GenericController{
     private void goSearch(ActionEvent event) {
         try {
             String toSearch = txt_search.getText();//get what is in the search box
-            GenericDatabaseController db = new GenericDatabaseController();
+            GenericController db = new GenericController();
             ArrayList<String> results = db.getAllLike(toSearch,"exercise","exerciseName");//search the database for any LIKE
             ObservableList<String> observableList = FXCollections.observableList(results);//put the results in an observable list
             Exercise.setItems(observableList);//reset the dropdown to the list of exercises found
@@ -142,7 +142,7 @@ public class AddExerciseSessionController extends GenericController{
     @FXML
     private void AddExerciseSessionAction (ActionEvent event) {
         errorMsg.setText("");
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         boolean validCal = false;
         Boolean validSport = false;
 

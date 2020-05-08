@@ -1,6 +1,6 @@
 package Model;
 
-import Controller.GenericDatabaseController;
+import Controller.GenericController;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,7 +38,7 @@ public class Meal {
      * @param type type of meal
      */
     public Meal(FoodItem food, int quantity, String type){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         this.id=db.genID("meal","idMeal");
         this.food = food;
         this.quantity = quantity;
@@ -92,7 +92,7 @@ public class Meal {
      * Adds the meal to the database
      */
     public void add(){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         try {
             final String query = "Insert Into softwareengineering.meal Values("+ getId() + ", '" + getFood().getId() + "', '" + getQuantity()+ "', '" + getType()+ "' )";
             try (
@@ -113,7 +113,7 @@ public class Meal {
      * @return the meal item from the database
      */
     public static Meal getMeal(FoodItem food, int quantity, String type){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         Meal r = null;
         try {
             final String query = "SELECT * FROM softwareengineering.meal WHERE idFood = " + food.getId() + " AND quantity = " + quantity + " And mealCategory = '" + type + "'";
@@ -134,7 +134,7 @@ public class Meal {
      * Remove the Meal from the database
      */
     public void remove(){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         db.remove(getId(),"meal","idMeal");
     }
 
@@ -144,7 +144,7 @@ public class Meal {
      * @return meal obj with id id
      */
     public static Meal getFromID(int id){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         try (
                 Statement stmnt = db.getConnection().createStatement();
                 ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.meal where idMeal ="+id);
@@ -163,7 +163,7 @@ public class Meal {
      * @return true if it is in use by someone in the database
      */
     public boolean checkIfInUse(){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         try {
             final String query = "SELECT * FROM softwareengineering.diet WHERE idMeal = " + getId();
             try (
@@ -187,7 +187,7 @@ public class Meal {
      * @return list of meals eaten by user on date
      */
     public static ArrayList<Meal> getDays(User user,Date date){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         ArrayList<Meal> r = new ArrayList<>();
         try (
                 Statement stmnt = db.getConnection().createStatement();
@@ -208,7 +208,7 @@ public class Meal {
      * @return hashmap of arraylist of all the dates and arraylist of all the meals
      */
     public static HashMap<ArrayList<Date>,ArrayList<Meal>> getDateAll(User u){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         HashMap<ArrayList<Date>,ArrayList<Meal>> r = new HashMap<>();
         ArrayList<Date> d = new ArrayList<>();
         ArrayList<Meal> m = new ArrayList<>();

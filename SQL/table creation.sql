@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS `softwareengineering`.`User` (
   `surname` VARCHAR(45) NOT NULL,
   `email` VARCHAR(60) NOT NULL,
   `username` VARCHAR(45) NOT NULL,
-  `password` NVARCHAR(20) NOT NULL,
+  `password` NVARCHAR(45) NOT NULL,
   `DOB` DATE NOT NULL,
   `height` SMALLINT,
   `gender` VARCHAR(1) NOT NULL,

@@ -29,7 +29,7 @@ public class RegistrationController extends GenericController{
      */
     @FXML
     protected void RegisterHandleSubmitButtonAction(ActionEvent event) {
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         errorMsg.setText("");
         //validation forename
         if (forename.getText()!=null){

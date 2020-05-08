@@ -38,7 +38,7 @@ public class AddFoodController extends GenericController{
     public void setUpDisplay(){
         name.setText("Hello, " + User.getUsername());//setting name at the top of the page
         try {
-            GenericDatabaseController db = new GenericDatabaseController();
+            GenericController db = new GenericController();
             ArrayList<String> results = db.getAllLike("","foods","foodName");//gets all the foodnames
             ObservableList<String> observableList = FXCollections.observableList(results);//puts all foodnames into a observablelist
             Foods.setItems(observableList);//set the food dropdown to all the foods
@@ -121,7 +121,7 @@ public class AddFoodController extends GenericController{
     private void goSearch(ActionEvent event) {
         try {
             String toSearch = txt_search.getText();
-            GenericDatabaseController db = new GenericDatabaseController();
+            GenericController db = new GenericController();
             ArrayList<String> results = db.getAllLike(toSearch,"foods","foodName");//get all like
             ObservableList<String> observableList = FXCollections.observableList(results);//put results in a observable list
             Foods.setItems(observableList);//set the dropdown
@@ -147,7 +147,7 @@ public class AddFoodController extends GenericController{
     @FXML
     private void AddFoodsAction (ActionEvent event){
         errorMsg.setText("");
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         //validation for quantity
         if (quantity.getText().matches("^[1-9]$")){
             int i = Integer.parseInt(quantity.getText());

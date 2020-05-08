@@ -56,7 +56,7 @@ public class PersonalDetailsController extends GenericController{
     @FXML
     private void SaveUser (ActionEvent event) {
         User copy = User;
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         errorMsg.setText("");
         //validation forename
         if (forename.getText()!=null){
@@ -134,12 +134,13 @@ public class PersonalDetailsController extends GenericController{
                     if (password.getText().toString().length() >= 20) {
                         errorMsg.setText("Error: password too long");
                         password.setText("");
+                        password2.setText("");
                     } else {
                         User.setPassword(password.getText());
                     }
                 }  else {
                     errorMsg.setText("Error: passwords not equal");
-                    password.setText("");
+                    password2.setText("");
                 }
             }
         }

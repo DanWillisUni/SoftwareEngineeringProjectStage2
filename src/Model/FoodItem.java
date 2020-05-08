@@ -1,6 +1,6 @@
 package Model;
 
-import Controller.GenericDatabaseController;
+import Controller.GenericController;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -60,7 +60,7 @@ public class FoodItem {
      * @return the food obj
      */
     public static FoodItem getFoodFromName(String name){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         return getFoodFromID(db.getIDFromName(name,"foods","foodName","idFood"));
     }
     /**
@@ -69,7 +69,7 @@ public class FoodItem {
      * @return the food obj
      */
     public static FoodItem getFoodFromID(int id){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         try (
                 Statement stmnt = db.getConnection().createStatement();
                 ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.foods where idFood ="+id);

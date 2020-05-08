@@ -1,6 +1,6 @@
 package Model;
 
-import Controller.GenericDatabaseController;
+import Controller.GenericController;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -171,7 +171,7 @@ public class User {
      */
     public void setPassword(String password) {
         this.password = password;
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         final String query = "UPDATE softwareengineering.User SET password = '"+ passwordHash(getPassword())+"' Where idUser= "+ getId();
         try (
                 PreparedStatement pstmt = db.getConnection().prepareStatement(query)
@@ -222,7 +222,7 @@ public class User {
      * Adds a user to the database
      */
     public void add(){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         try {
             final String query = "Insert Into softwareengineering.user Values("+ getId() + ", '" + getForename() + "', '" + getSurname()+ "', '" + getEmail()+ "', '" + getUsername()+ "', '" + passwordHash(getPassword())+ "', '"+ new java.sql.Date(getDOB().getTime()) +"' , " + getHeight()+ ", '" + getGender() + "', " + getWeight() + ", "+ getCal()+")";
             try (
@@ -240,7 +240,7 @@ public class User {
      * To the current attributes of the user
      */
     public void update(){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         final String query = "UPDATE softwareengineering.User SET forename = '"+getForename()+"', surname = '"+ getSurname()+"',email = '"+ getEmail()+"',username = '"+ getUsername()+"',DOB = '"+ new java.sql.Date(getDOB().getTime())+"',height = "+ getHeight()+",gender = '"+ getGender()+"',weight = "+ getWeight()+ ",calories="+cal+" Where idUser= "+ getId();
         try (
                 PreparedStatement pstmt = db.getConnection().prepareStatement(query)
@@ -287,7 +287,7 @@ public class User {
      * @return the user obj that has the email
      */
     public static User getFromEmail(String email){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         try (
                 Statement stmnt = db.getConnection().createStatement();
                 ResultSet rs = stmnt.executeQuery("select * from softwareengineering.user where email = '"+email +"'");
@@ -308,7 +308,7 @@ public class User {
      * @return the user obj with id as id
      */
     public static User getFromID(int id){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         try (
                 Statement stmnt = db.getConnection().createStatement();
                 ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.user where idUser ="+id);
@@ -331,7 +331,7 @@ public class User {
         removeWeight(new Date());
         setWeight(w);
         update();
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         try {
             final String query = "Insert Into softwareengineering.weighttracking Values(" + db.genID("WeightTracking","idWeightTracking") +", " + getId() + ", '" + new java.sql.Date(new Date().getTime()) + "', '" + w + "' )";
             try (
@@ -348,7 +348,7 @@ public class User {
      * @param d date to remove on
      */
     public void removeWeight(Date d){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         try {
             final String query = "DELETE FROM softwareengineering.weighttracking WHERE idUser = "+getId() + " AND date = '" + new java.sql.Date(d.getTime()) + "'" ;
             try (
@@ -366,7 +366,7 @@ public class User {
      * @return all the weights the user has entered in the last 4 weeks, with corrosponding dates
      */
     public LinkedHashMap<Date,Double> getAllWeights(){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         LinkedHashMap<Date,Double> r = new LinkedHashMap<>();
         try (
                 Statement stmnt = db.getConnection().createStatement();
@@ -387,7 +387,7 @@ public class User {
      * @param exerciseSession exerciseSession to create link with
      */
     public void addExerciseSessionLink(ExerciseSession exerciseSession){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         try {
             final String query = "Insert Into softwareengineering.exerciseLink Values("+ db.genID("exerciseLink","idLink") + ", '" + getId() + "', '" + exerciseSession.getId()+ "', '" +new java.sql.Date(new Date().getTime())+ "' )";
             try (
@@ -405,7 +405,7 @@ public class User {
      * @param exerciseSession exercise session to remove
      */
     public void removeExerciseSessionLink(Date date,ExerciseSession exerciseSession){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         //select one id of the exerciseSession
         int firstID = -1;
         try (
@@ -442,7 +442,7 @@ public class User {
      * @param meal
      */
     public void addFoodLink(Meal meal){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         try {
             final String query = "Insert Into softwareengineering.diet Values("+ db.genID("diet","idDiet") + ", '" + getId() + "', '" + meal.getId()+ "', '" + new java.sql.Date(new Date().getTime())+ "' )";
             try (
@@ -463,7 +463,7 @@ public class User {
      * @param meal meal to remove link with
      */
     public void removeFoodLink(Date date,Meal meal){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         int firstID = -1;
         try (
                 Statement stmnt = db.getConnection().createStatement();
@@ -499,7 +499,7 @@ public class User {
      * @return all the attributes in the weekly summary as an arraylist
      */
     public ArrayList<String> getWeeklySummary(Date commencing){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         ArrayList<String> r = new ArrayList<>();
         try (
                 Statement stmnt = db.getConnection().createStatement();
@@ -528,7 +528,7 @@ public class User {
      * @param weight new weight
      */
     public void updateSummary(int id,int calDuringExercise,int calDuringEating,double weight){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         final String query = "UPDATE softwareengineering.WeeklySummary SET caloriesBurnt="+calDuringExercise+",caloriesConsumed="+calDuringEating+",weight="+weight+" Where idWeeklySummary= "+ id;
         try (
                 PreparedStatement pstmt = db.getConnection().prepareStatement(query)
@@ -546,7 +546,7 @@ public class User {
      * @param weight new weight
      */
     public void newSummary(Date commencing,int calDuringExercise,int calDuringEating,double weight){
-        GenericDatabaseController db = new GenericDatabaseController();
+        GenericController db = new GenericController();
         try {
             final String query = "Insert Into softwareengineering.WeeklySummary Values("+db.genID("WeeklySummary","idWeeklySummary")+","+getId()+",'"+new java.sql.Date(commencing.getTime()) +"',"+calDuringExercise+","+calDuringEating+","+weight+")";
             try (
