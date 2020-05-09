@@ -32,17 +32,9 @@ public class GenericController {
         }
     }
     /**
-     * Closes the connection to the local server
+     * Get the connection
+     * @return the controller
      */
-    public void shutdown() {
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
     public Connection getConnection(){
         return connection;
     }

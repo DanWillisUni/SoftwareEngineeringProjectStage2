@@ -147,13 +147,13 @@ public class LoginController extends GenericController{
         Date commence = c.getTime();
         ArrayList<String> sum = u.getWeeklySummary(commence,this.c);//get the weekly summary as a arraylist
         if(sum.isEmpty()){
-            int previousWeight = 0;
+            double previousWeight = 0;
             c.setTime(commence);
             c.add(Calendar.DATE,-7);
             Date prevCommence = c.getTime();
             ArrayList<String> prevWeek = u.getWeeklySummary(prevCommence,this.c);//getting the previous week weekly summary
             if (!prevWeek.isEmpty()){
-                previousWeight = Integer.parseInt(prevWeek.get(5));
+                previousWeight = Double.parseDouble(prevWeek.get(5));
             }
             u.newSummary(commence,s.getCaloriesBurned(),0,previousWeight,this.c);
         } else {
@@ -182,13 +182,13 @@ public class LoginController extends GenericController{
         Date commence = calendar.getTime();
         ArrayList<String> sum = u.getWeeklySummary(commence,c);
         if(sum.isEmpty()){
-            int previousWeight = 0;
+            double previousWeight = 0;
             calendar.setTime(commence);
             calendar.add(Calendar.DATE,-7);
             Date prevCommence = calendar.getTime();
             ArrayList<String> prevWeek = u.getWeeklySummary(prevCommence,c);
             if (!prevWeek.isEmpty()){
-                previousWeight = Integer.parseInt(prevWeek.get(5));
+                previousWeight = Double.parseDouble(prevWeek.get(5));
             }
             u.newSummary(commence,0,m.getCalories(),previousWeight,c);
         } else {
