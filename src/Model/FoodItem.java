@@ -2,6 +2,7 @@ package Model;
 
 import Controller.GenericController;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -59,19 +60,18 @@ public class FoodItem {
      * @param name the name of the desired food
      * @return the food obj
      */
-    public static FoodItem getFoodFromName(String name){
-        GenericController db = new GenericController();
-        return getFoodFromID(db.getIDFromName(name,"foods","foodName","idFood"));
+    public static FoodItem getFoodFromName(String name,Connection c){
+        FoodItem r = getFoodFromID(GenericController.getIDFromName(name,"foods","foodName","idFood",c),c);
+        return r;
     }
     /**
      * Get the food obj from the id of the food item
      * @param id the id of the food item
      * @return the food obj
      */
-    public static FoodItem getFoodFromID(int id){
-        GenericController db = new GenericController();
+    public static FoodItem getFoodFromID(int id, Connection c){
         try (
-                Statement stmnt = db.getConnection().createStatement();
+                Statement stmnt = c.createStatement();
                 ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.foods where idFood ="+id);
 
         ){

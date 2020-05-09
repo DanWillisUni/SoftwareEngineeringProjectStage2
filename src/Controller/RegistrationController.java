@@ -5,11 +5,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import java.sql.Connection;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.Date;
 
 public class RegistrationController extends GenericController{
+    private Connection c;
     @FXML private TextField forename;
     @FXML private TextField surname;
     @FXML private TextField username;
@@ -19,6 +21,10 @@ public class RegistrationController extends GenericController{
     @FXML private DatePicker DOB;
     @FXML private ComboBox gender;
     @FXML private Label errorMsg;
+
+    public void setConnection(Connection c){
+        this.c=c;
+    }
     /**
      * Validate everything as all the fields are required
      * If any of the fields are wrong display
@@ -29,7 +35,6 @@ public class RegistrationController extends GenericController{
      */
     @FXML
     protected void RegisterHandleSubmitButtonAction(ActionEvent event) {
-        GenericController db = new GenericController();
         errorMsg.setText("");
         //validation forename
         if (forename.getText()!=null){
@@ -74,7 +79,7 @@ public class RegistrationController extends GenericController{
                     errorMsg.setText("Error: username too long");
                     username.setText("");
                 } else {
-                    if(db.isInTable(username.getText(),"user","username")){
+                    if(GenericController.isInTable(username.getText(),"user","username",c)){
                         errorMsg.setText("Error: username already in use");
                         username.setText("");
                     }
@@ -90,7 +95,7 @@ public class RegistrationController extends GenericController{
             if (!email.getText().equals("")){
                 if (email.getText().toString().length()<60){
                     if (email.getText().matches("^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$")) {
-                        if(db.isInTable(email.getText(),"user","email")){
+                        if(GenericController.isInTable(email.getText(),"user","email",c)){
                             errorMsg.setText("Error: email already in use");
                             email.setText("");
                         }
@@ -152,9 +157,9 @@ public class RegistrationController extends GenericController{
             password2.setText("");
         }
         if (errorMsg.getText().equals("")){
-            User newUser = new User(db.genID("user","idUser"),forename.getText(),surname.getText(),username.getText(),email.getText(),password.getText(), Date.from(Instant.from(DOB.getValue().atStartOfDay(ZoneId.systemDefault()))),0, gender.getValue().toString().charAt(0),0);//create a new user
-            newUser.add();//put the user in the database
-            goToPage("../View/Login.fxml",event);//go to login page
+            User newUser = new User(GenericController.genID("user","idUser",c),forename.getText(),surname.getText(),username.getText(),email.getText(),password.getText(), Date.from(Instant.from(DOB.getValue().atStartOfDay(ZoneId.systemDefault()))),0, gender.getValue().toString().charAt(0),0);//create a new user
+            newUser.add(c);//put the user in the database
+            goToLogin(c,event);
         }
     }
     /**
@@ -163,6 +168,6 @@ public class RegistrationController extends GenericController{
      */
     @FXML
     private void GoToLoginButtonAction (ActionEvent event) {
-        goToPage("../View/Login.fxml",event);
+        goToLogin(c,event);
     }
 }

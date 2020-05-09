@@ -56,10 +56,10 @@ public class GenericController {
      * @param ColumName the column name of the id
      * @return a unique id
      */
-    public int genID(String TableName,String ColumName){
+    public static int genID(String TableName, String ColumName, Connection c){
         ArrayList<Integer> ids = new ArrayList<>();
         try (
-                Statement stmnt = connection.createStatement();
+                Statement stmnt = c.createStatement();
                 ResultSet rs = stmnt.executeQuery("select * from softwareengineering." + TableName);
         ){
             while (rs.next()) {
@@ -82,11 +82,11 @@ public class GenericController {
      * @param ColumnName the name of the column to search in
      * @return an array list of all the elements in ColumnName like s
      */
-    public ArrayList<String> getAllLike(String s,String TableName,String ColumnName){
+    public static ArrayList<String> getAllLike(String s,String TableName,String ColumnName, Connection c){
         ArrayList<String> r = new ArrayList<>();
         String sql = "SELECT * FROM softwareengineering."+TableName+" WHERE "+ ColumnName+" LIKE ? order by " + ColumnName + " asc";
         try (
-                PreparedStatement pst=connection.prepareStatement(sql);
+                PreparedStatement pst=c.prepareStatement(sql);
         ){
             pst.setString(1, "%" + s + "%");
             ResultSet rs = pst.executeQuery();
@@ -107,9 +107,9 @@ public class GenericController {
      * @param ColumnName the column to look in
      * @return if str is in the column
      */
-    public boolean isInTable(String str, String TableName, String ColumnName){
+    public static boolean isInTable(String str, String TableName, String ColumnName,Connection c){
         try (
-                Statement stmnt = connection.createStatement();
+                Statement stmnt = c.createStatement();
                 ResultSet rs = stmnt.executeQuery("select * from softwareengineering." + TableName);
         ){
             while(rs.next()){
@@ -131,10 +131,10 @@ public class GenericController {
      * @param ColumnIDName the id column
      * @return
      */
-    public int getIDFromName(String name,String TableName,String ColumnName,String ColumnIDName){
+    public static int getIDFromName(String name, String TableName, String ColumnName, String ColumnIDName,Connection c){
         int r = -1;
         try (
-                Statement stmnt = connection.createStatement();
+                Statement stmnt = c.createStatement();
                 ResultSet rs = stmnt.executeQuery("select * from softwareengineering."+ TableName +" where " + ColumnName + " = '"+name +"'");
         ){
             if(rs.next()){
@@ -151,11 +151,11 @@ public class GenericController {
      * @param TableName table to remove from
      * @param ColumnName column of the id
      */
-    public void remove(int id,String TableName,String ColumnName){
+    public static void remove(int id, String TableName, String ColumnName,Connection c){
         try {
             final String query = "DELETE FROM softwareengineering."+TableName+" WHERE "+ ColumnName + "="+id;
             try (
-                    PreparedStatement pstmt = connection.prepareStatement(query)
+                    PreparedStatement pstmt = c.prepareStatement(query)
             ){
                 pstmt.executeUpdate();
             }
@@ -164,31 +164,13 @@ public class GenericController {
         }
     }
     //non database methods
-    /**
-     * Goes to a page with no setting the user
-     * @param page page to load path
-     * @param event button pushed
-     */
-    public static void goToPage(String page, ActionEvent event){
-        FXMLLoader loader = new FXMLLoader(GenericController.class.getResource(page));
-        Parent root = null;
-        try {
-            root = loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-        stage.setFullScreen(true);
-        stage.show();
-    }
+
     /**
      * Goes to the dashboard and sets the user
      * @param User user to set it to
      * @param event go to dashboard button pushed
      */
-    public static void goToDash(User User, ActionEvent event){
+    public static void goToDash(User User, Connection c, ActionEvent event){
         FXMLLoader loader = new FXMLLoader(GenericController.class.getResource("../View/Dashboard.fxml"));
         Parent root = null;
         try {
@@ -199,8 +181,40 @@ public class GenericController {
         Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         DashboardController controller = loader.<DashboardController>getController();
-        controller.setUser(User);
+        controller.setUser(User,c);
         controller.setUpDisplay();
+        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        stage.setFullScreen(true);
+        stage.show();
+    }
+    public static void goToLogin(Connection c, ActionEvent event){
+        FXMLLoader loader = new FXMLLoader(GenericController.class.getResource("../View/Login.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        LoginController controller = loader.<LoginController>getController();
+        controller.setConnection(c);
+        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        stage.setFullScreen(true);
+        stage.show();
+    }
+    public static void goToRegistration(Connection c, ActionEvent event){
+        FXMLLoader loader = new FXMLLoader(GenericController.class.getResource("../View/Login.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        LoginController controller = loader.<LoginController>getController();
+        controller.setConnection(c);
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setFullScreen(true);
         stage.show();

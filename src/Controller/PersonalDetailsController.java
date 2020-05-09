@@ -5,12 +5,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import java.sql.Connection;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.Date;
 
 public class PersonalDetailsController extends GenericController{
     private Model.User User;
+    private Connection c;
     @FXML private TextField forename;
     @FXML private TextField surname;
     @FXML private TextField username;
@@ -31,8 +33,9 @@ public class PersonalDetailsController extends GenericController{
      * Sets the user to the user that is logged in
      * @param User Person object logged in
      */
-    public void setUser(Model.User User){
+    public void setUser(Model.User User, Connection c){
         this.User = User;
+        this.c=c;
     }
     /**
      * Sets up the display
@@ -56,7 +59,6 @@ public class PersonalDetailsController extends GenericController{
     @FXML
     private void SaveUser (ActionEvent event) {
         User copy = User;
-        GenericController db = new GenericController();
         errorMsg.setText("");
         //validation forename
         if (forename.getText()!=null){
@@ -97,7 +99,7 @@ public class PersonalDetailsController extends GenericController{
                     errorMsg.setText("Error: username too long");
                     username.setText("");
                 } else {
-                    if(db.isInTable(username.getText(),"user","username")){
+                    if(GenericController.isInTable(username.getText(),"user","username",c)){
                         errorMsg.setText("Error: username already in use");
                         username.setText("");
                     } else {
@@ -111,7 +113,7 @@ public class PersonalDetailsController extends GenericController{
             if (!email.getText().equals("")){
                 if (email.getText().toString().length()<60){
                     if (email.getText().matches("^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$")) {
-                        if(db.isInTable(email.getText(),"user","email")){
+                        if(GenericController.isInTable(email.getText(),"user","email",c)){
                             errorMsg.setText("Error: email already in use");
                             email.setText("");
                         } else {
@@ -136,7 +138,7 @@ public class PersonalDetailsController extends GenericController{
                         password.setText("");
                         password2.setText("");
                     } else {
-                        User.setPassword(password.getText());
+                        User.setPassword(password.getText(),c);
                     }
                 }  else {
                     errorMsg.setText("Error: passwords not equal");
@@ -170,8 +172,8 @@ public class PersonalDetailsController extends GenericController{
             }
         }
         if (errorMsg.getText().equals("")){
-            User.update();//update the user in the database
-            goToDash(User,event);
+            User.update(c);//update the user in the database
+            goToDash(User,c,event);
         } else {
             User = copy;//user set back to its original
         }
@@ -182,6 +184,6 @@ public class PersonalDetailsController extends GenericController{
      */
     @FXML
     private void GoToDashButtonAction (ActionEvent event){
-        goToDash(User,event);
+        goToDash(User,c,event);
     }
 }

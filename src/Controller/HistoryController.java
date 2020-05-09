@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -28,6 +29,7 @@ import java.util.Map;
 
 public class HistoryController extends GenericController{
     private Model.User User;//user obj
+    private Connection c;
     @FXML private Label name;//name label at the top
     @FXML private LineChart WeightTracking;//linechart of weight
     @FXML private LineChart CalorieTracking;//linechart of calories consumed each day
@@ -39,8 +41,9 @@ public class HistoryController extends GenericController{
      * Sets the user to the user that is logged in
      * @param User Person object logged in
      */
-    public void setUser(Model.User User){
+    public void setUser(Model.User User, Connection c){
         this.User = User;
+        this.c=c;
     }
     /**
      * Sets up the display
@@ -65,7 +68,7 @@ public class HistoryController extends GenericController{
         this.howManyDaysBackEnd=howManyDaysBackEnd;//set the days
         name.setText("Hello, " + User.getUsername());//setting name at the top of the page
         //line chart of weight
-        HashMap<Date, Double> all = User.getAllWeights();
+        HashMap<Date, Double> all = User.getAllWeights(c);
         ArrayList<Double> weights = new ArrayList<>();//gets all the weights
         ArrayList<java.util.Date> dates = new ArrayList<>();//gets all the dates
         double smallestWeight = Integer.MAX_VALUE;
@@ -87,7 +90,7 @@ public class HistoryController extends GenericController{
             weightSeries.getData().add(new XYChart.Data<Number,Double>(dates.get(i).getTime(), weights.get(i)));//puts the weights and dates into a series
         }
         weightSeries.setName("Weight");//set the series name
-        WeightTracking.getData().add(weightSeries);//adds the series to the linechart
+        WeightTracking.getData().setAll(weightSeries);//adds the series to the linechart
         NumberAxis yAxis = (NumberAxis) WeightTracking.getYAxis();
         //sets the smallest and largest value +/- 2.5kg as the upper and lower limits of y axis
         if (smallestWeight!=Integer.MAX_VALUE){
@@ -110,13 +113,13 @@ public class HistoryController extends GenericController{
         int smallestCal = Integer.MAX_VALUE;
         int highestCal = Integer.MIN_VALUE;
         for (int i = howManyDaysBackEnd;i<howManyDaysBackBeginning;i++){//for all the days
-            ArrayList<Meal> meals = Meal.getDays(User,Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(i).atStartOfDay(ZoneId.systemDefault()))));//get meals on this day
+            ArrayList<Meal> meals = Meal.getDays(User,Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(i).atStartOfDay(ZoneId.systemDefault()))),c);//get meals on this day
             int totalCal = 0;//set the total for that day to 0
             for (Meal meal:meals){//for all meals
-               totalCal= meal.getCalories();//add the calories of the meal to the total
+               totalCal+= meal.getCalories();//add the calories of the meal to the total
             }
             if (totalCal>0){//if the total calories is more than 0
-                //if the calories are higher or smaller than the pervious highest or smallest update accordingly
+                //if the calories are higher or smaller than the previous highest or smallest update accordingly
                 if (totalCal>highestCal){
                     highestCal = totalCal;
                 }
@@ -132,10 +135,10 @@ public class HistoryController extends GenericController{
             ConsumptionSeries.getData().add(new XYChart.Data<Number,Number>(datesCal.get(i).getTime(), Cal.get(i)));//puts the calories and dates into a series
         }
         ConsumptionSeries.setName("Calories Consumed");
-        CalorieTracking.getData().add(ConsumptionSeries);//adds the series to the linechart
+        CalorieTracking.getData().setAll(ConsumptionSeries);//adds the series to the linechart
         NumberAxis yAxisCal = (NumberAxis) CalorieTracking.getYAxis();
         //set the upper and lower bounds accoridingly to the highest and lowest
-        if (smallestCal!=Integer.MAX_VALUE){
+        if (smallestCal!=Integer.MAX_VALUE && smallestCal>50){
             yAxisCal.setLowerBound(smallestCal-50.0);
         } else {
             yAxisCal.setLowerBound(0);
@@ -155,21 +158,20 @@ public class HistoryController extends GenericController{
         int highestBurn = Integer.MIN_VALUE;
         int smallestBurn = Integer.MAX_VALUE;
         for (int i = howManyDaysBackEnd;i<howManyDaysBackBeginning;i++){
-            ArrayList<ExerciseSession> sessions = ExerciseSession.getDays(User,Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(i).atStartOfDay(ZoneId.systemDefault()))));
-            int totalCal = 0;
+            ArrayList<ExerciseSession> sessions = ExerciseSession.getDays(User,Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(i).atStartOfDay(ZoneId.systemDefault()))),c);
+            int totalBurn = 0;
             for (ExerciseSession s:sessions){//forall sessions
-                totalCal+= s.getCaloriesBurned();//add to the total
+                totalBurn+= s.getCaloriesBurned();//add to the total
             }
-
-            if (totalCal>0){//if there was exercise that day
+            if (totalBurn>0){//if there was exercise that day
                 //get the highest and lowest comparison for upper and lower bounds
-                if (totalCal>highestCal){
-                    highestBurn = totalCal;
+                if (totalBurn>highestBurn){
+                    highestBurn = totalBurn;
                 }
-                if (totalCal < smallestBurn){
-                    smallestBurn = totalCal;
+                if (totalBurn < smallestBurn){
+                    smallestBurn = totalBurn;
                 }
-                Burn.add(totalCal);//add to the arraylist
+                Burn.add(totalBurn);//add to the arraylist
                 datesBurn.add(Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(i).atStartOfDay(ZoneId.systemDefault()))));//add the date to the array list
             }
         }
@@ -178,7 +180,7 @@ public class HistoryController extends GenericController{
             seriesBurn.getData().add(new XYChart.Data<Number,Number>(datesBurn.get(i).getTime(), Burn.get(i)));//puts the calories and dates into a series
         }
         seriesBurn.setName("Calories Burnt");
-        BurningTracking.getData().add(seriesBurn);//adds the series to the linechart
+        BurningTracking.getData().setAll(seriesBurn);//adds the series to the linechart
         NumberAxis yAxisBurn = (NumberAxis) BurningTracking.getYAxis();
         //setting upper and lower bound of the y axis
         if (highestBurn!=Integer.MIN_VALUE){
@@ -186,9 +188,7 @@ public class HistoryController extends GenericController{
         } else {
             yAxisBurn.setUpperBound(100);
         }
-        if (smallestBurn==Integer.MAX_VALUE) {
-            yAxisBurn.setLowerBound(0);
-        } else if (smallestBurn-50 > 0) {
+        if (smallestBurn!=Integer.MAX_VALUE && smallestBurn>50) {
             yAxisBurn.setLowerBound(smallestBurn - 50);
         } else {
             yAxisBurn.setLowerBound(0);
@@ -234,6 +234,6 @@ public class HistoryController extends GenericController{
      */
     @FXML
     private void GoToDashButtonAction (ActionEvent event) {
-        goToDash(User,event);
+        goToDash(User,c,event);
     }
 }

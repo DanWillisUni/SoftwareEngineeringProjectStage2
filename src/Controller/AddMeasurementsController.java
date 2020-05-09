@@ -9,10 +9,12 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 
 public class AddMeasurementsController extends GenericController{
     private Model.User User;//User logged in
+    private Connection c;
     @FXML private Label name;//label with the users name in
     @FXML private TextField weight;//weight textbox
     @FXML private Label errorMsg;//where error messages are displayed
@@ -27,8 +29,9 @@ public class AddMeasurementsController extends GenericController{
      * Set the user
      * @param User current user that is signed in
      */
-    public void setUser(Model.User User){
+    public void setUser(Model.User User, Connection c){
         this.User = User;
+        this.c=c;
     }
     /**
      * Sets up the display for the user
@@ -70,7 +73,7 @@ public class AddMeasurementsController extends GenericController{
      */
     @FXML
     private void GoToDashButtonAction (ActionEvent event) {
-        goToDash(User,event);
+        goToDash(User,c,event);
     }
     /**
      * Validation
@@ -93,8 +96,8 @@ public class AddMeasurementsController extends GenericController{
             weight.setText("");
         }
         if(errorMsg.getText().equals("")){
-            User.addWeight(Double.parseDouble(weight.getText()));//add weight to user
-            goToDash(User,event);//go to the dashboard
+            User.addWeight(Double.parseDouble(weight.getText()),c);//add weight to user
+            goToDash(User,c,event);//go to the dashboard
         }
     }
     /**
@@ -121,8 +124,8 @@ public class AddMeasurementsController extends GenericController{
         }
         if(errorMsg.getText().equals("")){
             User.setHeight(Integer.parseInt(height.getText()));//set the height of the user
-            User.update();//update the user in the database
-            goToDash(User,event);//go to the dashboard
+            User.update(c);//update the user in the database
+            goToDash(User,c,event);//go to the dashboard
         }
     }
     /**

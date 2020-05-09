@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.math.RoundingMode;
+import java.sql.Connection;
 import java.text.DecimalFormat;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -26,6 +27,7 @@ import java.util.*;
 
 public class DashboardController extends GenericController{
     private Model.User User;
+    private Connection c;
     @FXML private Label name;
     @FXML private Label calLeft;//calories left statement
     @FXML Label GoalDone;//message box for the user to have a goal
@@ -41,8 +43,9 @@ public class DashboardController extends GenericController{
      * Sets the user to the user that is logged in
      * @param User Person object logged in
      */
-    public void setUser(Model.User User){
+    public void setUser(Model.User User, Connection c){
         this.User = User;
+        this.c=c;
     }
     /**
      * Sets up the display
@@ -80,10 +83,10 @@ public class DashboardController extends GenericController{
             }
         }
         //get rid of competed goals
-        ArrayList<WeightGoal> allGoals = WeightGoal.getAll(User);//get all the goals
+        ArrayList<WeightGoal> allGoals = WeightGoal.getAll(User,c);//get all the goals
         for(WeightGoal wg: allGoals){//for all the goals
             if (wg.isMet()){//if the goal is met
-                wg.remove();//remove the goal
+                wg.remove(c);//remove the goal
                 GoalDone.setText("Congratulations, You completed your goal!");//message about completed goal
             }
         }
@@ -112,16 +115,16 @@ public class DashboardController extends GenericController{
                     User.setCal(cals);
                 }
             }
-            User.update();//update the caloreis on the user in the database
+            User.update(c);//update the caloreis on the user in the database
             //set up calories for the day
             int totalCal = User.getCal();
             int calBurned = 0;
-            ArrayList<ExerciseSession> exerciseLinks = ExerciseSession.getDays(User,new Date());//get todays exercise sessions
+            ArrayList<ExerciseSession> exerciseLinks = ExerciseSession.getDays(User,new Date(),c);//get todays exercise sessions
             for (ExerciseSession el:exerciseLinks){//for all exercises session that day
                 calBurned += el.getCaloriesBurned();//add up the caliroes burned
             }
             int calConsumed = 0;
-            ArrayList<Meal> meals = Meal.getDays(User,new Date());
+            ArrayList<Meal> meals = Meal.getDays(User,new Date(),c);
             for (Meal m:meals){//for all meals that day
                 calConsumed += (m.getCalories());
             }
@@ -138,11 +141,11 @@ public class DashboardController extends GenericController{
         } else if (User.getWeight()==0){//if the user hasnt entered a weight
             suggestion.setText("Try going to Add Measurements and enter your weight");//suggest they do so
         } else {
-            Map.Entry<Date,Double> entry = User.getAllWeights().entrySet().iterator().next();//gets all the weights of the user
+            Map.Entry<Date,Double> entry = User.getAllWeights(c).entrySet().iterator().next();//gets all the weights of the user
             if(entry.getKey().getTime()<(((new Date()).getTime())-86400000L)){//weight not entered today
                 suggestions.add("Try entering your weight for today");
             }
-            if (WeightGoal.getAll(User).isEmpty()){//if the user has no goals
+            if (WeightGoal.getAll(User,c).isEmpty()){//if the user has no goals
                 suggestions.add("Try going to add goal and setting a personal goal");
             }
             if (calRemaining>100){//if the user has calories left to eat
@@ -168,7 +171,7 @@ public class DashboardController extends GenericController{
         //hashmap
         HashMap<String,Integer> exerciseSessionTypeChartData = new HashMap<>();//datahashmap
         for (int i = 0;i<14;i++){//up to 14 days ago
-            ArrayList<ExerciseSession> day = ExerciseSession.getDays(User,Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(i).atStartOfDay(ZoneId.systemDefault()))));
+            ArrayList<ExerciseSession> day = ExerciseSession.getDays(User,Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(i).atStartOfDay(ZoneId.systemDefault()))),c);
             for (ExerciseSession s:day){//for the day
                 if(exerciseSessionTypeChartData.containsKey(s.getExerciseName())){//if the map already contains the exercise type
                     exerciseSessionTypeChartData.put(s.getExerciseName(),exerciseSessionTypeChartData.get(s.getExerciseName()) + s.getCaloriesBurned());//add the value back in with the added calories
@@ -189,10 +192,10 @@ public class DashboardController extends GenericController{
         //pie chart
         HashMap<String,Integer> dataPie = new HashMap<>();//make hashmap of the meals for the pie chart
         for (int i = 0;i<14;i++){//for all the days up to 13 days ago
-            ArrayList<Meal> day = Meal.getDays(User,Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(i).atStartOfDay(ZoneId.systemDefault()))));//get i days ago meals meals
+            ArrayList<Meal> day = Meal.getDays(User,Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(i).atStartOfDay(ZoneId.systemDefault()))),c);//get i days ago meals meals
             for (Meal m:day){//for all the meals on that day
                 if(dataPie.containsKey(m.getType())){//if the data already contains the mealtype
-                    dataPie.put(m.getType(),exerciseSessionTypeChartData.get(m.getType()) + m.getCalories());//add to the calories
+                    dataPie.put(m.getType(),dataPie.get(m.getType()) + m.getCalories());//add to the calories
                 } else {
                     dataPie.put(m.getType(),m.getCalories());//make a new mealtype section
                 }
@@ -227,7 +230,7 @@ public class DashboardController extends GenericController{
         Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         AddMeasurementsController controller = loader.<AddMeasurementsController>getController();
-        controller.setUser(User);
+        controller.setUser(User,c);
         controller.setUpDisplay(0,0);
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setFullScreen(true);
@@ -249,7 +252,7 @@ public class DashboardController extends GenericController{
         Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         AddExerciseSessionController controller = loader.<AddExerciseSessionController>getController();
-        controller.setUser(User);
+        controller.setUser(User,c);
         controller.setUpDisplay();
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setFullScreen(true);
@@ -271,7 +274,7 @@ public class DashboardController extends GenericController{
         Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         AddFoodController controller = loader.<AddFoodController>getController();
-        controller.setUser(User);
+        controller.setUser(User,c);
         controller.setUpDisplay();
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setFullScreen(true);
@@ -293,7 +296,7 @@ public class DashboardController extends GenericController{
         Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         AddGoalController controller = loader.<AddGoalController>getController();
-        controller.setUser(User);
+        controller.setUser(User,c);
         controller.setUpDisplay();
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setFullScreen(true);
@@ -315,7 +318,7 @@ public class DashboardController extends GenericController{
         Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         PersonalDetailsController controller = loader.<PersonalDetailsController>getController();
-        controller.setUser(User);
+        controller.setUser(User,c);
         controller.setUpDisplay();
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setFullScreen(true);
@@ -337,7 +340,7 @@ public class DashboardController extends GenericController{
         Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         HistoryController controller = loader.<HistoryController>getController();
-        controller.setUser(User);
+        controller.setUser(User,c);
         controller.setUpDisplay(7,-1);
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setFullScreen(true);
@@ -349,6 +352,6 @@ public class DashboardController extends GenericController{
      */
     @FXML
     private void GoToSignOutButtonAction (ActionEvent event) {
-        goToPage("../View/Login.fxml",event);
+        goToLogin(c,event);
     }
 }

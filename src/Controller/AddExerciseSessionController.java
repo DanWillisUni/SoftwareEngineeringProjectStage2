@@ -9,11 +9,13 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 //java imports
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class AddExerciseSessionController extends GenericController{
     private Model.User User; //person who is currently logged in
+    private Connection c;
     @FXML private TextField txt_search;//search box
     @FXML private ComboBox Exercise;//exercises drop down
     @FXML private TextField duration;//duration text box
@@ -26,8 +28,9 @@ public class AddExerciseSessionController extends GenericController{
      * Sets the current user that is signed into the health tracker
      * @param User Person that is signed in
      */
-    public void setUser(Model.User User){
+    public void setUser(Model.User User, Connection c){
         this.User = User;
+        this.c=c;
     }
     /**
      * Sets up the drop down for all the exercises
@@ -37,8 +40,7 @@ public class AddExerciseSessionController extends GenericController{
     public void setUpDisplay(){
         //setting up the search box
         try {
-            GenericController db = new GenericController();
-            ArrayList<String> results = db.getAllLike("","exercise","exerciseName");//get all exercises with a name like "", this gets all of them
+            ArrayList<String> results = GenericController.getAllLike("","exercise","exerciseName",c);//get all exercises with a name like "", this gets all of them
             ObservableList<String> observableList = FXCollections.observableList(results);//put the results into an observable list
             Exercise.setItems(observableList);//set the drop down to the observable list
         } catch (Exception e) {
@@ -51,7 +53,7 @@ public class AddExerciseSessionController extends GenericController{
         Exercise.setValue("");
         name.setText("Hello, " + User.getUsername());//setting name at the top of the page
         //setting up the tableview
-        ArrayList<Model.ExerciseSession> links = ExerciseSession.getDays(User,new Date());//get all of todays exercise sessions
+        ArrayList<Model.ExerciseSession> links = ExerciseSession.getDays(User,new Date(),c);//get all of todays exercise sessions
         ObservableList<ExerciseSession> data = FXCollections.observableArrayList();
         for (Model.ExerciseSession exerciseSession:links) {//for each of the exercise sessions
             data.add(exerciseSession);//add them to the data
@@ -95,7 +97,7 @@ public class AddExerciseSessionController extends GenericController{
                     {
                         btn.setOnAction((ActionEvent event) -> {//on action of the button
                             ExerciseSession data = getTableView().getItems().get(getIndex());//get the exercise session obj that is in the table
-                            User.removeExerciseSessionLink(new Date(),data);//remove link between the user and the exercise session
+                            User.removeExerciseSessionLink(new Date(),data,c);//remove link between the user and the exercise session
                             setUpDisplay();//refresh the page
                         });
                     }
@@ -125,9 +127,12 @@ public class AddExerciseSessionController extends GenericController{
         try {
             String toSearch = txt_search.getText();//get what is in the search box
             GenericController db = new GenericController();
-            ArrayList<String> results = db.getAllLike(toSearch,"exercise","exerciseName");//search the database for any LIKE
+            ArrayList<String> results = db.getAllLike(toSearch,"exercise","exerciseName",c);//search the database for any LIKE
             ObservableList<String> observableList = FXCollections.observableList(results);//put the results in an observable list
             Exercise.setItems(observableList);//reset the dropdown to the list of exercises found
+            if (!observableList.isEmpty()){
+                Exercise.setValue(observableList.get(0));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -142,7 +147,6 @@ public class AddExerciseSessionController extends GenericController{
     @FXML
     private void AddExerciseSessionAction (ActionEvent event) {
         errorMsg.setText("");
-        GenericController db = new GenericController();
         boolean validCal = false;
         Boolean validSport = false;
 
@@ -164,7 +168,7 @@ public class AddExerciseSessionController extends GenericController{
         //validate sport
         if (validCal){
             if (Exercise.getValue()!=null&&!Exercise.getValue().toString().equals("")){
-                if(!db.isInTable(Exercise.getValue().toString(),"exercise","exerciseName")){
+                if(!GenericController.isInTable(Exercise.getValue().toString(),"exercise","exerciseName",c)){
                     errorMsg.setText("Error: No such sport found, try other");
                     Exercise.setValue("");
                 } else {
@@ -177,7 +181,7 @@ public class AddExerciseSessionController extends GenericController{
             }else if(Exercise.getValue().toString().equals("")){
                 errorMsg.setText("Error: Sport not typed in");
             } else {
-                if(!db.isInTable(Exercise.getValue().toString(),"exercise","exerciseName")){
+                if(!GenericController.isInTable(Exercise.getValue().toString(),"exercise","exerciseName",c)){
                     errorMsg.setText("Error: No such sport found, try other");
                     Exercise.setValue("");
                 } else {
@@ -203,7 +207,7 @@ public class AddExerciseSessionController extends GenericController{
             Exercise exercise = new Exercise(0,"Other",0);
             //set the sport if it is valid
             if (validSport){
-                exercise = Model.Exercise.getExerciseFromName(Exercise.getValue().toString());
+                exercise = Model.Exercise.getExerciseFromName(Exercise.getValue().toString(),c);
                 if (!validCal){
                     caloriesBurned = durationNum*(exercise.getCaloriesBurned());//if the calories are not valid, calculate them
                     if (User.getWeight()>0){
@@ -215,12 +219,12 @@ public class AddExerciseSessionController extends GenericController{
             if (validCal){
                 caloriesBurned = Integer.parseInt(calBurned.getText());
             }
-            ExerciseSession exerciseSession = ExerciseSession.getExerciseSession(exercise,durationNum,caloriesBurned);//get the exercise session
+            ExerciseSession exerciseSession = ExerciseSession.getExerciseSession(exercise,durationNum,caloriesBurned,c);//get the exercise session
             if (exerciseSession == null){//if it doesnt exist
-                exerciseSession = new ExerciseSession(exercise,durationNum,caloriesBurned);//make a new session
-                exerciseSession.add();//add it to the database
+                exerciseSession = new ExerciseSession(exercise,durationNum,caloriesBurned,c);//make a new session
+                exerciseSession.add(c);//add it to the database
             }
-            User.addExerciseSessionLink(exerciseSession);//add the link to the session to the database
+            User.addExerciseSessionLink(exerciseSession,c);//add the link to the session to the database
             setUpDisplay();//refresh the page
         }
     }
@@ -230,6 +234,6 @@ public class AddExerciseSessionController extends GenericController{
      */
     @FXML
     private void GoToDashButtonAction (ActionEvent event) {
-        goToDash(User,event);
+        goToDash(User,c,event);
     }
 }

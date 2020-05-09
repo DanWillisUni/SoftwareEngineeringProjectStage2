@@ -3,6 +3,7 @@ package Model;
 import Controller.GenericController;
 import Controller.GenericController;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -52,9 +53,10 @@ public class Exercise {
      * @param name the name of the exercise required
      * @return the exercise obj with the name specified
      */
-    public static Exercise getExerciseFromName(String name){
-        GenericController db = new GenericController();
-        return getExerciseFromID(db.getIDFromName(name,"exercise","exerciseName","idExerciseType"));
+    public static Exercise getExerciseFromName(String name, Connection c){
+        Exercise r = getExerciseFromID(GenericController.getIDFromName(name,"exercise","exerciseName","idExerciseType",c),c);
+        return r;
+
     }
     /**
      * Gets the exercise object from the id
@@ -62,10 +64,9 @@ public class Exercise {
      * @param id the id of the exercise
      * @return the exercise obj with that id
      */
-    public static Exercise getExerciseFromID(int id){
-        GenericController db = new GenericController();
+    public static Exercise getExerciseFromID(int id, Connection c){
         try (
-                Statement stmnt = db.getConnection().createStatement();
+                Statement stmnt = c.createStatement();
                 ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.exercise where idExerciseType ="+id);
 
         ){

@@ -15,6 +15,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -24,12 +25,18 @@ import java.time.ZoneId;
 import java.util.*;
 
 public class LoginController extends GenericController{
+    private Connection c;
     @FXML private Label errorMsg;//error message label
     @FXML private TextField email;//email textbox
     @FXML private PasswordField password;//password password box
     @FXML private TextField emailReset;//email to reset textbox
     @FXML private PasswordField passwordReset;//password to reset box
     @FXML private PasswordField passwordReset2;//password to reset repeat box
+
+    public void setConnection(Connection c){
+        this.c=c;
+    }
+
     /**
      * Attempt to get a new User obj from an email
      * If no User with that email exists, display appropriate error message
@@ -45,11 +52,11 @@ public class LoginController extends GenericController{
     private void LoginHandleSubmitButtonAction (ActionEvent event) {
         errorMsg.setText("");
         //validation
-        User u = User.getFromEmail(email.getText().toString());
+        User u = User.getFromEmail(email.getText().toString(),c);
         if (u!=null){//if there is a user with that email
             if (u.getPassword().equals(u.passwordHash(password.getText()))){//if the hashed password matches the users hashed password
                 //putting all the data in weekly summary
-                HashMap<ArrayList<Date>,ArrayList<ExerciseSession>> sessionHashMap = ExerciseSession.getDateAll(u);//weekly summary for exercise sessions
+                HashMap<ArrayList<Date>,ArrayList<ExerciseSession>> sessionHashMap = ExerciseSession.getDateAll(u,c);//weekly summary for exercise sessions
                 for (Map.Entry<ArrayList<Date>,ArrayList<ExerciseSession>> entry : sessionHashMap.entrySet()){//for all exercisesessions
                     ArrayList<Date> datesArr = entry.getKey();
                     ArrayList<ExerciseSession> sessions = entry.getValue();
@@ -59,12 +66,12 @@ public class LoginController extends GenericController{
                             java.util.Date d = datesArr.get(i);
                             ExerciseSession s = sessions.get(i);
                             sortExerciseSessionToWeeklySummary(u,d,s);//sorts putting the exercise session into the weekly summary
-                            u.removeExerciseSessionLink(d,s);//removes the link
+                            u.removeExerciseSessionLink(d,s,c);//removes the link
                         }
                     }
                 }
                 //food weekly summary
-                HashMap<ArrayList<Date>, ArrayList<Meal>> foodHashMap = Meal.getDateAll(u);
+                HashMap<ArrayList<Date>, ArrayList<Meal>> foodHashMap = Meal.getDateAll(u,c);
                 for (Map.Entry<ArrayList<Date>, ArrayList<Meal>> entry : foodHashMap.entrySet()){
                     ArrayList<Date> dates = entry.getKey();
                     ArrayList<Meal> meals = entry.getValue();
@@ -74,18 +81,18 @@ public class LoginController extends GenericController{
                             java.util.Date d = dates.get(i);
                             Meal m = meals.get(i);
                             sortMealToWeeklySummary(u,d,m);
-                            u.removeFoodLink(d,m);//remove the link
+                            u.removeFoodLink(d,m,c);//remove the link
                         }
                     }
 
                 }
-                HashMap<Date,Double> weights = u.getAllWeights();
+                HashMap<Date,Double> weights = u.getAllWeights(c);
                 for (Map.Entry<Date,Double> entry : weights.entrySet()){
                     if(entry.getKey().getTime()<Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(28).atStartOfDay(ZoneId.systemDefault()))).getTime()){
                         java.util.Date d = entry.getKey();
                         double i = entry.getValue();
                         sortWeightToWeeklySummary(u,d,i); //add it to the current data in weekly summary
-                        u.removeWeight(d);//remove the link
+                        u.removeWeight(d,c);//remove the link
                     }
                 }
                 //load dashboard
@@ -99,12 +106,12 @@ public class LoginController extends GenericController{
                 Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
                 stage.setScene(new Scene(root));
                 DashboardController controller = loader.<DashboardController>getController();
-                controller.setUser(u);
+                controller.setUser(u,c);
                 //check for overdue goals
-                ArrayList<WeightGoal> allGoals = WeightGoal.getAll(u);
+                ArrayList<WeightGoal> allGoals = WeightGoal.getAll(u,c);
                 for(WeightGoal wg: allGoals){
                     if (wg.isOverdue()){//if the goal is overdue
-                        wg.remove();//remove it
+                        wg.remove(c);//remove it
                         controller.GoalDone.setText("An overdue goal was removed");//put message on the dashboard about overdue goal
                     }
                 }
@@ -138,23 +145,23 @@ public class LoginController extends GenericController{
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
         c.add(Calendar.DATE,dayOfWeek*-1);
         Date commence = c.getTime();
-        ArrayList<String> sum = u.getWeeklySummary(commence);//get the weekly summary as a arraylist
+        ArrayList<String> sum = u.getWeeklySummary(commence,this.c);//get the weekly summary as a arraylist
         if(sum.isEmpty()){
             int previousWeight = 0;
             c.setTime(commence);
             c.add(Calendar.DATE,-7);
             Date prevCommence = c.getTime();
-            ArrayList<String> prevWeek = u.getWeeklySummary(prevCommence);//getting the previous week weekly summary
+            ArrayList<String> prevWeek = u.getWeeklySummary(prevCommence,this.c);//getting the previous week weekly summary
             if (!prevWeek.isEmpty()){
                 previousWeight = Integer.parseInt(prevWeek.get(5));
             }
-            u.newSummary(commence,s.getCaloriesBurned(),0,previousWeight);
+            u.newSummary(commence,s.getCaloriesBurned(),0,previousWeight,this.c);
         } else {
             int id = Integer.parseInt(sum.get(0));
             int newCalBurn = Integer.parseInt(sum.get(3)) + s.getCaloriesBurned();
             int newCalCons = Integer.parseInt(sum.get(4));
-            int newWeight = Integer.parseInt(sum.get(5));
-            u.updateSummary(id,newCalBurn,newCalCons,newWeight);
+            double newWeight = Double.parseDouble(sum.get(5));
+            u.updateSummary(id,newCalBurn,newCalCons,newWeight,this.c);
         }
     }
     /**
@@ -167,29 +174,29 @@ public class LoginController extends GenericController{
      * @param m Meal obj
      */
     private void sortMealToWeeklySummary(User u,java.util.Date d,Meal m){
-        Calendar c = Calendar.getInstance();
-        c.setTime(d);
-        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(d);
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         //Date.from(Instant.from(d.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().minusDays()));
-        c.add(Calendar.DATE,dayOfWeek*-1);
-        Date commence = c.getTime();
-        ArrayList<String> sum = u.getWeeklySummary(commence);
+        calendar.add(Calendar.DATE,dayOfWeek*-1);
+        Date commence = calendar.getTime();
+        ArrayList<String> sum = u.getWeeklySummary(commence,c);
         if(sum.isEmpty()){
             int previousWeight = 0;
-            c.setTime(commence);
-            c.add(Calendar.DATE,-7);
-            Date prevCommence = c.getTime();
-            ArrayList<String> prevWeek = u.getWeeklySummary(prevCommence);
+            calendar.setTime(commence);
+            calendar.add(Calendar.DATE,-7);
+            Date prevCommence = calendar.getTime();
+            ArrayList<String> prevWeek = u.getWeeklySummary(prevCommence,c);
             if (!prevWeek.isEmpty()){
                 previousWeight = Integer.parseInt(prevWeek.get(5));
             }
-            u.newSummary(commence,0,m.getCalories(),previousWeight);
+            u.newSummary(commence,0,m.getCalories(),previousWeight,c);
         } else {
             int id = Integer.parseInt(sum.get(0));
             int newCalBurn = Integer.parseInt(sum.get(3));
             int newCalCons = Integer.parseInt(sum.get(4)) + m.getCalories();
-            int newWeight = Integer.parseInt(sum.get(5));
-            u.updateSummary(id,newCalBurn,newCalCons,newWeight);
+            double newWeight = Double.parseDouble(sum.get(5));
+            u.updateSummary(id,newCalBurn,newCalCons,newWeight,c);
         }
     }
     /**
@@ -202,19 +209,19 @@ public class LoginController extends GenericController{
      * @param w weight
      */
     private void sortWeightToWeeklySummary(User u,java.util.Date d,double w){
-        Calendar c = Calendar.getInstance();
-        c.setTime(d);
-        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-        c.add(Calendar.DATE,dayOfWeek*-1);
-        Date commence = c.getTime();
-        ArrayList<String> sum = u.getWeeklySummary(commence);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(d);
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        calendar.add(Calendar.DATE,dayOfWeek*-1);
+        Date commence = calendar.getTime();
+        ArrayList<String> sum = u.getWeeklySummary(commence,c);
         if(sum.isEmpty()){
-            u.newSummary(commence,0,0,w);
+            u.newSummary(commence,0,0,w,c);
         } else {
             int id = Integer.parseInt(sum.get(0));
             int newCalBurn = Integer.parseInt(sum.get(3));
             int newCalCons = Integer.parseInt(sum.get(4));
-            u.updateSummary(id,newCalBurn,newCalCons,w);
+            u.updateSummary(id,newCalBurn,newCalCons,w,c);
         }
     }
     /**
@@ -223,7 +230,7 @@ public class LoginController extends GenericController{
      */
     @FXML
     private void GoToRegisterButtonAction (ActionEvent event) {
-        goToPage("../View/Registration.fxml",event);
+        goToRegistration(c,event);
     }
     /**
      * Exits the application
@@ -238,7 +245,7 @@ public class LoginController extends GenericController{
     public void LoginHandleResetButtonAction(ActionEvent actionEvent) {
         errorMsg.setText("");
         //validation
-        User u = User.getFromEmail(emailReset.getText().toString());
+        User u = User.getFromEmail(emailReset.getText().toString(),c);
         //in real life somewhere here a confirmation email would be sent to the email
         //then the user would click a link in the email that confirms the reset
         if (u!=null){//if there is a user with that email
@@ -253,7 +260,7 @@ public class LoginController extends GenericController{
                             errorMsg.setText("Passwords do not match");
                             passwordReset2.setText("");
                         } else {
-                            u.setPassword(passwordReset.getText());//reset the password
+                            u.setPassword(passwordReset.getText(),c);//reset the password
                             errorMsg.setText("Your password has been reset");
                             passwordReset.setText("");
                             passwordReset2.setText("");

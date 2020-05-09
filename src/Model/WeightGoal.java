@@ -2,10 +2,7 @@ package Model;
 
 import Controller.GenericController;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,9 +40,8 @@ public class WeightGoal {
      * @param due the date the goal is due
      * @param toLoose if the goal is to loose
      */
-    public WeightGoal(User user, double targetWeight, Date due, boolean toLoose){
-        GenericController db = new GenericController();
-        this.id = db.genID("GoalWeight","idGoalWeight");
+    public WeightGoal(User user, double targetWeight, Date due, boolean toLoose,Connection c){
+        this.id = GenericController.genID("GoalWeight","idGoalWeight",c);
         this.user=user;
         this.targetWeight=targetWeight;
         this.set= new Date();
@@ -140,12 +136,11 @@ public class WeightGoal {
     /**
      * Adds the goal to the database
      */
-    public void add(){
-        GenericController db = new GenericController();
+    public void add(Connection c){
         try {
             final String query = "Insert Into softwareengineering.goalweight Values("+ getId() + ", '" + getUser().getId() + "', '" + getTargetWeight()+ "', '" + new java.sql.Date(getSet().getTime())+ "', '" + new java.sql.Date(getDue().getTime())+  "', '" + (getToLoose() ? 1 : 0) +"' )";
             try (
-                    PreparedStatement pstmt = db.getConnection().prepareStatement(query)
+                    PreparedStatement pstmt = c.prepareStatement(query)
             ){
                 pstmt.executeUpdate();
             }
@@ -156,9 +151,8 @@ public class WeightGoal {
     /**
      * Removes the goal from the database
      */
-    public void remove(){
-        GenericController db = new GenericController();
-        db.remove(getId(),"goalweight","idgoalweight");
+    public void remove(Connection c){
+        GenericController.remove(getId(),"goalweight","idgoalweight",c);
     }
 
     /**
@@ -166,11 +160,10 @@ public class WeightGoal {
      * @param u user
      * @return arraylist of all the users goal
      */
-    public static ArrayList<WeightGoal> getAll(User u){
-        GenericController db = new GenericController();
+    public static ArrayList<WeightGoal> getAll(User u, Connection c){
         ArrayList<WeightGoal> r =  new ArrayList<>();
         try (
-                Statement stmnt = db.getConnection().createStatement();
+                Statement stmnt = c.createStatement();
                 ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.goalweight where idUser ="+u.getId() + " ORDER BY targetDate ASC");
 
         ){

@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 //java imports
 import java.io.IOException;
+import java.sql.Connection;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -24,6 +25,7 @@ import java.util.Date;
 
 public class AddGoalController extends GenericController{
     private Model.User User;
+    private Connection c;
     @FXML private TextField TargetWeight;
     @FXML private DatePicker targetDate;
     @FXML private Label errorMsg;
@@ -35,8 +37,9 @@ public class AddGoalController extends GenericController{
      * sets the user that is signed in
      * @param User person to set to
      */
-    public void setUser(Model.User User){
+    public void setUser(Model.User User, Connection c){
         this.User = User;
+        this.c=c;
     }
     /**
      * sets up the display
@@ -51,15 +54,15 @@ public class AddGoalController extends GenericController{
         }
         ArrayList<Model.WeightGoal> goalsSuggestion = new ArrayList<>();//create new arraylist to put all the weight goals obj in
         if (User.getWeight()==perfectWeight){//if the user is thier perfect weight
-            goalsSuggestion.add(new WeightGoal(User,perfectWeight,Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).plusDays(7).atStartOfDay(ZoneId.systemDefault()))),true));//set a suggestion goal to maintain for a week
+            goalsSuggestion.add(new WeightGoal(User,perfectWeight,Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).plusDays(7).atStartOfDay(ZoneId.systemDefault()))),true,c));//set a suggestion goal to maintain for a week
         } else {
             boolean toLoose = multiplyer==1;
             for (double i = 0.25;i<=1.5;i=i+0.25){//for 1.5 kg towards thier ideal weight at 0.25 increments
                 if (!closerThan(User.getWeight(),User.getWeight()+(i*multiplyer),perfectWeight)){//if it is closer
                     //add 3 different suggestions with 3 different timesscales
-                    goalsSuggestion.add(new WeightGoal(User,User.getWeight()+(i*multiplyer),Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).plusDays((long)(7*i/0.1)).atStartOfDay(ZoneId.systemDefault()))),toLoose));//slow
-                    goalsSuggestion.add(new WeightGoal(User,User.getWeight()+(i*multiplyer),Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).plusDays((long)(7*i/0.25)).atStartOfDay(ZoneId.systemDefault()))),toLoose));//medium
-                    goalsSuggestion.add(new WeightGoal(User,User.getWeight()+(i*multiplyer),Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).plusDays((long)(7*i/0.5)).atStartOfDay(ZoneId.systemDefault()))),toLoose));//fast
+                    goalsSuggestion.add(new WeightGoal(User,User.getWeight()+(i*multiplyer),Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).plusDays((long)(7*i/0.1)).atStartOfDay(ZoneId.systemDefault()))),toLoose,c));//slow
+                    goalsSuggestion.add(new WeightGoal(User,User.getWeight()+(i*multiplyer),Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).plusDays((long)(7*i/0.25)).atStartOfDay(ZoneId.systemDefault()))),toLoose,c));//medium
+                    goalsSuggestion.add(new WeightGoal(User,User.getWeight()+(i*multiplyer),Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).plusDays((long)(7*i/0.5)).atStartOfDay(ZoneId.systemDefault()))),toLoose,c));//fast
                 }
             }
         }
@@ -82,7 +85,7 @@ public class AddGoalController extends GenericController{
         SuggestedGoals.getColumns().setAll(targetSuggestion, DateDueSuggestion);//add the columns
         addButtonToTableSuggestion();//add the add button onto the rightmost column
 
-        ArrayList<Model.WeightGoal> goals = Model.WeightGoal.getAll(User);//get all the weight goals of the user
+        ArrayList<Model.WeightGoal> goals = Model.WeightGoal.getAll(User,c);//get all the weight goals of the user
         ObservableList<WeightGoal> data = FXCollections.observableArrayList();
         for (Model.WeightGoal wg:goals) {//for each goal
             data.add(wg);//add the goal to the data
@@ -132,7 +135,7 @@ public class AddGoalController extends GenericController{
                     {
                         btn.setOnAction((ActionEvent event) -> {//on action
                             WeightGoal data = getTableView().getItems().get(getIndex());//get the weight goal obj that needs to be removed
-                            data.remove();//remove the goal
+                            data.remove(c);//remove the goal
                             setUpDisplay();//refresh
                         });
                     }
@@ -166,7 +169,7 @@ public class AddGoalController extends GenericController{
                     {
                         btn.setOnAction((ActionEvent event) -> {
                             WeightGoal data = getTableView().getItems().get(getIndex());//get the data in the row
-                            data.add();//add the data
+                            data.add(c);//add the data
                             setUpDisplay();//refresh
                         });
                     }
@@ -194,7 +197,7 @@ public class AddGoalController extends GenericController{
      */
     @FXML
     private void GoToDashButtonAction (ActionEvent event){
-        goToDash(User,event);
+        goToDash(User,c,event);
     }
     /**
      * Adds goal
@@ -235,9 +238,9 @@ public class AddGoalController extends GenericController{
             if (User.getWeight()<Integer.parseInt(TargetWeight.getText())){//if current weight is less than target weight they want to gain weight
                 toLoose=false;
             }
-            WeightGoal g = new WeightGoal(User,Integer.parseInt(TargetWeight.getText()),Date.from(Instant.from(targetDate.getValue().atStartOfDay(ZoneId.systemDefault()))),toLoose);//new weight goal
-            g.add();//add new weight goal to database
-            goToDash(User,event);//goes to dashboard
+            WeightGoal g = new WeightGoal(User,Integer.parseInt(TargetWeight.getText()),Date.from(Instant.from(targetDate.getValue().atStartOfDay(ZoneId.systemDefault()))),toLoose,c);//new weight goal
+            g.add(c);//add new weight goal to database
+            goToDash(User,c,event);//goes to dashboard
         }
     }
 }

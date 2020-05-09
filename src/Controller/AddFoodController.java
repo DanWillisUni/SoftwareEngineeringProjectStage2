@@ -9,11 +9,13 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class AddFoodController extends GenericController{
     private Model.User User;//the user that the food is being added to
+    private Connection c;
     @FXML private TextField txt_search;//search box
     @FXML private ComboBox Foods;//food dropdown
     @FXML private TextField quantity;//quantity of food box
@@ -26,8 +28,9 @@ public class AddFoodController extends GenericController{
      * Sets the user to the user signed in
      * @param User logged in user
      */
-    public void setUser(Model.User User){
+    public void setUser(Model.User User, Connection c){
         this.User = User;
+        this.c=c;
     }
     /**
      * Sets the drop down of food to all the food
@@ -38,8 +41,7 @@ public class AddFoodController extends GenericController{
     public void setUpDisplay(){
         name.setText("Hello, " + User.getUsername());//setting name at the top of the page
         try {
-            GenericController db = new GenericController();
-            ArrayList<String> results = db.getAllLike("","foods","foodName");//gets all the foodnames
+            ArrayList<String> results = GenericController.getAllLike("","foods","foodName",c);//gets all the foodnames
             ObservableList<String> observableList = FXCollections.observableList(results);//puts all foodnames into a observablelist
             Foods.setItems(observableList);//set the food dropdown to all the foods
         } catch (Exception e) {
@@ -50,7 +52,7 @@ public class AddFoodController extends GenericController{
         Foods.setValue("");
         MealType.setValue("");
 
-        ArrayList<Model.Meal> todaysFood = Model.Meal.getDays(User,new Date());//get all todays food
+        ArrayList<Model.Meal> todaysFood = Model.Meal.getDays(User,new Date(),c);//get all todays food
         ObservableList<Meal> data = FXCollections.observableArrayList();
         for (Model.Meal m:todaysFood) {
             data.add(m);//add the Meal to the tableview data
@@ -92,7 +94,7 @@ public class AddFoodController extends GenericController{
                     {
                         btn.setOnAction((ActionEvent event) -> {//on button press
                             Meal data = getTableView().getItems().get(getIndex());//get the meal
-                            User.removeFoodLink(new Date(),data);//remove the link in diet
+                            User.removeFoodLink(new Date(),data,c);//remove the link in diet
                             setUpDisplay();//refresh the display
                         });
                     }
@@ -121,10 +123,12 @@ public class AddFoodController extends GenericController{
     private void goSearch(ActionEvent event) {
         try {
             String toSearch = txt_search.getText();
-            GenericController db = new GenericController();
-            ArrayList<String> results = db.getAllLike(toSearch,"foods","foodName");//get all like
+            ArrayList<String> results = GenericController.getAllLike(toSearch,"foods","foodName",c);//get all like
             ObservableList<String> observableList = FXCollections.observableList(results);//put results in a observable list
             Foods.setItems(observableList);//set the dropdown
+            if (!observableList.isEmpty()){
+                Foods.setValue(observableList.get(0));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -135,7 +139,7 @@ public class AddFoodController extends GenericController{
      */
     @FXML
     private void GoToDashButtonAction (ActionEvent event) {
-        goToDash(User,event);
+        goToDash(User,c,event);
     }
     /**
      * Validates everything
@@ -147,7 +151,6 @@ public class AddFoodController extends GenericController{
     @FXML
     private void AddFoodsAction (ActionEvent event){
         errorMsg.setText("");
-        GenericController db = new GenericController();
         //validation for quantity
         if (quantity.getText().matches("^[1-9]$")){
             int i = Integer.parseInt(quantity.getText());
@@ -165,7 +168,7 @@ public class AddFoodController extends GenericController{
         }else if(Foods.getValue().toString().equals("")){
             errorMsg.setText("Error: food not typed in");
         } else {
-            if(!db.isInTable(Foods.getValue().toString(),"foods","foodName")){
+            if(!GenericController.isInTable(Foods.getValue().toString(),"foods","foodName",c)){
                 errorMsg.setText("Error: not valid food");
                 Foods.setValue("");
             }
@@ -183,13 +186,13 @@ public class AddFoodController extends GenericController{
         }
 
         if (errorMsg.getText().equals("")){
-            FoodItem foodItem = FoodItem.getFoodFromName(Foods.getValue().toString());//get the food item obj
-            Meal meal = Meal.getMeal(foodItem,Integer.parseInt(quantity.getText()),MealType.getValue().toString());//attempt to get the meal
+            FoodItem foodItem = FoodItem.getFoodFromName(Foods.getValue().toString(),c);//get the food item obj
+            Meal meal = Meal.getMeal(foodItem,Integer.parseInt(quantity.getText()),MealType.getValue().toString(),c);//attempt to get the meal
             if (meal==null){//if the meal is not in the database
-                meal = new Meal(foodItem,Integer.parseInt(quantity.getText()),MealType.getValue().toString());//make a new meal obj
-                meal.add();//add the meal to the database
+                meal = new Meal(foodItem,Integer.parseInt(quantity.getText()),MealType.getValue().toString(),c);//make a new meal obj
+                meal.add(c);//add the meal to the database
             }
-            User.addFoodLink(meal);//add a link between the user and the meal
+            User.addFoodLink(meal,c);//add a link between the user and the meal
             setUpDisplay();//refresh the page
         }
     }

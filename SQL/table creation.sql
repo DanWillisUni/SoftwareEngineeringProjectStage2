@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `softwareengineering`.`WeightTracking` (
   `idWeightTracking` INT NOT NULL,
   `idUser` INT NOT NULL,
   `date` DATE NOT NULL,
-  `weight` DECIMAL(10) NOT NULL,
+  `weight` DECIMAL(5,2) NOT NULL,
   PRIMARY KEY (`idWeightTracking`),
   UNIQUE INDEX `idWeightTracking_UNIQUE` (`idWeightTracking` ASC) VISIBLE,
   CONSTRAINT `idUserinWeightTracking`

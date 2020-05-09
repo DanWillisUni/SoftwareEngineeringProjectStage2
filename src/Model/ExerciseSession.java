@@ -2,10 +2,7 @@ package Model;
 
 import Controller.GenericController;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -37,9 +34,8 @@ public class ExerciseSession {
      * @param duration duration of the session
      * @param caloriesBurned calories burnt
      */
-    public ExerciseSession(Exercise exercise, int duration, int caloriesBurned) {
-        GenericController db = new GenericController();
-        this.id = db.genID("exercisesession","idExerciseSession");
+    public ExerciseSession(Exercise exercise, int duration, int caloriesBurned,Connection c) {
+        this.id = GenericController.genID("exercisesession","idExerciseSession",c);
         this.exercise = exercise;
         this.duration = duration;
         this.caloriesBurned = caloriesBurned;
@@ -83,14 +79,13 @@ public class ExerciseSession {
     /**
      * Adds the exercise session to the database
      */
-    public void add() {
-        ExerciseSession s = ExerciseSession.getExerciseSession(getExercise(),getDuration(),getCaloriesBurned());
+    public void add(Connection c) {
+        ExerciseSession s = ExerciseSession.getExerciseSession(getExercise(),getDuration(),getCaloriesBurned(),c);
         if(s==null){
-            GenericController db = new GenericController();
             try {
                 final String query = "Insert Into softwareengineering.exerciseSession Values("+ getId() + ", '" + getDuration() + "', '" + getExercise().getId()+ "', '" +getCaloriesBurned()+ "' )";
                 try (
-                        PreparedStatement pstmt = db.getConnection().prepareStatement(query)
+                        PreparedStatement pstmt = c.prepareStatement(query)
                 ){
                     pstmt.executeUpdate();
                 }
@@ -104,12 +99,11 @@ public class ExerciseSession {
      * Used for removing the link to see if the session can be removed too
      * @return true if the session is linked to
      */
-    public boolean checkIfSessionInUse(){
-        GenericController db = new GenericController();
+    public boolean checkIfSessionInUse(Connection c){
         try {
             final String query = "SELECT * FROM softwareengineering.exerciselink WHERE idExerciseSession = " + getId();
             try (
-                    PreparedStatement pstmt = db.getConnection().prepareStatement(query)
+                    PreparedStatement pstmt = c.prepareStatement(query)
             ){
                 ResultSet rs = pstmt.executeQuery();
                 if(rs.next()) {
@@ -124,9 +118,8 @@ public class ExerciseSession {
     /**
      * Removes the exercise session from the database
      */
-    public void remove(){
-        GenericController db = new GenericController();
-        db.remove(getId(),"exercisesession","idExerciseSession");
+    public void remove(Connection c){
+        GenericController.remove(getId(),"exercisesession","idExerciseSession",c);
     }
 
     /**
@@ -137,13 +130,12 @@ public class ExerciseSession {
      * @param caloriesBurned calories burnt during the session
      * @return exercise session obj of a session with the right inputs
      */
-    public static ExerciseSession getExerciseSession(Exercise exercise, int duration, int caloriesBurned){
-        GenericController db = new GenericController();
+    public static ExerciseSession getExerciseSession(Exercise exercise, int duration, int caloriesBurned, Connection c){
         ExerciseSession r = null;
         try {
             final String query = "SELECT * FROM softwareengineering.exercisesession WHERE idExerciseType = " + exercise.getId() + " AND durationMinutes = " + duration + " And caloriesBurned = " + caloriesBurned;
             try (
-                    PreparedStatement pstmt = db.getConnection().prepareStatement(query)
+                    PreparedStatement pstmt = c.prepareStatement(query)
             ){
                 ResultSet rs = pstmt.executeQuery();
                 if(rs.next()) {
@@ -160,17 +152,16 @@ public class ExerciseSession {
      * @param id id of session
      * @return exercise session obj with id, id
      */
-    public static ExerciseSession getFromID(int id){
-        GenericController db = new GenericController();
+    public static ExerciseSession getFromID(int id, Connection c){
         ExerciseSession r = null;
         try {
             final String query = "SELECT * FROM softwareengineering.exercisesession WHERE idExerciseSession = " + id;
             try (
-                    PreparedStatement pstmt = db.getConnection().prepareStatement(query)
+                    PreparedStatement pstmt = c.prepareStatement(query)
             ){
                 ResultSet rs = pstmt.executeQuery();
                 if(rs.next()) {
-                    Exercise exercise = Exercise.getExerciseFromID(rs.getInt("idExerciseType"));
+                    Exercise exercise = Exercise.getExerciseFromID(rs.getInt("idExerciseType"),c);
                     return new ExerciseSession(id,exercise,rs.getInt("durationMinutes"),rs.getInt("caloriesBurned"));
                 }
             }
@@ -185,16 +176,15 @@ public class ExerciseSession {
      * @param date date in question
      * @return list of all the exercise session done by user u on date date
      */
-    public static ArrayList<ExerciseSession> getDays(User u,Date date){
-        GenericController db = new GenericController();
+    public static ArrayList<ExerciseSession> getDays(User u,Date date, Connection c){
         ArrayList<ExerciseSession> r = new ArrayList<>();
         try (
-                Statement stmnt = db.getConnection().createStatement();
+                Statement stmnt = c.createStatement();
                 ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.exerciselink where idUser = "+u.getId() +" And date = '" + new java.sql.Date(date.getTime()) + "'");
 
         ){
             while(rs.next()) {
-                r.add(ExerciseSession.getFromID(rs.getInt("idExerciseSession")));
+                r.add(ExerciseSession.getFromID(rs.getInt("idExerciseSession"),c));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -206,19 +196,18 @@ public class ExerciseSession {
      * @param u user
      * @return all the exercise session done and the date in arraylists in a hashmap
      */
-    public static HashMap<ArrayList<Date>,ArrayList<ExerciseSession>> getDateAll(User u){
-        GenericController db = new GenericController();
+    public static HashMap<ArrayList<Date>,ArrayList<ExerciseSession>> getDateAll(User u, Connection c){
         HashMap<ArrayList<Date>,ArrayList<ExerciseSession>> r = new HashMap<>();
         ArrayList<Date> dates = new ArrayList<>();
         ArrayList<ExerciseSession> sessions = new ArrayList<>();
         try (
-                Statement stmnt = db.getConnection().createStatement();
+                Statement stmnt = c.createStatement();
                 ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.exerciselink where idUser = "+u.getId());
 
         ){
             while(rs.next()) {
                 dates.add(rs.getDate("date"));
-                sessions.add(ExerciseSession.getFromID(rs.getInt("idExerciseSession")));
+                sessions.add(ExerciseSession.getFromID(rs.getInt("idExerciseSession"),c));
             }
         } catch (SQLException e) {
             e.printStackTrace();

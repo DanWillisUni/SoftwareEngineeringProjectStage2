@@ -2,10 +2,7 @@ package Model;
 
 import Controller.GenericController;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -37,9 +34,8 @@ public class Meal {
      * @param quantity quantity of food eaten
      * @param type type of meal
      */
-    public Meal(FoodItem food, int quantity, String type){
-        GenericController db = new GenericController();
-        this.id=db.genID("meal","idMeal");
+    public Meal(FoodItem food, int quantity, String type,Connection c){
+        this.id=GenericController.genID("meal","idMeal",c);
         this.food = food;
         this.quantity = quantity;
         this.type = type;
@@ -91,12 +87,11 @@ public class Meal {
     /**
      * Adds the meal to the database
      */
-    public void add(){
-        GenericController db = new GenericController();
+    public void add(Connection c){
         try {
             final String query = "Insert Into softwareengineering.meal Values("+ getId() + ", '" + getFood().getId() + "', '" + getQuantity()+ "', '" + getType()+ "' )";
             try (
-                    PreparedStatement pstmt = db.getConnection().prepareStatement(query)
+                    PreparedStatement pstmt = c.prepareStatement(query)
             ){
                 pstmt.executeUpdate();
             }
@@ -112,13 +107,12 @@ public class Meal {
      * @param type the type of meal
      * @return the meal item from the database
      */
-    public static Meal getMeal(FoodItem food, int quantity, String type){
-        GenericController db = new GenericController();
+    public static Meal getMeal(FoodItem food, int quantity, String type, Connection c){
         Meal r = null;
         try {
             final String query = "SELECT * FROM softwareengineering.meal WHERE idFood = " + food.getId() + " AND quantity = " + quantity + " And mealCategory = '" + type + "'";
             try (
-                    PreparedStatement pstmt = db.getConnection().prepareStatement(query)
+                    PreparedStatement pstmt = c.prepareStatement(query)
             ){
                 ResultSet rs = pstmt.executeQuery();
                 if(rs.next()) {
@@ -133,9 +127,8 @@ public class Meal {
     /**
      * Remove the Meal from the database
      */
-    public void remove(){
-        GenericController db = new GenericController();
-        db.remove(getId(),"meal","idMeal");
+    public void remove(Connection c){
+        GenericController.remove(getId(),"meal","idMeal",c);
     }
 
     /**
@@ -143,14 +136,13 @@ public class Meal {
      * @param id id of the meal
      * @return meal obj with id id
      */
-    public static Meal getFromID(int id){
-        GenericController db = new GenericController();
+    public static Meal getFromID(int id, Connection c){
         try (
-                Statement stmnt = db.getConnection().createStatement();
+                Statement stmnt = c.createStatement();
                 ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.meal where idMeal ="+id);
         ){
             if(rs.next()) {
-                FoodItem foodItem = FoodItem.getFoodFromID(rs.getInt("idFood"));
+                FoodItem foodItem = FoodItem.getFoodFromID(rs.getInt("idFood"),c);
                 return new Meal(id,foodItem,rs.getInt("quantity"),rs.getString("mealCategory"));
             }
         } catch (SQLException e) {
@@ -162,12 +154,11 @@ public class Meal {
      * Checks to see if the meal is in use
      * @return true if it is in use by someone in the database
      */
-    public boolean checkIfInUse(){
-        GenericController db = new GenericController();
+    public boolean checkIfInUse(Connection c){
         try {
             final String query = "SELECT * FROM softwareengineering.diet WHERE idMeal = " + getId();
             try (
-                    PreparedStatement pstmt = db.getConnection().prepareStatement(query)
+                    PreparedStatement pstmt = c.prepareStatement(query)
             ){
                 ResultSet rs = pstmt.executeQuery();
                 if(rs.next()) {
@@ -186,16 +177,15 @@ public class Meal {
      * @param date date to get from
      * @return list of meals eaten by user on date
      */
-    public static ArrayList<Meal> getDays(User user,Date date){
-        GenericController db = new GenericController();
+    public static ArrayList<Meal> getDays(User user,Date date, Connection c){
         ArrayList<Meal> r = new ArrayList<>();
         try (
-                Statement stmnt = db.getConnection().createStatement();
+                Statement stmnt = c.createStatement();
                 ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.diet where idUser ="+user.getId() +" And date = '" + new java.sql.Date(date.getTime()) + "'");
 
         ){
             while(rs.next()) {
-                r.add(Meal.getFromID(rs.getInt("idMeal")));
+                r.add(Meal.getFromID(rs.getInt("idMeal"),c));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -207,19 +197,18 @@ public class Meal {
      * @param u user
      * @return hashmap of arraylist of all the dates and arraylist of all the meals
      */
-    public static HashMap<ArrayList<Date>,ArrayList<Meal>> getDateAll(User u){
-        GenericController db = new GenericController();
+    public static HashMap<ArrayList<Date>,ArrayList<Meal>> getDateAll(User u, Connection c){
         HashMap<ArrayList<Date>,ArrayList<Meal>> r = new HashMap<>();
         ArrayList<Date> d = new ArrayList<>();
         ArrayList<Meal> m = new ArrayList<>();
         try (
-                Statement stmnt = db.getConnection().createStatement();
+                Statement stmnt = c.createStatement();
                 ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.diet where idUser = "+u.getId());
 
         ){
             while(rs.next()) {
                 d.add(rs.getDate("date"));
-                m.add(Meal.getFromID(rs.getInt("idMeal")));
+                m.add(Meal.getFromID(rs.getInt("idMeal"),c));
             }
         } catch (SQLException e) {
             e.printStackTrace();
