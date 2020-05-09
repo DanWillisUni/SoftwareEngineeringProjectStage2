@@ -126,8 +126,7 @@ public class AddExerciseSessionController extends GenericController{
     private void goSearch(ActionEvent event) {
         try {
             String toSearch = txt_search.getText();//get what is in the search box
-            GenericController db = new GenericController();
-            ArrayList<String> results = db.getAllLike(toSearch,"exercise","exerciseName",c);//search the database for any LIKE
+            ArrayList<String> results = GenericController.getAllLike(toSearch,"exercise","exerciseName",c);//search the database for any LIKE
             ObservableList<String> observableList = FXCollections.observableList(results);//put the results in an observable list
             Exercise.setItems(observableList);//reset the dropdown to the list of exercises found
             if (!observableList.isEmpty()){

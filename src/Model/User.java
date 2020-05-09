@@ -340,7 +340,6 @@ public class User {
      * @param d date to remove on
      */
     public void removeWeight(Date d, Connection c){
-        GenericController db = new GenericController();
         try {
             final String query = "DELETE FROM softwareengineering.weighttracking WHERE idUser = "+getId() + " AND date = '" + new java.sql.Date(d.getTime()) + "'" ;
             try (
