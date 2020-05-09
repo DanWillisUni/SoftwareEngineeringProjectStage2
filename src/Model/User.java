@@ -486,7 +486,6 @@ public class User {
      * @return all the attributes in the weekly summary as an arraylist
      */
     public ArrayList<String> getWeeklySummary(Date commencing, Connection c){
-        GenericController db = new GenericController();
         ArrayList<String> r = new ArrayList<>();
         try (
                 Statement stmnt = c.createStatement();
