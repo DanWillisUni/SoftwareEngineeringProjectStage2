@@ -287,7 +287,7 @@ public class User {
                 ResultSet rs = stmnt.executeQuery("select * from softwareengineering.user where email = '"+email +"'");
         ){
             if(rs.next()){
-                return new User(rs.getInt("idUser"),rs.getString("forename"),rs.getString("surname"),rs.getString("username"),rs.getString("email"),rs.getString("password"),rs.getDate("DOB"),rs.getInt("height"),(rs.getString("gender")).charAt(0),rs.getInt("weight"));
+                return new User(rs.getInt("idUser"),rs.getString("forename"),rs.getString("surname"),rs.getString("username"),rs.getString("email"),rs.getString("password"),rs.getDate("DOB"),rs.getInt("height"),(rs.getString("gender")).charAt(0),rs.getDouble("weight"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -307,7 +307,7 @@ public class User {
                 ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.user where idUser ="+id);
         ){
             if(rs.next()) {
-                return new User(id,rs.getString("forename"),rs.getString("surname"),rs.getString("username"),rs.getString("email"),rs.getString("password"),rs.getDate("DOB"),rs.getInt("height"),(rs.getString("gender")).charAt(0),rs.getInt("weight"));
+                return new User(id,rs.getString("forename"),rs.getString("surname"),rs.getString("username"),rs.getString("email"),rs.getString("password"),rs.getDate("DOB"),rs.getInt("height"),(rs.getString("gender")).charAt(0),rs.getDouble("weight"));
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -196,7 +196,7 @@ public class GenericController {
         stage.show();
     }
     public static void goToRegistration(Connection c, ActionEvent event){
-        FXMLLoader loader = new FXMLLoader(GenericController.class.getResource("../View/Login.fxml"));
+        FXMLLoader loader = new FXMLLoader(GenericController.class.getResource("../View/Registration.fxml"));
         Parent root = null;
         try {
             root = loader.load();
@@ -205,7 +205,7 @@ public class GenericController {
         }
         Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
-        LoginController controller = loader.<LoginController>getController();
+        RegistrationController controller = loader.<RegistrationController>getController();
         controller.setConnection(c);
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setFullScreen(true);

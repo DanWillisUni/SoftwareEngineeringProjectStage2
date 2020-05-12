@@ -112,7 +112,7 @@ public class HistoryController extends GenericController{
         ArrayList<java.util.Date> datesCal = new ArrayList<>();//gets all the dates
         int smallestCal = Integer.MAX_VALUE;
         int highestCal = Integer.MIN_VALUE;
-        for (int i = howManyDaysBackEnd;i<howManyDaysBackBeginning;i++){//for all the days
+        for (int i = howManyDaysBackEnd;i<howManyDaysBackBeginning+1;i++){//for all the days
             ArrayList<Meal> meals = Meal.getDays(User,Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(i).atStartOfDay(ZoneId.systemDefault()))),c);//get meals on this day
             int totalCal = 0;//set the total for that day to 0
             for (Meal meal:meals){//for all meals
@@ -157,7 +157,7 @@ public class HistoryController extends GenericController{
         ArrayList<java.util.Date> datesBurn = new ArrayList<>();//gets all the dates
         int highestBurn = Integer.MIN_VALUE;
         int smallestBurn = Integer.MAX_VALUE;
-        for (int i = howManyDaysBackEnd;i<howManyDaysBackBeginning;i++){
+        for (int i = howManyDaysBackEnd;i<howManyDaysBackBeginning+1;i++){
             ArrayList<ExerciseSession> sessions = ExerciseSession.getDays(User,Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(i).atStartOfDay(ZoneId.systemDefault()))),c);
             int totalBurn = 0;
             for (ExerciseSession s:sessions){//forall sessions

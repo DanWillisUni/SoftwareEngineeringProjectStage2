@@ -234,11 +234,11 @@ public class AddGoalController extends GenericController{
             errorMsg.setText("Error: Date not selected");
         }
         if (errorMsg.getText().equals("")){
-            boolean toLoose = true;
-            if (User.getWeight()<Integer.parseInt(TargetWeight.getText())){//if current weight is less than target weight they want to gain weight
-                toLoose=false;
+            boolean toLoose = false;
+            if (User.getWeight()<Double.parseDouble(TargetWeight.getText())){//if current weight is less than target weight they want to gain weight
+                toLoose=true;
             }
-            WeightGoal g = new WeightGoal(User,Integer.parseInt(TargetWeight.getText()),Date.from(Instant.from(targetDate.getValue().atStartOfDay(ZoneId.systemDefault()))),toLoose,c);//new weight goal
+            WeightGoal g = new WeightGoal(User,Double.parseDouble(TargetWeight.getText()),Date.from(Instant.from(targetDate.getValue().atStartOfDay(ZoneId.systemDefault()))),toLoose,c);//new weight goal
             g.add(c);//add new weight goal to database
             goToDash(User,c,event);//goes to dashboard
         }

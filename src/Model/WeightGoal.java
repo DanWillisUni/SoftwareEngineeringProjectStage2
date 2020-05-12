@@ -107,7 +107,7 @@ public class WeightGoal {
      */
     public boolean isMet(){
         if (user.getWeight()>0){
-            if (user.getWeight() >= targetWeight){
+            if (user.getWeight() > targetWeight){
                 return toLoose;
             } else {
                 return !toLoose;
@@ -168,7 +168,7 @@ public class WeightGoal {
 
         ){
             while(rs.next()) {
-                r.add(new WeightGoal(rs.getInt("idGoalWeight"),u,rs.getInt("weightGoal"),new java.util.Date(rs.getDate("dateSet").getTime()),new java.util.Date(rs.getDate("targetDate").getTime()),rs.getBoolean("toLoose")));
+                r.add(new WeightGoal(rs.getInt("idGoalWeight"),u,rs.getDouble("weightGoal"),new java.util.Date(rs.getDate("dateSet").getTime()),new java.util.Date(rs.getDate("targetDate").getTime()),rs.getBoolean("toLoose")));
             }
         } catch (SQLException e) {
             e.printStackTrace();

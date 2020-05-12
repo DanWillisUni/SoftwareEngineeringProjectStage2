@@ -43,6 +43,7 @@ public class AddExerciseSessionController extends GenericController{
             ArrayList<String> results = GenericController.getAllLike("","exercise","exerciseName",c);//get all exercises with a name like "", this gets all of them
             ObservableList<String> observableList = FXCollections.observableList(results);//put the results into an observable list
             Exercise.setItems(observableList);//set the drop down to the observable list
+            Exercise.setValue(observableList.get(0));
         } catch (Exception e) {
             e.printStackTrace();
         }

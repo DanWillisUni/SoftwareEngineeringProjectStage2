@@ -44,6 +44,7 @@ public class AddFoodController extends GenericController{
             ArrayList<String> results = GenericController.getAllLike("","foods","foodName",c);//gets all the foodnames
             ObservableList<String> observableList = FXCollections.observableList(results);//puts all foodnames into a observablelist
             Foods.setItems(observableList);//set the food dropdown to all the foods
+            Foods.setValue(observableList.get(0));
         } catch (Exception e) {
             e.printStackTrace();
         }

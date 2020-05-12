@@ -105,7 +105,7 @@ public class DashboardController extends GenericController{
             User.setCal((int)(toMaintainCal * 1.2));//multiplyed by 1.2 as that is roughly how many calories people burn from walking around each day and other exercise that is not going to be added in
             //do a percentage of the calories based upon how far, away thier goal is
             if (!allGoals.isEmpty()){//there is goals
-                nextGoal.setText("The next goal is: " + Double.toString(allGoals.get(0).getTargetWeight()) + "kg, on " + allGoals.get(0).getDue());
+                nextGoal.setText("The next goal is: " + Double.toString(allGoals.get(0).getTargetWeight()) + "kg, on " + allGoals.get(0).getDueStr());
                 double distanceToGoal = User.getWeight()-allGoals.get(0).getTargetWeight();
                 long timeMs = (new Date().getTime() - allGoals.get(0).getDue().getTime());
                 double daysTillGoal = Integer.parseInt(Long.toString(timeMs/(86400000L)));
