@@ -81,7 +81,6 @@ public class LoginController extends GenericController{
                             u.removeFoodLink(d,m,c);//remove the link
                         }
                     }
-
                 }
                 HashMap<Date,Double> weights = u.getAllWeights(c);
                 for (Map.Entry<Date,Double> entry : weights.entrySet()){
