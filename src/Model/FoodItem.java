@@ -1,11 +1,14 @@
 package Model;
 
 import Controller.GenericController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class FoodItem {
     int id;// food id
@@ -56,12 +59,32 @@ public class FoodItem {
     }
 
     /**
+     *
+     * @param str
+     * @param c
+     * @return
+     */
+    public static ObservableList<String> getAllLike(String str,Connection c) {
+        ArrayList<String> results = GenericDatabaseController.getAllLike(str,"foods","foodName",c);//gets all the foodnames
+        ObservableList<String> observableList = FXCollections.observableList(results);//puts all foodnames into a observablelist
+        return observableList;
+    }
+    /**
+     *
+     * @param str
+     * @param c
+     * @return
+     */
+    public static boolean isInTable(String str,Connection c){
+        return GenericDatabaseController.isInTable(str,"foods","foodName",c);
+    }
+    /**
      * Get the food obj using the getFoodFromID after getting the food id from the name in the database
      * @param name the name of the desired food
      * @return the food obj
      */
     public static FoodItem getFoodFromName(String name,Connection c){
-        FoodItem r = getFoodFromID(GenericController.getIDFromName(name,"foods","foodName","idFood",c),c);
+        FoodItem r = getFoodFromID(GenericDatabaseController.getIDFromName(name,"foods","foodName","idFood",c),c);
         return r;
     }
     /**

@@ -1,6 +1,6 @@
 package Model;
 
-import Controller.GenericController;
+import Model.GenericDatabaseController;
 
 import java.sql.*;
 import java.text.DateFormat;
@@ -41,7 +41,7 @@ public class WeightGoal {
      * @param toLoose if the goal is to loose
      */
     public WeightGoal(User user, double targetWeight, Date due, boolean toLoose,Connection c){
-        this.id = GenericController.genID("GoalWeight","idGoalWeight",c);
+        this.id = GenericDatabaseController.genID("GoalWeight","idGoalWeight",c);
         this.user=user;
         this.targetWeight=targetWeight;
         this.set= new Date();
@@ -152,7 +152,7 @@ public class WeightGoal {
      * Removes the goal from the database
      */
     public void remove(Connection c){
-        GenericController.remove(getId(),"goalweight","idgoalweight",c);
+        GenericDatabaseController.remove(getId(),"goalweight","idgoalweight",c);
     }
 
     /**

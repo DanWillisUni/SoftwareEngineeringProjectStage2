@@ -1,12 +1,14 @@
 package Model;
 
 import Controller.GenericController;
-import Controller.GenericController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class Exercise {
     int id;//the exercise id
@@ -47,6 +49,26 @@ public class Exercise {
     }
 
     /**
+     *
+     * @param str
+     * @param c
+     * @return
+     */
+    public static ObservableList<String> getAllLike(String str, Connection c){
+        ArrayList<String> results = GenericDatabaseController.getAllLike(str,"exercise","exerciseName",c);//get all exercises with a name like "", this gets all of them
+        ObservableList<String> observableList = FXCollections.observableList(results);//put the results into an observable list
+        return observableList;
+    }
+    /**
+     *
+     * @param str
+     * @param c
+     * @return
+     */
+    public static boolean isInTable(String str,Connection c){
+        return GenericDatabaseController.isInTable(str,"exercise","exerciseName",c);
+    }
+    /**
      * Finds the exercise with the name in the database
      * Selects the id
      * Uses the getExerciseFromID function to get the exercise
@@ -54,7 +76,7 @@ public class Exercise {
      * @return the exercise obj with the name specified
      */
     public static Exercise getExerciseFromName(String name, Connection c){
-        Exercise r = getExerciseFromID(GenericController.getIDFromName(name,"exercise","exerciseName","idExerciseType",c),c);
+        Exercise r = getExerciseFromID(GenericDatabaseController.getIDFromName(name,"exercise","exerciseName","idExerciseType",c),c);
         return r;
 
     }

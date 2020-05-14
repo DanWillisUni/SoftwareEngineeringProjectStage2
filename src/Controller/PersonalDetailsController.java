@@ -99,7 +99,7 @@ public class PersonalDetailsController extends GenericController{
                     errorMsg.setText("Error: username too long");
                     username.setText("");
                 } else {
-                    if(GenericController.isInTable(username.getText(),"user","username",c)){
+                    if(User.isInTable(username.getText(),"username",c)){
                         errorMsg.setText("Error: username already in use");
                         username.setText("");
                     } else {
@@ -113,7 +113,7 @@ public class PersonalDetailsController extends GenericController{
             if (!email.getText().equals("")){
                 if (email.getText().toString().length()<60){
                     if (email.getText().matches("^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$")) {
-                        if(GenericController.isInTable(email.getText(),"user","email",c)){
+                        if(User.isInTable(email.getText(),"email",c)){
                             errorMsg.setText("Error: email already in use");
                             email.setText("");
                         } else {

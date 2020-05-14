@@ -6,12 +6,9 @@ import java.sql.*;
 import java.util.*;
 
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -275,6 +272,16 @@ public class User {
     }
 
     /**
+     *
+     * @param item
+     * @param col
+     * @param c
+     * @return
+     */
+    public static Boolean isInTable(String item,String col,Connection c){
+        return GenericDatabaseController.isInTable(item,"user",col,c);
+    }
+    /**
      * Gets the user obj of the user that has the email, email
      * If there is no such user
      * Return null
@@ -325,7 +332,7 @@ public class User {
         setWeight(w,c);
         update(c);
         try {
-            final String query = "Insert Into softwareengineering.weighttracking Values(" + GenericController.genID("WeightTracking","idWeightTracking",c) +", " + getId() + ", '" + new java.sql.Date(new Date().getTime()) + "', '" + w + "' )";
+            final String query = "Insert Into softwareengineering.weighttracking Values(" + GenericDatabaseController.genID("WeightTracking","idWeightTracking",c) +", " + getId() + ", '" + new java.sql.Date(new Date().getTime()) + "', '" + w + "' )";
             try (
                     PreparedStatement pstmt =c.prepareStatement(query)
             ){
@@ -378,7 +385,7 @@ public class User {
      */
     public void addExerciseSessionLink(ExerciseSession exerciseSession, Connection c){
         try {
-            final String query = "Insert Into softwareengineering.exerciseLink Values("+ GenericController.genID("exerciseLink","idLink",c) + ", '" + getId() + "', '" + exerciseSession.getId()+ "', '" +new java.sql.Date(new Date().getTime())+ "' )";
+            final String query = "Insert Into softwareengineering.exerciseLink Values("+ GenericDatabaseController.genID("exerciseLink","idLink",c) + ", '" + getId() + "', '" + exerciseSession.getId()+ "', '" +new java.sql.Date(new Date().getTime())+ "' )";
             try (
                     PreparedStatement pstmt = c.prepareStatement(query)
             ){
@@ -431,7 +438,7 @@ public class User {
      */
     public void addFoodLink(Meal meal, Connection c){
         try {
-            final String query = "Insert Into softwareengineering.diet Values("+ GenericController.genID("diet","idDiet",c) + ", '" + getId() + "', '" + meal.getId()+ "', '" + new java.sql.Date(new Date().getTime())+ "' )";
+            final String query = "Insert Into softwareengineering.diet Values("+ GenericDatabaseController.genID("diet","idDiet",c) + ", '" + getId() + "', '" + meal.getId()+ "', '" + new java.sql.Date(new Date().getTime())+ "' )";
             try (
                     PreparedStatement pstmt = c.prepareStatement(query)
             ){
@@ -531,7 +538,7 @@ public class User {
      */
     public void newSummary(Date commencing,int calDuringExercise,int calDuringEating,double weight, Connection c){
         try {
-            final String query = "Insert Into softwareengineering.WeeklySummary Values("+GenericController.genID("WeeklySummary","idWeeklySummary",c)+","+getId()+",'"+new java.sql.Date(commencing.getTime()) +"',"+calDuringExercise+","+calDuringEating+","+weight+")";
+            final String query = "Insert Into softwareengineering.WeeklySummary Values("+GenericDatabaseController.genID("WeeklySummary","idWeeklySummary",c)+","+getId()+",'"+new java.sql.Date(commencing.getTime()) +"',"+calDuringExercise+","+calDuringEating+","+weight+")";
             try (
                     PreparedStatement pstmt = c.prepareStatement(query)
             ){

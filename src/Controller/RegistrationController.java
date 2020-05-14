@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.GenericDatabaseController;
 import Model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,7 +11,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.util.Date;
 
-public class RegistrationController extends GenericController{
+public class RegistrationController extends GenericDatabaseController {
     private Connection c;
     @FXML private TextField forename;
     @FXML private TextField surname;
@@ -79,7 +80,7 @@ public class RegistrationController extends GenericController{
                     errorMsg.setText("Error: username too long");
                     username.setText("");
                 } else {
-                    if(GenericController.isInTable(username.getText(),"user","username",c)){
+                    if(GenericDatabaseController.isInTable(username.getText(),"user","username",c)){
                         errorMsg.setText("Error: username already in use");
                         username.setText("");
                     }
@@ -95,7 +96,7 @@ public class RegistrationController extends GenericController{
             if (!email.getText().equals("")){
                 if (email.getText().toString().length()<60){
                     if (email.getText().matches("^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$")) {
-                        if(GenericController.isInTable(email.getText(),"user","email",c)){
+                        if(GenericDatabaseController.isInTable(email.getText(),"user","email",c)){
                             errorMsg.setText("Error: email already in use");
                             email.setText("");
                         }
@@ -157,9 +158,9 @@ public class RegistrationController extends GenericController{
             password2.setText("");
         }
         if (errorMsg.getText().equals("")){
-            User newUser = new User(GenericController.genID("user","idUser",c),forename.getText(),surname.getText(),username.getText(),email.getText(),password.getText(), Date.from(Instant.from(DOB.getValue().atStartOfDay(ZoneId.systemDefault()))),0, gender.getValue().toString().charAt(0),0);//create a new user
+            User newUser = new User(GenericDatabaseController.genID("user","idUser",c),forename.getText(),surname.getText(),username.getText(),email.getText(),password.getText(), Date.from(Instant.from(DOB.getValue().atStartOfDay(ZoneId.systemDefault()))),0, gender.getValue().toString().charAt(0),0);//create a new user
             newUser.add(c);//put the user in the database
-            goToLogin(c,event);
+            GenericController.goToLogin(c,event);
         }
     }
     /**
@@ -168,6 +169,6 @@ public class RegistrationController extends GenericController{
      */
     @FXML
     private void GoToLoginButtonAction (ActionEvent event) {
-        goToLogin(c,event);
+        GenericController.goToLogin(c,event);
     }
 }

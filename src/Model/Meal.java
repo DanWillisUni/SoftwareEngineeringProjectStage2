@@ -1,6 +1,6 @@
 package Model;
 
-import Controller.GenericController;
+import Model.GenericDatabaseController;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class Meal {
      * @param type type of meal
      */
     public Meal(FoodItem food, int quantity, String type,Connection c){
-        this.id=GenericController.genID("meal","idMeal",c);
+        this.id=GenericDatabaseController.genID("meal","idMeal",c);
         this.food = food;
         this.quantity = quantity;
         this.type = type;
@@ -128,7 +128,7 @@ public class Meal {
      * Remove the Meal from the database
      */
     public void remove(Connection c){
-        GenericController.remove(getId(),"meal","idMeal",c);
+        GenericDatabaseController.remove(getId(),"meal","idMeal",c);
     }
 
     /**

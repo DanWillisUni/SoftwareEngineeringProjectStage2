@@ -2,12 +2,11 @@ package View;
 
 import Controller.GenericController;
 import Controller.LoginController;
+import Model.GenericDatabaseController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -15,7 +14,7 @@ import java.io.IOException;
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
-        GenericController genericController = new GenericController();
+        GenericDatabaseController genericController = new GenericDatabaseController();
         FXMLLoader loader = new FXMLLoader(GenericController.class.getResource("../View/Login.fxml"));
         Parent root = null;
         try {

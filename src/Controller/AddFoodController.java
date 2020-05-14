@@ -41,8 +41,7 @@ public class AddFoodController extends GenericController{
     public void setUpDisplay(){
         name.setText("Hello, " + User.getUsername());//setting name at the top of the page
         try {
-            ArrayList<String> results = GenericController.getAllLike("","foods","foodName",c);//gets all the foodnames
-            ObservableList<String> observableList = FXCollections.observableList(results);//puts all foodnames into a observablelist
+            ObservableList<String> observableList = FoodItem.getAllLike("",c);;//puts all foodnames into a observablelist
             Foods.setItems(observableList);//set the food dropdown to all the foods
             Foods.setValue(observableList.get(0));
         } catch (Exception e) {
@@ -124,8 +123,7 @@ public class AddFoodController extends GenericController{
     private void goSearch(ActionEvent event) {
         try {
             String toSearch = txt_search.getText();
-            ArrayList<String> results = GenericController.getAllLike(toSearch,"foods","foodName",c);//get all like
-            ObservableList<String> observableList = FXCollections.observableList(results);//put results in a observable list
+            ObservableList<String> observableList = FoodItem.getAllLike("",c);//put results in a observable list
             Foods.setItems(observableList);//set the dropdown
             if (!observableList.isEmpty()){
                 Foods.setValue(observableList.get(0));
@@ -169,7 +167,7 @@ public class AddFoodController extends GenericController{
         }else if(Foods.getValue().toString().equals("")){
             errorMsg.setText("Error: food not typed in");
         } else {
-            if(!GenericController.isInTable(Foods.getValue().toString(),"foods","foodName",c)){
+            if(!FoodItem.isInTable(Foods.getValue().toString(),c)){
                 errorMsg.setText("Error: not valid food");
                 Foods.setValue("");
             }

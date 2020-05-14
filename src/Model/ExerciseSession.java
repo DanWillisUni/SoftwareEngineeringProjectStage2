@@ -1,6 +1,9 @@
 package Model;
 
 import Controller.GenericController;
+import Model.GenericDatabaseController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -35,7 +38,7 @@ public class ExerciseSession {
      * @param caloriesBurned calories burnt
      */
     public ExerciseSession(Exercise exercise, int duration, int caloriesBurned,Connection c) {
-        this.id = GenericController.genID("exercisesession","idExerciseSession",c);
+        this.id = GenericDatabaseController.genID("exercisesession","idExerciseSession",c);
         this.exercise = exercise;
         this.duration = duration;
         this.caloriesBurned = caloriesBurned;
@@ -119,7 +122,7 @@ public class ExerciseSession {
      * Removes the exercise session from the database
      */
     public void remove(Connection c){
-        GenericController.remove(getId(),"exercisesession","idExerciseSession",c);
+        GenericDatabaseController.remove(getId(),"exercisesession","idExerciseSession",c);
     }
 
     /**

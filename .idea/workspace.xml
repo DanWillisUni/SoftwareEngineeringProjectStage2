@@ -70,8 +70,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="Class" />
         <option value="FxmlFile" />
+        <option value="JUnit5 Test Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -95,6 +96,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="DatabaseDriversLRU" value="postgresql&#10;mysql" />
+    <property name="Downloaded.Files.Path.Enabled" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="GoToFile.includeJavaFiles" value="false" />
@@ -102,24 +104,38 @@
     <property name="MemberChooser.showClasses" value="true" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="OverrideImplement.combined" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
+    <property name="create.test.in.the.same.root" value="true" />
     <property name="dynamic.classpath" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../sqlCreation" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
-    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="View" />
+      <recent name="Model" />
+      <recent name="Controller" />
+    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="Controller" />
       <recent name="Model" />
       <recent name="View" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\danny\IdeaProjects\SoftwareEngineering\src\View" />
@@ -272,6 +288,10 @@
       <workItem from="1589012365383" duration="17572000" />
       <workItem from="1589100968077" duration="8855000" />
       <workItem from="1589271567411" duration="4770000" />
+      <workItem from="1589404984342" duration="1374000" />
+      <workItem from="1589458218722" duration="148000" />
+      <workItem from="1589458972167" duration="643000" />
+      <workItem from="1589463167134" duration="2262000" />
     </task>
     <servers />
   </component>
@@ -299,10 +319,10 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="446" y="70" key="#com.intellij.ide.util.MemberChooser/0.0.1280.720@0.0.1280.720" timestamp="1583506422435" />
-    <state x="370" y="141" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1583761611074">
+    <state x="370" y="141" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1589405494667">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="370" y="141" key="#com.intellij.ide.util.PackageChooserDialog/0.0.1280.720@0.0.1280.720" timestamp="1583761611074" />
+    <state x="370" y="141" key="#com.intellij.ide.util.PackageChooserDialog/0.0.1280.720@0.0.1280.720" timestamp="1589405494667" />
     <state x="371" y="146" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1581524644456">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
@@ -363,14 +383,22 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state width="198" height="457" key="HiddenNamespacesPopup/0.0.1280.720@0.0.1280.720" timestamp="1582569205035" />
-    <state x="142" y="0" key="SettingsEditor" timestamp="1589021408983">
+    <state x="142" y="0" key="SettingsEditor" timestamp="1589405589253">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="142" y="0" key="SettingsEditor/0.0.1280.720@0.0.1280.720" timestamp="1589021408983" />
+    <state x="142" y="0" key="SettingsEditor/0.0.1280.720@0.0.1280.720" timestamp="1589405589253" />
     <state x="337" y="185" key="com.intellij.ide.util.TipDialog" timestamp="1586859347230">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="337" y="185" key="com.intellij.ide.util.TipDialog/0.0.1280.720@0.0.1280.720" timestamp="1586859347230" />
+    <state x="375" y="252" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1589405688250">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="375" y="252" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1280.720@0.0.1280.720" timestamp="1589405688250" />
+    <state x="412" y="101" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1589459001110">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="412" y="101" key="com.intellij.testIntegration.createTest.CreateTestDialog/0.0.1280.720@0.0.1280.720" timestamp="1589459001110" />
     <state x="91" y="0" key="new project wizard" timestamp="1588520169260">
       <screen x="0" y="0" width="1280" height="720" />
     </state>

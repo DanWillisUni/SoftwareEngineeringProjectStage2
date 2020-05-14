@@ -40,8 +40,7 @@ public class AddExerciseSessionController extends GenericController{
     public void setUpDisplay(){
         //setting up the search box
         try {
-            ArrayList<String> results = GenericController.getAllLike("","exercise","exerciseName",c);//get all exercises with a name like "", this gets all of them
-            ObservableList<String> observableList = FXCollections.observableList(results);//put the results into an observable list
+            ObservableList<String> observableList = Model.Exercise.getAllLike("",c);
             Exercise.setItems(observableList);//set the drop down to the observable list
             Exercise.setValue(observableList.get(0));
         } catch (Exception e) {
@@ -126,9 +125,8 @@ public class AddExerciseSessionController extends GenericController{
     @FXML
     private void goSearch(ActionEvent event) {
         try {
-            String toSearch = txt_search.getText();//get what is in the search box
-            ArrayList<String> results = GenericController.getAllLike(toSearch,"exercise","exerciseName",c);//search the database for any LIKE
-            ObservableList<String> observableList = FXCollections.observableList(results);//put the results in an observable list
+            String toSearch = txt_search.getText();//get what is in the search box//search the database for any LIKE
+            ObservableList<String> observableList = Model.Exercise.getAllLike(toSearch,c);
             Exercise.setItems(observableList);//reset the dropdown to the list of exercises found
             if (!observableList.isEmpty()){
                 Exercise.setValue(observableList.get(0));
@@ -168,7 +166,7 @@ public class AddExerciseSessionController extends GenericController{
         //validate sport
         if (validCal){
             if (Exercise.getValue()!=null&&!Exercise.getValue().toString().equals("")){
-                if(!GenericController.isInTable(Exercise.getValue().toString(),"exercise","exerciseName",c)){
+                if(!Model.Exercise.isInTable(Exercise.getValue().toString(),c)){
                     errorMsg.setText("Error: No such sport found, try other");
                     Exercise.setValue("");
                 } else {
@@ -181,7 +179,7 @@ public class AddExerciseSessionController extends GenericController{
             }else if(Exercise.getValue().toString().equals("")){
                 errorMsg.setText("Error: Sport not typed in");
             } else {
-                if(!GenericController.isInTable(Exercise.getValue().toString(),"exercise","exerciseName",c)){
+                if(!Model.Exercise.isInTable(Exercise.getValue().toString(),c)){
                     errorMsg.setText("Error: No such sport found, try other");
                     Exercise.setValue("");
                 } else {
