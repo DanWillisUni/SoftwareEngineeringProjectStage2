@@ -184,7 +184,7 @@ CREATE TABLE `softwareengineering`.`goalweight` (
 
 LOCK TABLES `softwareengineering`. `goalweight` WRITE;
 /*!40000 ALTER TABLE `softwareengineering`. `goalweight` DISABLE KEYS */;
-INSERT INTO `softwareengineering`.`goalweight` VALUES (0,4,93.55,'2020-05-11','2020-07-02',0),(1,4,94.00,'2020-05-11','2020-05-25',0);
+INSERT INTO `softwareengineering`.`goalweight` VALUES (0,4,93.55,'2020-05-11','2020-07-02',1),(1,4,94.00,'2020-05-11','2020-05-25',1);
 /*!40000 ALTER TABLE `softwareengineering`. `goalweight` ENABLE KEYS */;
 UNLOCK TABLES;
 

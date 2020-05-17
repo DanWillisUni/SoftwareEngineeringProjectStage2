@@ -102,18 +102,29 @@ public class DashboardController extends GenericController{
                 s=-161;
             }
             int toMaintainCal = (int)(10*User.getWeight() + 6.25*User.getHeight() - (5 * age) + s);//Mifflin-St. Jeor equation
-            User.setCal((int)(toMaintainCal * 1.2));//multiplyed by 1.2 as that is roughly how many calories people burn from walking around each day and other exercise that is not going to be added in
+            toMaintainCal = (int) (toMaintainCal * 1.2);
+            User.setCal(toMaintainCal);//multiplyed by 1.2 as that is roughly how many calories people burn from walking around each day and other exercise that is not going to be added in
             //do a percentage of the calories based upon how far, away thier goal is
             if (!allGoals.isEmpty()){//there is goals
-                nextGoal.setText("The next goal is: " + Double.toString(allGoals.get(0).getTargetWeight()) + "kg, on " + allGoals.get(0).getDueStr());
-                double distanceToGoal = User.getWeight()-allGoals.get(0).getTargetWeight();
-                long timeMs = (new Date().getTime() - allGoals.get(0).getDue().getTime());
-                double daysTillGoal = Integer.parseInt(Long.toString(timeMs/(86400000L)));
-                double kgPerDay = distanceToGoal/daysTillGoal;
-                int cals = (int)(toMaintainCal * (1+(kgPerDay/0.004285714285713)/100));
-                if (cals>1000){
-                    User.setCal(cals);
+                WeightGoal nextGoalObj = allGoals.get(0);
+                nextGoal.setText("The next goal is: " + Double.toString(nextGoalObj.getTargetWeight()) + "kg, on " + allGoals.get(0).getDueStr());
+                double distanceToGoal = User.getWeight()-nextGoalObj.getTargetWeight();//distance in kg to goal
+                long timeMs = (nextGoalObj.getDue().getTime() - new Date().getTime());
+                double daysTillGoal = Integer.parseInt(Long.toString(timeMs/(86400000L)));//number of days till goal
+                double kgPerDay = distanceToGoal/daysTillGoal;//the kg change needed per day
+                int cals = 0;
+                if (nextGoalObj.getToLoose()){
+                    cals = (int)(toMaintainCal - (kgPerDay * 7700));
+                    if (cals<1000){//ensures it isnt too low
+                        cals = 1000;
+                    }
+                } else {
+                    cals = (int)(toMaintainCal - (kgPerDay * 3500));
+                    if (cals>6000){//ensures it isnt too high
+                        cals = 6000;
+                    }
                 }
+                User.setCal(cals);
             }
             User.update(c);//update the caloreis on the user in the database
             //set up calories for the day

@@ -49,7 +49,7 @@ public class AddGoalController extends GenericController{
         if (User.getWeight()==perfectWeight){//if the user is thier perfect weight
             goalsSuggestion.add(new WeightGoal(User,perfectWeight,Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).plusDays(7).atStartOfDay(ZoneId.systemDefault()))),true,c));//set a suggestion goal to maintain for a week
         } else {
-            boolean toLoose = multiplyer==1;
+            boolean toLoose = multiplyer!=1;
             for (double i = 0.25;i<=1.5;i=i+0.25){//for 1.5 kg towards thier ideal weight at 0.25 increments
                 if (!closerThan(User.getWeight(),User.getWeight()+(i*multiplyer),perfectWeight)){//if it is closer
                     //add 3 different suggestions with 3 different timesscales
@@ -203,7 +203,7 @@ public class AddGoalController extends GenericController{
         errorMsg.setText("");
         //validate target weight
         if (TargetWeight.getText().matches("^([1-9][0-9]*)(.[0-9][0-9]?)?$")){
-            int i = Integer.parseInt(TargetWeight.getText());
+            double i = Double.parseDouble(TargetWeight.getText());
             if (i>250){
                 errorMsg.setText("Error: target greater than 250");
                 TargetWeight.setText("");
@@ -227,9 +227,9 @@ public class AddGoalController extends GenericController{
             errorMsg.setText("Error: Date not selected");
         }
         if (errorMsg.getText().equals("")){
-            boolean toLoose = false;
+            boolean toLoose = true;
             if (User.getWeight()<Double.parseDouble(TargetWeight.getText())){//if current weight is less than target weight they want to gain weight
-                toLoose=true;
+                toLoose=false;
             }
             WeightGoal g = new WeightGoal(User,Double.parseDouble(TargetWeight.getText()),Date.from(Instant.from(targetDate.getValue().atStartOfDay(ZoneId.systemDefault()))),toLoose,c);//new weight goal
             g.add(c);//add new weight goal to database

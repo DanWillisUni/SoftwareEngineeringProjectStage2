@@ -141,7 +141,7 @@
       <recent name="C:\Users\danny\IdeaProjects\SoftwareEngineering\src\View" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Main">
     <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
       <option name="MAIN_CLASS_NAME" />
@@ -188,6 +188,45 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="MainTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SoftwareEngineering" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="View.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="View" />
+      <option name="MAIN_CLASS_NAME" value="View.MainTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MainTest.start" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SoftwareEngineering" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="View.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="View" />
+      <option name="MAIN_CLASS_NAME" value="View.MainTest" />
+      <option name="METHOD_NAME" value="start" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <option name="TEST_OBJECT" value="class" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -219,6 +258,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.MainTest.start" />
+        <item itemvalue="JUnit.MainTest" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="StructureViewFactory">
     <option name="ACTIVE_ACTIONS" value=",SHOW_INTERFACES,SHOW_PROPERTIES" />
@@ -291,7 +336,9 @@
       <workItem from="1589404984342" duration="1374000" />
       <workItem from="1589458218722" duration="148000" />
       <workItem from="1589458972167" duration="643000" />
-      <workItem from="1589463167134" duration="2262000" />
+      <workItem from="1589463167134" duration="2335000" />
+      <workItem from="1589562056766" duration="121000" />
+      <workItem from="1589562189857" duration="10709000" />
     </task>
     <servers />
   </component>
@@ -311,10 +358,10 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="233" y="19" key="#SQL_Dialects/0.0.1280.720@0.0.1280.720" timestamp="1582551042675" />
-    <state x="96" y="17" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1582570281539">
+    <state x="96" y="17" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1589735888184">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="96" y="17" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.720@0.0.1280.720" timestamp="1582570281539" />
+    <state x="96" y="17" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.720@0.0.1280.720" timestamp="1589735888184" />
     <state x="446" y="70" key="#com.intellij.ide.util.MemberChooser" timestamp="1583506422435">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
@@ -323,10 +370,10 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="370" y="141" key="#com.intellij.ide.util.PackageChooserDialog/0.0.1280.720@0.0.1280.720" timestamp="1589405494667" />
-    <state x="371" y="146" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1581524644456">
+    <state x="371" y="146" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1589735878432">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="371" y="146" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1280.720@0.0.1280.720" timestamp="1581524644456" />
+    <state x="371" y="146" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1280.720@0.0.1280.720" timestamp="1589735878432" />
     <state x="438" y="246" width="432" height="236" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1588615180844">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
@@ -347,38 +394,38 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="491" y="255" key="Github.ShareDialog/0.0.1280.720@0.0.1280.720" timestamp="1581338973450" />
-    <state width="1236" height="145" key="GridCell.Tab.0.bottom" timestamp="1589311417802">
+    <state width="1236" height="145" key="GridCell.Tab.0.bottom" timestamp="1589735895402">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1589311417802" />
-    <state width="1236" height="145" key="GridCell.Tab.0.center" timestamp="1589311417802">
+    <state width="1236" height="145" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1589735895402" />
+    <state width="1236" height="145" key="GridCell.Tab.0.center" timestamp="1589735895402">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1589311417802" />
-    <state width="1236" height="145" key="GridCell.Tab.0.left" timestamp="1589311417802">
+    <state width="1236" height="145" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1589735895402" />
+    <state width="1236" height="145" key="GridCell.Tab.0.left" timestamp="1589735895402">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1589311417802" />
-    <state width="1236" height="145" key="GridCell.Tab.0.right" timestamp="1589311417802">
+    <state width="1236" height="145" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1589735895402" />
+    <state width="1236" height="145" key="GridCell.Tab.0.right" timestamp="1589735895402">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1589311417802" />
-    <state width="1236" height="220" key="GridCell.Tab.1.bottom" timestamp="1589221254545">
+    <state width="1236" height="145" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1589735895402" />
+    <state width="1236" height="220" key="GridCell.Tab.1.bottom" timestamp="1589564785437">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="220" key="GridCell.Tab.1.bottom/0.0.1280.720@0.0.1280.720" timestamp="1589221254545" />
-    <state width="1236" height="220" key="GridCell.Tab.1.center" timestamp="1589221254545">
+    <state width="1236" height="220" key="GridCell.Tab.1.bottom/0.0.1280.720@0.0.1280.720" timestamp="1589564785437" />
+    <state width="1236" height="220" key="GridCell.Tab.1.center" timestamp="1589564785437">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="220" key="GridCell.Tab.1.center/0.0.1280.720@0.0.1280.720" timestamp="1589221254545" />
-    <state width="1236" height="220" key="GridCell.Tab.1.left" timestamp="1589221254545">
+    <state width="1236" height="220" key="GridCell.Tab.1.center/0.0.1280.720@0.0.1280.720" timestamp="1589564785437" />
+    <state width="1236" height="220" key="GridCell.Tab.1.left" timestamp="1589564785437">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="220" key="GridCell.Tab.1.left/0.0.1280.720@0.0.1280.720" timestamp="1589221254545" />
-    <state width="1236" height="220" key="GridCell.Tab.1.right" timestamp="1589221254545">
+    <state width="1236" height="220" key="GridCell.Tab.1.left/0.0.1280.720@0.0.1280.720" timestamp="1589564785437" />
+    <state width="1236" height="220" key="GridCell.Tab.1.right" timestamp="1589564785437">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="220" key="GridCell.Tab.1.right/0.0.1280.720@0.0.1280.720" timestamp="1589221254545" />
+    <state width="1236" height="220" key="GridCell.Tab.1.right/0.0.1280.720@0.0.1280.720" timestamp="1589564785437" />
     <state width="198" height="457" key="HiddenNamespacesPopup" timestamp="1582569205035">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
@@ -391,14 +438,14 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="337" y="185" key="com.intellij.ide.util.TipDialog/0.0.1280.720@0.0.1280.720" timestamp="1586859347230" />
-    <state x="375" y="252" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1589405688250">
+    <state x="375" y="252" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1589735590112">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="375" y="252" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1280.720@0.0.1280.720" timestamp="1589405688250" />
-    <state x="412" y="101" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1589459001110">
+    <state x="375" y="252" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1280.720@0.0.1280.720" timestamp="1589735590112" />
+    <state x="412" y="101" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1589735513750">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="412" y="101" key="com.intellij.testIntegration.createTest.CreateTestDialog/0.0.1280.720@0.0.1280.720" timestamp="1589459001110" />
+    <state x="412" y="101" key="com.intellij.testIntegration.createTest.CreateTestDialog/0.0.1280.720@0.0.1280.720" timestamp="1589735513750" />
     <state x="91" y="0" key="new project wizard" timestamp="1588520169260">
       <screen x="0" y="0" width="1280" height="720" />
     </state>

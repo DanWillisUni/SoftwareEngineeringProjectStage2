@@ -136,29 +136,17 @@ public class LoginController extends GenericController{
      * @param s exerciseSession obj
      */
     private void sortExerciseSessionToWeeklySummary(User u,java.util.Date d,ExerciseSession s){
-        Calendar c = Calendar.getInstance();
-        c.setTime(d);
-        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-        c.add(Calendar.DATE,dayOfWeek*-1);
-        Date commence = c.getTime();
-        ArrayList<String> sum = u.getWeeklySummary(commence,this.c);//get the weekly summary as a arraylist
-        if(sum.isEmpty()){
-            double previousWeight = 0;
-            c.setTime(commence);
-            c.add(Calendar.DATE,-7);
-            Date prevCommence = c.getTime();
-            ArrayList<String> prevWeek = u.getWeeklySummary(prevCommence,this.c);//getting the previous week weekly summary
-            if (!prevWeek.isEmpty()){
-                previousWeight = Double.parseDouble(prevWeek.get(5));
-            }
-            u.newSummary(commence,s.getCaloriesBurned(),0,previousWeight,this.c);
-        } else {
-            int id = Integer.parseInt(sum.get(0));
-            int newCalBurn = Integer.parseInt(sum.get(3)) + s.getCaloriesBurned();
-            int newCalCons = Integer.parseInt(sum.get(4));
-            double newWeight = Double.parseDouble(sum.get(5));
-            u.updateSummary(id,newCalBurn,newCalCons,newWeight,this.c);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(d);
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        calendar.add(Calendar.DATE,dayOfWeek*-1);
+        Date commence = calendar.getTime();
+        WeeklySummary ws = u.getWeeklySummary(commence,c);
+        if(ws==null){
+            ws=new WeeklySummary(u,commence,c);
         }
+        ws.addCalBurnt(s.getCaloriesBurned());
+        ws.updateSummary(c);
     }
     /**
      * Get the week commencing date by using a calender instance
@@ -173,27 +161,14 @@ public class LoginController extends GenericController{
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(d);
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        //Date.from(Instant.from(d.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().minusDays()));
         calendar.add(Calendar.DATE,dayOfWeek*-1);
         Date commence = calendar.getTime();
-        ArrayList<String> sum = u.getWeeklySummary(commence,c);
-        if(sum.isEmpty()){
-            double previousWeight = 0;
-            calendar.setTime(commence);
-            calendar.add(Calendar.DATE,-7);
-            Date prevCommence = calendar.getTime();
-            ArrayList<String> prevWeek = u.getWeeklySummary(prevCommence,c);
-            if (!prevWeek.isEmpty()){
-                previousWeight = Double.parseDouble(prevWeek.get(5));
-            }
-            u.newSummary(commence,0,m.getCalories(),previousWeight,c);
-        } else {
-            int id = Integer.parseInt(sum.get(0));
-            int newCalBurn = Integer.parseInt(sum.get(3));
-            int newCalCons = Integer.parseInt(sum.get(4)) + m.getCalories();
-            double newWeight = Double.parseDouble(sum.get(5));
-            u.updateSummary(id,newCalBurn,newCalCons,newWeight,c);
+        WeeklySummary ws = u.getWeeklySummary(commence,c);
+        if(ws==null){
+            ws=new WeeklySummary(u,commence,c);
         }
+        ws.addCalConsu(m.getCalories());
+        ws.updateSummary(c);
     }
     /**
      * Get the week commencing date by using a calender instance
@@ -210,15 +185,12 @@ public class LoginController extends GenericController{
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         calendar.add(Calendar.DATE,dayOfWeek*-1);
         Date commence = calendar.getTime();
-        ArrayList<String> sum = u.getWeeklySummary(commence,c);
-        if(sum.isEmpty()){
-            u.newSummary(commence,0,0,w,c);
-        } else {
-            int id = Integer.parseInt(sum.get(0));
-            int newCalBurn = Integer.parseInt(sum.get(3));
-            int newCalCons = Integer.parseInt(sum.get(4));
-            u.updateSummary(id,newCalBurn,newCalCons,w,c);
+        WeeklySummary ws = u.getWeeklySummary(commence,c);
+        if(ws==null){
+            ws=new WeeklySummary(u,commence,c);
         }
+        ws.updateWeight(w);
+        ws.updateSummary(c);
     }
     /**
      * Go to the registration page

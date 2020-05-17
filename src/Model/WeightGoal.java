@@ -108,9 +108,9 @@ public class WeightGoal {
     public boolean isMet(){
         if (user.getWeight()>0){
             if (user.getWeight() > targetWeight){
-                return toLoose;
-            } else {
                 return !toLoose;
+            } else {
+                return toLoose;
             }
         }
         return false;

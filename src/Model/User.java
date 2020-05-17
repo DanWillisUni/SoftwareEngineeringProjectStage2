@@ -491,61 +491,19 @@ public class User {
      * @param commencing week commencing in this date
      * @return all the attributes in the weekly summary as an arraylist
      */
-    public ArrayList<String> getWeeklySummary(Date commencing, Connection c){
-        ArrayList<String> r = new ArrayList<>();
+    public WeeklySummary getWeeklySummary(Date commencing, Connection c){
         try (
                 Statement stmnt = c.createStatement();
                 ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.weeklySummary where idUser = "+getId() + " and weekCommencing = '"+new java.sql.Date(commencing.getTime()) +"'");
 
         ){
             if(rs.next()) {
-                r.add(rs.getString("idWeeklySummary"));
-                r.add(rs.getString("idUser"));
-                r.add(rs.getString("weekCommencing"));
-                r.add(rs.getString("caloriesBurnt"));
-                r.add(rs.getString("caloriesConsumed"));
-                r.add(rs.getString("weight"));
+                return new WeeklySummary(rs.getInt("idWeeklySummary"),User.getFromID(rs.getInt("idUser"),c),rs.getInt("caloriesBurnt"),rs.getInt("caloriesConsumed"),rs.getDouble("weight"),rs.getDate("weekCommencing"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return r;
+        return null;
     }
-    /**
-     * Update the summary info of id
-     * To the calories during
-     * @param id id of the weekly summary to update
-     * @param calDuringExercise new calories burnt during exercise
-     * @param calDuringEating new calories eat
-     * @param weight new weight
-     */
-    public void updateSummary(int id,int calDuringExercise,int calDuringEating,double weight, Connection c){
-        final String query = "UPDATE softwareengineering.WeeklySummary SET caloriesBurnt="+calDuringExercise+",caloriesConsumed="+calDuringEating+",weight="+weight+" Where idWeeklySummary= "+ id;
-        try (
-                PreparedStatement pstmt = c.prepareStatement(query)
-        ){
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    /**
-     *
-     * @param commencing the date of the start of the week
-     * @param calDuringExercise calories burnt during exercise
-     * @param calDuringEating calories during eating
-     * @param weight new weight
-     */
-    public void newSummary(Date commencing,int calDuringExercise,int calDuringEating,double weight, Connection c){
-        try {
-            final String query = "Insert Into softwareengineering.WeeklySummary Values("+GenericDatabaseController.genID("WeeklySummary","idWeeklySummary",c)+","+getId()+",'"+new java.sql.Date(commencing.getTime()) +"',"+calDuringExercise+","+calDuringEating+","+weight+")";
-            try (
-                    PreparedStatement pstmt = c.prepareStatement(query)
-            ){
-                pstmt.executeUpdate();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+
 }
