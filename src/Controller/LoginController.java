@@ -82,7 +82,7 @@ public class LoginController extends GenericController{
                         }
                     }
                 }
-                HashMap<Date,Double> weights = u.getAllWeights(c);
+                LinkedHashMap<Date,Double> weights = u.getAllWeights(c);
                 for (Map.Entry<Date,Double> entry : weights.entrySet()){
                     if(entry.getKey().getTime()<Date.from(Instant.from(LocalDate.now(ZoneId.systemDefault()).minusDays(28).atStartOfDay(ZoneId.systemDefault()))).getTime()){
                         java.util.Date d = entry.getKey();
@@ -144,6 +144,7 @@ public class LoginController extends GenericController{
         WeeklySummary ws = u.getWeeklySummary(commence,c);
         if(ws==null){
             ws=new WeeklySummary(u,commence,c);
+            ws.add(c);
         }
         ws.addCalBurnt(s.getCaloriesBurned());
         ws.updateSummary(c);
@@ -166,6 +167,7 @@ public class LoginController extends GenericController{
         WeeklySummary ws = u.getWeeklySummary(commence,c);
         if(ws==null){
             ws=new WeeklySummary(u,commence,c);
+            ws.add(c);
         }
         ws.addCalConsu(m.getCalories());
         ws.updateSummary(c);
@@ -187,9 +189,11 @@ public class LoginController extends GenericController{
         Date commence = calendar.getTime();
         WeeklySummary ws = u.getWeeklySummary(commence,c);
         if(ws==null){
-            ws=new WeeklySummary(u,commence,c);
+            ws=new WeeklySummary(u,commence,w);
+            ws.add(c);
+        } else {
+            ws.setWeight(w);
         }
-        ws.updateWeight(w);
         ws.updateSummary(c);
     }
     /**

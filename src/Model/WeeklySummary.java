@@ -1,7 +1,6 @@
 package Model;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.Date;
 
 public class WeeklySummary {
@@ -12,6 +11,16 @@ public class WeeklySummary {
     double weight;
     Date commencing;
 
+    /**
+     * Constructor
+     * This constructor is used in the getWeeklySummary function in User
+     * @param id the id of the weekly summary
+     * @param user the user obj of the weekly summary
+     * @param caloriesBurntIntTotal the calories burnt in the weekly summary
+     * @param caloriesConsumedInTotal the calories consumed in total in the weekly summary
+     * @param weight the weight of the user in the weekly summary
+     * @param commencing the date of the first day of the week
+     */
     WeeklySummary(int id, User user, int caloriesBurntIntTotal, int caloriesConsumedInTotal, double weight, Date commencing){
         this.id=id;
         this.user=user;
@@ -20,6 +29,12 @@ public class WeeklySummary {
         this.weight=weight;
         this.commencing=commencing;
     }
+    /**
+     * Constructor
+     * @param user the user that the weekly summary is for
+     * @param commencing the date commencing
+     * @param c connection to the database
+     */
     public WeeklySummary(User user, Date commencing, Connection c){
         this.id = -1;
         this.user=user;
@@ -31,6 +46,20 @@ public class WeeklySummary {
         } else {
             this.weight=0;
         }
+        this.commencing=commencing;
+    }
+    /**
+     * Constructor
+     * @param user the user that the weekly summary applies to
+     * @param commencing the date of the week starting
+     * @param weight the weight of the user
+     */
+    public WeeklySummary(User user, Date commencing,double weight){
+        this.id = -1;
+        this.user=user;
+        this.caloriesBurntInTotal=0;
+        this.caloriesConsumedInTotal=0;
+        this.weight=weight;
         this.commencing=commencing;
     }
 
@@ -59,14 +88,19 @@ public class WeeklySummary {
     public void addCalConsu(int i){
         caloriesConsumedInTotal += i;
     }
-    public void updateWeight(double weight){
+    public void setWeight(double weight){
         this.weight=weight;
     }
 
+    /**
+     * Gets the previous weeks weekly summary obj, or the most recent one
+     * @param c connection to the database
+     * @return the previous weekly summary
+     */
     private WeeklySummary getPrev(Connection c){
         try (
                 Statement stmnt = c.createStatement();
-                ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.weeklySummary where idUser = "+getUser().getId() + "ORDER BY weekCommencing desc");
+                ResultSet rs = stmnt.executeQuery("Select * From softwareengineering.weeklySummary where idUser = "+getUser().getId() + " ORDER BY weekCommencing desc");
 
         ){
             if(rs.next()) {
@@ -77,7 +111,6 @@ public class WeeklySummary {
         }
         return null;
     }
-
     /**
      * Update the summary info of id
      * To the calories during
@@ -92,10 +125,9 @@ public class WeeklySummary {
             e.printStackTrace();
         }
     }
-
     /**
-     *
-     * @param c
+     * Adds the weekly summary to the database
+     * @param c connection to the database
      */
     public void add(Connection c){
         try {
