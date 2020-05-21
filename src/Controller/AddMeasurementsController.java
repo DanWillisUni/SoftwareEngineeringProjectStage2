@@ -75,59 +75,6 @@ public class AddMeasurementsController extends GenericController{
         goToDash(User,c,event);
     }
     /**
-     * Validation
-     * Add weight to database
-     * Go to dash
-     * @param event add weight button pushed
-     */
-    @FXML
-    private void AddWeightAction (ActionEvent event) {
-        errorMsg.setText("");
-        //weight validation
-        if (weight.getText().matches("^([1-9][0-9]*)(.[0-9][0-9]?)?$")){
-            double i = Double.parseDouble(weight.getText());
-            if (i>250){
-                errorMsg.setText("Error: weight greater than 250");
-                weight.setText("");
-            }
-        } else {
-            errorMsg.setText("Error: weight not positive number or over 2dp");
-            weight.setText("");
-        }
-        if(errorMsg.getText().equals("")){
-            User.addWeight(Double.parseDouble(weight.getText()),c);//add weight to user
-            goToDash(User,c,event);//go to the dashboard
-        }
-    }
-    /**
-     * Validation
-     * Update height
-     * Go to dash
-     * @param event add weight button pushed
-     */
-    @FXML
-    private void AddHeightAction (ActionEvent event) {
-        errorMsg.setText("");
-        //height validation
-        if (height.getText().matches("^[1-9][0-9]*$")){
-            int i = Integer.parseInt(height.getText());
-            if (i>250){
-                errorMsg.setText("Error: height greater than 250");
-                height.setText("");
-            } else {
-                User.setHeight(i);
-            }
-        } else {
-            errorMsg.setText("Error: height not positive integer");
-            height.setText("");
-        }
-        if(errorMsg.getText().equals("")){
-            User.setHeight(Integer.parseInt(height.getText()));//set the height of the user
-            User.update(c);//update the user in the database
-            goToDash(User,c,event);//go to the dashboard
-        }
-    }
-    /**
      * Calculate the value of cm
      * Refresh the display
      * @param event action to the feet or inches combobox
@@ -143,5 +90,50 @@ public class AddMeasurementsController extends GenericController{
             i= Integer.parseInt((String)Inches.getValue());//set inches
         }
         setUpDisplay(f,i);//refresh the display with the current values
+    }
+    /**
+     * Update the measurements of the user if the validation is checked
+     * @param event update the measurement button pushed
+     */
+    public void UpdateMeasurementsAction(ActionEvent event) {
+        errorMsg.setText("");
+        if(!(weight.getText() == null ||weight.getText().equals(""))){
+            if (weight.getText().matches("^([1-9][0-9]*)(.[0-9][0-9]?)?$")){
+                double i = Double.parseDouble(weight.getText());
+                if (i>250){
+                    errorMsg.setText("Error: weight greater than 250");
+                    weight.setText("");
+                }
+            } else {
+                errorMsg.setText("Error: weight not positive number or over 2dp");
+                weight.setText("");
+            }
+            if(errorMsg.getText().equals("")){
+                User.addWeight(Double.parseDouble(weight.getText()),c);//add weight to user
+                User.update(c);
+            }
+        }
+        if(!(height.getText() == null ||height.getText().equals(""))){
+            if (height.getText().matches("^[1-9][0-9]*$")){
+                int i = Integer.parseInt(height.getText());
+                if (i>250){
+                    errorMsg.setText("Error: height greater than 250");
+                    height.setText("");
+                } else {
+                    User.setHeight(i);
+                }
+            } else {
+                errorMsg.setText("Error: height not positive integer");
+                height.setText("");
+            }
+            if(errorMsg.getText().equals("")){
+                User.setHeight(Integer.parseInt(height.getText()));//set the height of the user
+                User.update(c);//update the user in the database
+            }
+        }
+
+        if(errorMsg.getText().equals("")){
+            goToDash(User,c,event);//go to the dashboard
+        }
     }
 }

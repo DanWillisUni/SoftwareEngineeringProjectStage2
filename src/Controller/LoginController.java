@@ -213,7 +213,10 @@ public class LoginController extends GenericController{
         Platform.exit();
         System.exit(0);
     }
-
+    /**
+     * Resets the password of the user
+     * @param actionEvent
+     */
     public void LoginHandleResetButtonAction(ActionEvent actionEvent) {
         errorMsg.setText("");
         //validation

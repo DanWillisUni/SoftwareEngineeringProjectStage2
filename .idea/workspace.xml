@@ -338,7 +338,10 @@
       <workItem from="1589458972167" duration="643000" />
       <workItem from="1589463167134" duration="2335000" />
       <workItem from="1589562056766" duration="121000" />
-      <workItem from="1589562189857" duration="12816000" />
+      <workItem from="1589562189857" duration="15995000" />
+      <workItem from="1589834192413" duration="1251000" />
+      <workItem from="1589901948404" duration="1475000" />
+      <workItem from="1590060457700" duration="2785000" />
     </task>
     <servers />
   </component>
@@ -390,26 +393,22 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="421" y="103" key="FileChooserDialogImpl/0.0.1280.720@0.0.1280.720" timestamp="1589209138562" />
-    <state x="491" y="255" key="Github.ShareDialog" timestamp="1581338973450">
+    <state width="1236" height="145" key="GridCell.Tab.0.bottom" timestamp="1590068834757">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="491" y="255" key="Github.ShareDialog/0.0.1280.720@0.0.1280.720" timestamp="1581338973450" />
-    <state width="1236" height="145" key="GridCell.Tab.0.bottom" timestamp="1589805574391">
+    <state width="1236" height="145" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1590068834757" />
+    <state width="1236" height="145" key="GridCell.Tab.0.center" timestamp="1590068834757">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1589805574391" />
-    <state width="1236" height="145" key="GridCell.Tab.0.center" timestamp="1589805574391">
+    <state width="1236" height="145" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1590068834757" />
+    <state width="1236" height="145" key="GridCell.Tab.0.left" timestamp="1590068834757">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1589805574391" />
-    <state width="1236" height="145" key="GridCell.Tab.0.left" timestamp="1589805574391">
+    <state width="1236" height="145" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1590068834757" />
+    <state width="1236" height="145" key="GridCell.Tab.0.right" timestamp="1590068834757">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1589805574391" />
-    <state width="1236" height="145" key="GridCell.Tab.0.right" timestamp="1589805574391">
-      <screen x="0" y="0" width="1280" height="720" />
-    </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1589805574391" />
+    <state width="1236" height="145" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1590068834757" />
     <state width="1236" height="220" key="GridCell.Tab.1.bottom" timestamp="1589564785437">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
@@ -442,10 +441,10 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="375" y="252" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1280.720@0.0.1280.720" timestamp="1589735590112" />
-    <state x="412" y="101" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1589735513750">
+    <state x="412" y="101" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1590066602553">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="412" y="101" key="com.intellij.testIntegration.createTest.CreateTestDialog/0.0.1280.720@0.0.1280.720" timestamp="1589735513750" />
+    <state x="412" y="101" key="com.intellij.testIntegration.createTest.CreateTestDialog/0.0.1280.720@0.0.1280.720" timestamp="1590066602553" />
     <state x="91" y="0" key="new project wizard" timestamp="1588520169260">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
@@ -454,9 +453,5 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="297" y="161" key="run.anything.popup/0.0.1280.720@0.0.1280.720" timestamp="1589029182304" />
-    <state x="415" y="51" width="563" height="619" key="svn.repositoryBrowser" timestamp="1581338876241">
-      <screen x="0" y="0" width="1280" height="720" />
-    </state>
-    <state x="415" y="51" width="563" height="619" key="svn.repositoryBrowser/0.0.1280.720@0.0.1280.720" timestamp="1581338876241" />
   </component>
 </project>
