@@ -48,10 +48,10 @@ public class Exercise {
     }
 
     /**
-     *
-     * @param str
-     * @param c
-     * @return
+     * Gets all the exercises in the database that are like str
+     * @param str string to search for
+     * @param c connection
+     * @return all the exercise names like str
      */
     public static ObservableList<String> getAllLike(String str, Connection c){
         ArrayList<String> results = GenericDatabaseController.getAllLike(str,"exercise","exerciseName",c);//get all exercises with a name like "", this gets all of them
@@ -59,10 +59,10 @@ public class Exercise {
         return observableList;
     }
     /**
-     *
-     * @param str
-     * @param c
-     * @return
+     * Checks if the name of the exercise is in the exercise table
+     * @param str name of the exercise
+     * @param c connection
+     * @return true if it is
      */
     public static boolean isInTable(String str,Connection c){
         return GenericDatabaseController.isInTable(str,"exercise","exerciseName",c);

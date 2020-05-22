@@ -71,8 +71,8 @@
       <list>
         <option value="CSS File" />
         <option value="FxmlFile" />
-        <option value="JUnit5 Test Class" />
         <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -117,16 +117,16 @@
     <property name="dynamic.classpath" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../sqlCreation" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.RecentsKey">
-      <recent name="View" />
       <recent name="Model" />
+      <recent name="View" />
       <recent name="Controller" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
@@ -141,7 +141,7 @@
       <recent name="C:\Users\danny\IdeaProjects\SoftwareEngineering\src\View" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="JUnit.ExerciseSessionTest.getExerciseSession">
     <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
       <option name="MAIN_CLASS_NAME" />
@@ -188,17 +188,18 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MainTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ExerciseSessionTest.checkIfSessionInUse" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="SoftwareEngineering" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="View.*" />
+          <option name="PATTERN" value="Model.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="View" />
-      <option name="MAIN_CLASS_NAME" value="View.MainTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="PACKAGE_NAME" value="Model" />
+      <option name="MAIN_CLASS_NAME" value="Model.ExerciseSessionTest" />
+      <option name="METHOD_NAME" value="checkIfSessionInUse" />
+      <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="TEST_SEARCH_SCOPE">
         <value defaultName="moduleWithDependencies" />
@@ -207,17 +208,77 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MainTest.start" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ExerciseSessionTest.checkIfSessionInUseNot" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="SoftwareEngineering" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="View.*" />
+          <option name="PATTERN" value="Model.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="View" />
-      <option name="MAIN_CLASS_NAME" value="View.MainTest" />
-      <option name="METHOD_NAME" value="start" />
+      <option name="PACKAGE_NAME" value="Model" />
+      <option name="MAIN_CLASS_NAME" value="Model.ExerciseSessionTest" />
+      <option name="METHOD_NAME" value="checkIfSessionInUseNot" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExerciseSessionTest.getDuration" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SoftwareEngineering" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Model" />
+      <option name="MAIN_CLASS_NAME" value="Model.ExerciseSessionTest" />
+      <option name="METHOD_NAME" value="getDuration" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExerciseSessionTest.getExerciseName" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SoftwareEngineering" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Model" />
+      <option name="MAIN_CLASS_NAME" value="Model.ExerciseSessionTest" />
+      <option name="METHOD_NAME" value="getExerciseName" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExerciseSessionTest.getExerciseSession" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SoftwareEngineering" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Model" />
+      <option name="MAIN_CLASS_NAME" value="Model.ExerciseSessionTest" />
+      <option name="METHOD_NAME" value="getExerciseSession" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="TEST_SEARCH_SCOPE">
@@ -258,10 +319,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="JUnit.ExerciseSessionTest.getExerciseName" />
+      <item itemvalue="JUnit.ExerciseSessionTest.getDuration" />
+      <item itemvalue="JUnit.ExerciseSessionTest.checkIfSessionInUseNot" />
+      <item itemvalue="JUnit.ExerciseSessionTest.checkIfSessionInUse" />
+      <item itemvalue="JUnit.ExerciseSessionTest.getExerciseSession" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.MainTest.start" />
-        <item itemvalue="JUnit.MainTest" />
+        <item itemvalue="JUnit.ExerciseSessionTest.getExerciseSession" />
+        <item itemvalue="JUnit.ExerciseSessionTest.checkIfSessionInUse" />
+        <item itemvalue="JUnit.ExerciseSessionTest.checkIfSessionInUseNot" />
+        <item itemvalue="JUnit.ExerciseSessionTest.getDuration" />
+        <item itemvalue="JUnit.ExerciseSessionTest.getExerciseName" />
       </list>
     </recent_temporary>
   </component>
@@ -341,7 +412,7 @@
       <workItem from="1589562189857" duration="15995000" />
       <workItem from="1589834192413" duration="1251000" />
       <workItem from="1589901948404" duration="1475000" />
-      <workItem from="1590060457700" duration="2785000" />
+      <workItem from="1590060457700" duration="20002000" />
     </task>
     <servers />
   </component>
@@ -361,22 +432,26 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="233" y="19" key="#SQL_Dialects/0.0.1280.720@0.0.1280.720" timestamp="1582551042675" />
-    <state x="96" y="17" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1589735888184">
+    <state x="96" y="17" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1590151458317">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="96" y="17" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.720@0.0.1280.720" timestamp="1589735888184" />
-    <state x="446" y="70" key="#com.intellij.ide.util.MemberChooser" timestamp="1583506422435">
+    <state x="96" y="17" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.720@0.0.1280.720" timestamp="1590151458317" />
+    <state x="93" y="93" width="1095" height="535" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog" timestamp="1590152524648">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="446" y="70" key="#com.intellij.ide.util.MemberChooser/0.0.1280.720@0.0.1280.720" timestamp="1583506422435" />
+    <state x="93" y="93" width="1095" height="535" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog/0.0.1280.720@0.0.1280.720" timestamp="1590152524648" />
+    <state x="446" y="70" key="#com.intellij.ide.util.MemberChooser" timestamp="1590095523528">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="446" y="70" key="#com.intellij.ide.util.MemberChooser/0.0.1280.720@0.0.1280.720" timestamp="1590095523528" />
     <state x="370" y="141" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1589405494667">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="370" y="141" key="#com.intellij.ide.util.PackageChooserDialog/0.0.1280.720@0.0.1280.720" timestamp="1589405494667" />
-    <state x="371" y="146" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1589735878432">
+    <state x="371" y="146" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1590151456405">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="371" y="146" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1280.720@0.0.1280.720" timestamp="1589735878432" />
+    <state x="371" y="146" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1280.720@0.0.1280.720" timestamp="1590151456405" />
     <state x="438" y="246" width="432" height="236" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1588615180844">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
@@ -389,62 +464,62 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="371" y="108" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1280.720@0.0.1280.720" timestamp="1588949769170" />
-    <state x="421" y="103" key="FileChooserDialogImpl" timestamp="1589209138562">
+    <state x="421" y="103" key="FileChooserDialogImpl" timestamp="1590084706703">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="421" y="103" key="FileChooserDialogImpl/0.0.1280.720@0.0.1280.720" timestamp="1589209138562" />
-    <state width="1236" height="145" key="GridCell.Tab.0.bottom" timestamp="1590068834757">
+    <state x="421" y="103" key="FileChooserDialogImpl/0.0.1280.720@0.0.1280.720" timestamp="1590084706703" />
+    <state width="1236" height="145" key="GridCell.Tab.0.bottom" timestamp="1590153801790">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1590068834757" />
-    <state width="1236" height="145" key="GridCell.Tab.0.center" timestamp="1590068834757">
+    <state width="1236" height="145" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1590153801790" />
+    <state width="1236" height="145" key="GridCell.Tab.0.center" timestamp="1590153801790">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1590068834757" />
-    <state width="1236" height="145" key="GridCell.Tab.0.left" timestamp="1590068834757">
+    <state width="1236" height="145" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1590153801790" />
+    <state width="1236" height="145" key="GridCell.Tab.0.left" timestamp="1590153801790">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1590068834757" />
-    <state width="1236" height="145" key="GridCell.Tab.0.right" timestamp="1590068834757">
+    <state width="1236" height="145" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1590153801790" />
+    <state width="1236" height="145" key="GridCell.Tab.0.right" timestamp="1590153801790">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1590068834757" />
-    <state width="1236" height="220" key="GridCell.Tab.1.bottom" timestamp="1589564785437">
+    <state width="1236" height="145" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1590153801790" />
+    <state width="1236" height="220" key="GridCell.Tab.1.bottom" timestamp="1590082736577">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="220" key="GridCell.Tab.1.bottom/0.0.1280.720@0.0.1280.720" timestamp="1589564785437" />
-    <state width="1236" height="220" key="GridCell.Tab.1.center" timestamp="1589564785437">
+    <state width="1236" height="220" key="GridCell.Tab.1.bottom/0.0.1280.720@0.0.1280.720" timestamp="1590082736577" />
+    <state width="1236" height="220" key="GridCell.Tab.1.center" timestamp="1590082736577">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="220" key="GridCell.Tab.1.center/0.0.1280.720@0.0.1280.720" timestamp="1589564785437" />
-    <state width="1236" height="220" key="GridCell.Tab.1.left" timestamp="1589564785437">
+    <state width="1236" height="220" key="GridCell.Tab.1.center/0.0.1280.720@0.0.1280.720" timestamp="1590082736577" />
+    <state width="1236" height="220" key="GridCell.Tab.1.left" timestamp="1590082736577">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="220" key="GridCell.Tab.1.left/0.0.1280.720@0.0.1280.720" timestamp="1589564785437" />
-    <state width="1236" height="220" key="GridCell.Tab.1.right" timestamp="1589564785437">
+    <state width="1236" height="220" key="GridCell.Tab.1.left/0.0.1280.720@0.0.1280.720" timestamp="1590082736577" />
+    <state width="1236" height="220" key="GridCell.Tab.1.right" timestamp="1590082736577">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="220" key="GridCell.Tab.1.right/0.0.1280.720@0.0.1280.720" timestamp="1589564785437" />
+    <state width="1236" height="220" key="GridCell.Tab.1.right/0.0.1280.720@0.0.1280.720" timestamp="1590082736577" />
     <state width="198" height="457" key="HiddenNamespacesPopup" timestamp="1582569205035">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state width="198" height="457" key="HiddenNamespacesPopup/0.0.1280.720@0.0.1280.720" timestamp="1582569205035" />
-    <state x="142" y="0" key="SettingsEditor" timestamp="1589405589253">
+    <state x="142" y="0" key="SettingsEditor" timestamp="1590090143201">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="142" y="0" key="SettingsEditor/0.0.1280.720@0.0.1280.720" timestamp="1589405589253" />
+    <state x="142" y="0" key="SettingsEditor/0.0.1280.720@0.0.1280.720" timestamp="1590090143201" />
     <state x="337" y="185" key="com.intellij.ide.util.TipDialog" timestamp="1586859347230">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="337" y="185" key="com.intellij.ide.util.TipDialog/0.0.1280.720@0.0.1280.720" timestamp="1586859347230" />
-    <state x="375" y="252" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1589735590112">
+    <state x="517" y="331" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1590090132866">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="375" y="252" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1280.720@0.0.1280.720" timestamp="1589735590112" />
-    <state x="412" y="101" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1590066602553">
+    <state x="517" y="331" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1280.720@0.0.1280.720" timestamp="1590090132866" />
+    <state x="412" y="89" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1590096458419">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="412" y="101" key="com.intellij.testIntegration.createTest.CreateTestDialog/0.0.1280.720@0.0.1280.720" timestamp="1590066602553" />
+    <state x="412" y="89" key="com.intellij.testIntegration.createTest.CreateTestDialog/0.0.1280.720@0.0.1280.720" timestamp="1590096458419" />
     <state x="91" y="0" key="new project wizard" timestamp="1588520169260">
       <screen x="0" y="0" width="1280" height="720" />
     </state>

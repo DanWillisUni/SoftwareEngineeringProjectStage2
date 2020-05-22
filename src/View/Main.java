@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class Main extends Application {
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) {
         GenericDatabaseController genericController = new GenericDatabaseController();
         FXMLLoader loader = new FXMLLoader(GenericController.class.getResource("../View/Login.fxml"));
         Parent root = null;

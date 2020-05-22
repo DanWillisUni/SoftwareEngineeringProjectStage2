@@ -32,7 +32,7 @@
                       </FXCollections>
                   </items>
               </ComboBox>
-              <Button  GridPane.columnIndex="1" GridPane.rowIndex="9" prefHeight="20.0" prefWidth="200.0" mnemonicParsing="false" text="Register" onAction="#RegisterHandleSubmitButtonAction"/>
+              <Button id="registerButton" fx:id="registerButton" GridPane.columnIndex="1" GridPane.rowIndex="9" prefHeight="20.0" prefWidth="200.0" mnemonicParsing="false" text="Register" onAction="#RegisterHandleSubmitButtonAction"/>
               <Label GridPane.columnIndex="0" GridPane.rowIndex="0" prefHeight="20.0" prefWidth="200.0" text="Forename:" />
               <Label GridPane.columnIndex="0" GridPane.rowIndex="1" prefHeight="20.0" prefWidth="200.0" text="Surname:" />
               <Label GridPane.columnIndex="0" GridPane.rowIndex="2" prefHeight="20.0" prefWidth="200.0" text="Username:" />
@@ -43,7 +43,7 @@
               <Label GridPane.columnIndex="0" GridPane.rowIndex="7" prefHeight="20.0" prefWidth="200.0" text="Gender:" />
               <Button  GridPane.columnIndex="0" GridPane.rowIndex="9" prefHeight="20.0" prefWidth="200.0" mnemonicParsing="false" text="Go Back" onAction="#GoToLoginButtonAction"/>
           </GridPane>
-          <Label  id="errorMsg" fx:id="errorMsg" GridPane.columnIndex="0" GridPane.rowIndex="2" prefHeight="20.0" text=""/>
+          <Label id="errorMsg" fx:id="errorMsg" GridPane.columnIndex="0" GridPane.rowIndex="2" prefHeight="20.0" text=""/>
       </GridPane>
   </children>
     <stylesheets>
