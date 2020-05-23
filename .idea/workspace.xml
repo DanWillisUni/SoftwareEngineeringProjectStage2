@@ -121,7 +121,7 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.RecentsKey">
@@ -141,7 +141,7 @@
       <recent name="C:\Users\danny\IdeaProjects\SoftwareEngineering\src\View" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.FoodItemTest">
+  <component name="RunManager" selected="JUnit.MealTest.getFromID">
     <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
       <option name="MAIN_CLASS_NAME" />
@@ -187,26 +187,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ExerciseSessionTest.getExerciseSession" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="SoftwareEngineering" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Model.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="Model" />
-      <option name="MAIN_CLASS_NAME" value="Model.ExerciseSessionTest" />
-      <option name="METHOD_NAME" value="getExerciseSession" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="FoodItemTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="SoftwareEngineering" />
       <extension name="coverage">
@@ -246,7 +226,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Model in SoftwareEngineering" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MealTest.getFromID" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="SoftwareEngineering" />
       <extension name="coverage">
         <pattern>
@@ -255,7 +235,29 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="Model" />
-      <option name="TEST_OBJECT" value="package" />
+      <option name="MAIN_CLASS_NAME" value="Model.MealTest" />
+      <option name="METHOD_NAME" value="getFromID" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MealTest.getMeal" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SoftwareEngineering" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Model" />
+      <option name="MAIN_CLASS_NAME" value="Model.MealTest" />
+      <option name="METHOD_NAME" value="getMeal" />
+      <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="TEST_SEARCH_SCOPE">
         <value defaultName="moduleWithDependencies" />
@@ -296,19 +298,19 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.ExerciseSessionTest.getExerciseSession" />
-      <item itemvalue="JUnit.Model in SoftwareEngineering" />
       <item itemvalue="Application.Main" />
       <item itemvalue="JUnit.FoodItemTest" />
       <item itemvalue="JUnit.FoodItemTest.getFoodFromName" />
+      <item itemvalue="JUnit.MealTest.getMeal" />
+      <item itemvalue="JUnit.MealTest.getFromID" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.MealTest.getFromID" />
+        <item itemvalue="JUnit.MealTest.getMeal" />
         <item itemvalue="JUnit.FoodItemTest" />
         <item itemvalue="JUnit.FoodItemTest.getFoodFromName" />
         <item itemvalue="Application.Main" />
-        <item itemvalue="JUnit.Model in SoftwareEngineering" />
-        <item itemvalue="JUnit.ExerciseSessionTest.getExerciseSession" />
       </list>
     </recent_temporary>
   </component>
@@ -388,7 +390,7 @@
       <workItem from="1589562189857" duration="15995000" />
       <workItem from="1589834192413" duration="1251000" />
       <workItem from="1589901948404" duration="1475000" />
-      <workItem from="1590060457700" duration="25370000" />
+      <workItem from="1590060457700" duration="28361000" />
     </task>
     <servers />
   </component>
@@ -444,22 +446,22 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="421" y="103" key="FileChooserDialogImpl/0.0.1280.720@0.0.1280.720" timestamp="1590084706703" />
-    <state width="1236" height="145" key="GridCell.Tab.0.bottom" timestamp="1590231937170">
+    <state width="1236" height="145" key="GridCell.Tab.0.bottom" timestamp="1590236150493">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1590231937170" />
-    <state width="1236" height="145" key="GridCell.Tab.0.center" timestamp="1590231937170">
+    <state width="1236" height="145" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1590236150493" />
+    <state width="1236" height="145" key="GridCell.Tab.0.center" timestamp="1590236150493">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1590231937170" />
-    <state width="1236" height="145" key="GridCell.Tab.0.left" timestamp="1590231937170">
+    <state width="1236" height="145" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1590236150493" />
+    <state width="1236" height="145" key="GridCell.Tab.0.left" timestamp="1590236150492">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1590231937170" />
-    <state width="1236" height="145" key="GridCell.Tab.0.right" timestamp="1590231937170">
+    <state width="1236" height="145" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1590236150492" />
+    <state width="1236" height="145" key="GridCell.Tab.0.right" timestamp="1590236150493">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1590231937170" />
+    <state width="1236" height="145" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1590236150493" />
     <state width="1236" height="220" key="GridCell.Tab.1.bottom" timestamp="1590082736577">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
@@ -480,10 +482,10 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state width="198" height="457" key="HiddenNamespacesPopup/0.0.1280.720@0.0.1280.720" timestamp="1582569205035" />
-    <state x="142" y="0" key="SettingsEditor" timestamp="1590090143201">
+    <state x="142" y="0" key="SettingsEditor" timestamp="1590232958008">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="142" y="0" key="SettingsEditor/0.0.1280.720@0.0.1280.720" timestamp="1590090143201" />
+    <state x="142" y="0" key="SettingsEditor/0.0.1280.720@0.0.1280.720" timestamp="1590232958008" />
     <state x="337" y="185" key="com.intellij.ide.util.TipDialog" timestamp="1586859347230">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
