@@ -3,61 +3,73 @@ package Model;
 import org.junit.Before;
 import org.junit.Test;
 
-class MealTest {
+import java.sql.Connection;
 
+public class MealTest {
+    static Connection c;
+    static Meal a;
+    static FoodItem fooda;
+    static Meal b;
+    static FoodItem foodb;
     @Before
-    void setUp() {
+    public void setUp() {
+        GenericDatabaseController genericController = new GenericDatabaseController();
+        c=genericController.getConnection();
+        fooda = new FoodItem(11,"apple",95,"");
+        a = new Meal(35,fooda,1,"Dinner");//is in database
+        foodb = new FoodItem(60,"Sandwich",260,"Ham and Cheese");
+        b = new Meal(300,foodb,1,"Lunch");//is not in database
     }
 
     @Test
-    void getId() {
+    public void getId() {
     }
 
     @Test
-    void getFood() {
+    public void getFood() {
     }
 
     @Test
-    void getQuantity() {
+    public void getQuantity() {
     }
 
     @Test
-    void getType() {
+    public void getType() {
     }
 
     @Test
-    void getFoodName() {
+    public void getFoodName() {
     }
 
     @Test
-    void getCalories() {
+    public void getCalories() {
+    }
+
+//    @Test
+//    void add() {
+//    }
+
+    @Test
+    public void getMeal() {
     }
 
     @Test
-    void add() {
+    public void remove() {
     }
 
     @Test
-    void getMeal() {
+    public void getFromID() {
     }
 
     @Test
-    void remove() {
+    public void checkIfInUse() {
     }
 
     @Test
-    void getFromID() {
+    public void getDays() {
     }
 
     @Test
-    void checkIfInUse() {
-    }
-
-    @Test
-    void getDays() {
-    }
-
-    @Test
-    void getDateAll() {
+    public void getDateAll() {
     }
 }

@@ -123,7 +123,7 @@ public class AddFoodController extends GenericController{
     private void goSearch(ActionEvent event) {
         try {
             String toSearch = txt_search.getText();
-            ObservableList<String> observableList = FoodItem.getAllLike("",c);//put results in a observable list
+            ObservableList<String> observableList = FoodItem.getAllLike(toSearch,c);//put results in a observable list
             Foods.setItems(observableList);//set the dropdown
             if (!observableList.isEmpty()){
                 Foods.setValue(observableList.get(0));
