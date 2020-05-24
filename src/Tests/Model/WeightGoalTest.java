@@ -70,7 +70,7 @@ public class WeightGoalTest {
 
     @Test
     public void getDue() {
-        Date act = g.getSet();
+        Date act = g.getDue();
         try {
             assertThat(act,is(new SimpleDateFormat("dd/MM/yyyy").parse("02/06/2020")));
         } catch (ParseException e) {

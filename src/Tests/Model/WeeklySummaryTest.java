@@ -1,5 +1,6 @@
 package Model;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -21,6 +22,14 @@ public class WeeklySummaryTest {
         c=genericController.getConnection();
         try {
             u = new User(4,"Dan","Willis", "Dw","d@gmail.com","rNYNurbvE3aFespgQ1+WLg==",new SimpleDateFormat("dd/MM/yyyy").parse("02/08/2000"),193,'M',93.4);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Before
+    public void each(){
+        try {
             s=new WeeklySummary(0,u,2500,10000,94.3,new SimpleDateFormat("dd/MM/yyyy").parse("02/05/2020"));
         } catch (ParseException e) {
             e.printStackTrace();
@@ -67,7 +76,7 @@ public class WeeklySummaryTest {
     @Test
     public void getWeight() {
         double act = s.getWeight();
-        assertThat(act,is(93.4));
+        assertThat(act,is(94.3));
     }
 
     @Test

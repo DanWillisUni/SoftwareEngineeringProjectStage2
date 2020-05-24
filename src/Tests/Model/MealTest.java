@@ -36,7 +36,7 @@ public class MealTest {
         assertThat(act.getId(),is(foodb.getId()));
         assertThat(act.getName(),is(foodb.getName()));
         assertThat(act.getAmountOfCalories(),is(foodb.getAmountOfCalories()));
-        assertThat(act.getDescription(),is(""));
+        assertThat(act.getDescription(),is("Ham and Cheese"));
     }
 
     @Test

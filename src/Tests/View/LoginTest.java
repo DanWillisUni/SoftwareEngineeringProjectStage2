@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
@@ -57,11 +58,11 @@ public class LoginTest extends ApplicationTest {
 
     @Test
     public void wrongEmail () {
-        Label l = GuiTest.find("#errorMsg");
+        Label l = lookup("#errorMsg").query();
         clickOn("#email");
         write("123");
-        verifyThat("#email", hasText("123"));
-
+        TextField email = lookup("#email").query();
+        verifyThat(email.getText(), is("123"));
         clickOn("#SignIn");
         verifyThat(l.getText(),is("Incorrect email details"));
     }

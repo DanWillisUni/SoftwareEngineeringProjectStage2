@@ -1,22 +1,24 @@
 package Model;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
-class GenericDatabaseControllerTest {
+import java.sql.Connection;
 
-    @Test
-    void genID() {
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
+
+public class GenericDatabaseControllerTest {
+    static Connection c;
+    @BeforeClass
+    public static void setUp() {
+        GenericDatabaseController genericController = new GenericDatabaseController();
+        c=genericController.getConnection();
     }
 
     @Test
-    void getAllLike() {
-    }
-
-    @Test
-    void isInTable() {
-    }
-
-    @Test
-    void getIDFromName() {
+    public void genID() {
+        int act = GenericDatabaseController.genID("Foods","IdFood",c);
+        assertThat(act,is(51));
     }
 }

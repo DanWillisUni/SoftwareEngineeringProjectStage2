@@ -165,8 +165,8 @@ public class User {
      * @param password new password as plain text
      */
     public void setPassword(String password, Connection c) {
-        this.password = password;
-        final String query = "UPDATE softwareengineering.User SET password = '"+ passwordHash(getPassword())+"' Where idUser= "+ getId();
+        this.password = passwordHash(password);
+        final String query = "UPDATE softwareengineering.User SET password = '"+ getPassword()+"' Where idUser= "+ getId();
         try (
                 PreparedStatement pstmt = c.prepareStatement(query)
         ){
