@@ -26,25 +26,21 @@ public class FoodItemTest {
         int act = f.getId();
         assertThat(act,is(0));
     }
-
     @Test
     public void getName() {
         String act = f.getName();
         assertThat(act,is("apple"));
     }
-
     @Test
     public void getAmountOfCalories() {
         int act = f.getAmountOfCalories();
         assertThat(act,is(95));
     }
-
     @Test
     public void getDescription() {
         String act = f.getDescription();
         assertThat(act,is("A red apple"));
     }
-
     @Test
     public void getAllLikeBig() {
         ObservableList<String> res = FoodItem.getAllLike("big",c);
@@ -62,7 +58,6 @@ public class FoodItemTest {
         ObservableList<String> exp = FXCollections.observableList(expect);
         assertThat(res,is(exp));
     }
-
     @Test
     public void isInTableNon() {
         ObservableList<String> res = FoodItem.getAllLike("abcd",c);
@@ -70,7 +65,6 @@ public class FoodItemTest {
         ObservableList<String> exp = FXCollections.observableList(expect);
         assertThat(res,is(exp));
     }
-
     @Test
     public void getFoodFromName() {
         FoodItem act = FoodItem.getFoodFromName("apple",c);
@@ -79,7 +73,6 @@ public class FoodItemTest {
         assertThat(act.getAmountOfCalories(),is(f.getAmountOfCalories()));
         assertThat(act.getDescription(),is(""));
     }
-
     @Test
     public void getFoodFromID() {
         FoodItem act = FoodItem.getFoodFromID(0,c);

@@ -141,7 +141,7 @@
       <recent name="C:\Users\danny\IdeaProjects\SoftwareEngineering\src\View" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.GenericDatabaseControllerTest">
+  <component name="RunManager" selected="JUnit.ExerciseSessionTest.remove">
     <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
       <option name="MAIN_CLASS_NAME" />
@@ -187,6 +187,65 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ExerciseSessionTest.add" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SoftwareEngineering" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Model" />
+      <option name="MAIN_CLASS_NAME" value="Model.ExerciseSessionTest" />
+      <option name="METHOD_NAME" value="add" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExerciseSessionTest.remove" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SoftwareEngineering" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Model" />
+      <option name="MAIN_CLASS_NAME" value="Model.ExerciseSessionTest" />
+      <option name="METHOD_NAME" value="remove" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FoodItemTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SoftwareEngineering" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Model" />
+      <option name="MAIN_CLASS_NAME" value="Model.FoodItemTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="GenericDatabaseControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="SoftwareEngineering" />
       <extension name="coverage">
@@ -198,65 +257,6 @@
       <option name="PACKAGE_NAME" value="Model" />
       <option name="MAIN_CLASS_NAME" value="Model.GenericDatabaseControllerTest" />
       <option name="TEST_OBJECT" value="class" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="LoginTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="SoftwareEngineering" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="View.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="View" />
-      <option name="MAIN_CLASS_NAME" value="View.LoginTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="LoginTest.wrongEmail" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="SoftwareEngineering" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="View.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="View" />
-      <option name="MAIN_CLASS_NAME" value="View.LoginTest" />
-      <option name="METHOD_NAME" value="wrongEmail" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="UserTest.setPassword" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="SoftwareEngineering" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Model.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="Model" />
-      <option name="MAIN_CLASS_NAME" value="Model.UserTest" />
-      <option name="METHOD_NAME" value="setPassword" />
-      <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="TEST_SEARCH_SCOPE">
         <value defaultName="moduleWithDependencies" />
@@ -298,18 +298,18 @@
     </configuration>
     <list>
       <item itemvalue="Application.Main" />
-      <item itemvalue="JUnit.UserTest.setPassword" />
-      <item itemvalue="JUnit.LoginTest" />
-      <item itemvalue="JUnit.LoginTest.wrongEmail" />
       <item itemvalue="JUnit.GenericDatabaseControllerTest" />
+      <item itemvalue="JUnit.FoodItemTest" />
+      <item itemvalue="JUnit.ExerciseSessionTest.add" />
+      <item itemvalue="JUnit.ExerciseSessionTest.remove" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.ExerciseSessionTest.remove" />
+        <item itemvalue="JUnit.ExerciseSessionTest.add" />
+        <item itemvalue="JUnit.FoodItemTest" />
         <item itemvalue="JUnit.GenericDatabaseControllerTest" />
         <item itemvalue="Application.Main" />
-        <item itemvalue="JUnit.LoginTest.wrongEmail" />
-        <item itemvalue="JUnit.LoginTest" />
-        <item itemvalue="JUnit.UserTest.setPassword" />
       </list>
     </recent_temporary>
   </component>
@@ -389,7 +389,7 @@
       <workItem from="1589562189857" duration="15995000" />
       <workItem from="1589834192413" duration="1251000" />
       <workItem from="1589901948404" duration="1475000" />
-      <workItem from="1590060457700" duration="40378000" />
+      <workItem from="1590060457700" duration="42615000" />
     </task>
     <servers />
   </component>
@@ -445,22 +445,22 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="421" y="103" key="FileChooserDialogImpl/0.0.1280.720@0.0.1280.720" timestamp="1590084706703" />
-    <state width="1236" height="145" key="GridCell.Tab.0.bottom" timestamp="1590335019942">
+    <state width="1236" height="145" key="GridCell.Tab.0.bottom" timestamp="1590337933671">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1590335019942" />
-    <state width="1236" height="145" key="GridCell.Tab.0.center" timestamp="1590335019942">
+    <state width="1236" height="145" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1590337933671" />
+    <state width="1236" height="145" key="GridCell.Tab.0.center" timestamp="1590337933671">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1590335019942" />
-    <state width="1236" height="145" key="GridCell.Tab.0.left" timestamp="1590335019942">
+    <state width="1236" height="145" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1590337933671" />
+    <state width="1236" height="145" key="GridCell.Tab.0.left" timestamp="1590337933671">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1590335019942" />
-    <state width="1236" height="145" key="GridCell.Tab.0.right" timestamp="1590335019942">
+    <state width="1236" height="145" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1590337933671" />
+    <state width="1236" height="145" key="GridCell.Tab.0.right" timestamp="1590337933671">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1590335019942" />
+    <state width="1236" height="145" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1590337933671" />
     <state width="1236" height="220" key="GridCell.Tab.1.bottom" timestamp="1590082736577">
       <screen x="0" y="0" width="1280" height="720" />
     </state>

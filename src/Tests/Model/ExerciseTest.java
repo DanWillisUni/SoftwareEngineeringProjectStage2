@@ -26,19 +26,16 @@ public class ExerciseTest {
         int id = exercise.getId();
         assertThat(id,is(0));
     }
-
     @Test
     public void getName() {
         String name = exercise.getName();
         assertThat(name,is("other"));
     }
-
     @Test
     public void getCaloriesBurned() {
         int cal = exercise.getCaloriesBurned();
         assertThat(cal,is(0));
     }
-
     @Test
     public void getAllLikeCyc() {
         ObservableList<String> res = Exercise.getAllLike("cyc",c);
