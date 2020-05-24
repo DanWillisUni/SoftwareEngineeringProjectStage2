@@ -141,7 +141,7 @@
       <recent name="C:\Users\danny\IdeaProjects\SoftwareEngineering\src\View" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.WeightGoalTest.daysTillGoal">
+  <component name="RunManager" selected="JUnit.WeeklySummaryTest.getCommencing">
     <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
       <option name="MAIN_CLASS_NAME" />
@@ -173,7 +173,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="WeightGoalTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="WeeklySummaryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="SoftwareEngineering" />
       <extension name="coverage">
         <pattern>
@@ -182,8 +182,48 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="Model" />
-      <option name="MAIN_CLASS_NAME" value="Model.WeightGoalTest" />
+      <option name="MAIN_CLASS_NAME" value="Model.WeeklySummaryTest" />
       <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WeeklySummaryTest.getCommencing" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SoftwareEngineering" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Model" />
+      <option name="MAIN_CLASS_NAME" value="Model.WeeklySummaryTest" />
+      <option name="METHOD_NAME" value="getCommencing" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WeeklySummaryTest.getUser" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SoftwareEngineering" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Model" />
+      <option name="MAIN_CLASS_NAME" value="Model.WeeklySummaryTest" />
+      <option name="METHOD_NAME" value="getUser" />
+      <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="TEST_SEARCH_SCOPE">
         <value defaultName="moduleWithDependencies" />
@@ -212,26 +252,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="WeightGoalTest.getTargetWeight" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="SoftwareEngineering" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Model.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="Model" />
-      <option name="MAIN_CLASS_NAME" value="Model.WeightGoalTest" />
-      <option name="METHOD_NAME" value="getTargetWeight" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="WeightGoalTest.isMet" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="SoftwareEngineering" />
       <extension name="coverage">
@@ -243,26 +263,6 @@
       <option name="PACKAGE_NAME" value="Model" />
       <option name="MAIN_CLASS_NAME" value="Model.WeightGoalTest" />
       <option name="METHOD_NAME" value="isMet" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="WeightGoalTest.isOverdue" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="SoftwareEngineering" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Model.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="Model" />
-      <option name="MAIN_CLASS_NAME" value="Model.WeightGoalTest" />
-      <option name="METHOD_NAME" value="isOverdue" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="TEST_SEARCH_SCOPE">
@@ -304,19 +304,19 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.WeightGoalTest" />
-      <item itemvalue="JUnit.WeightGoalTest.getTargetWeight" />
-      <item itemvalue="JUnit.WeightGoalTest.isOverdue" />
       <item itemvalue="JUnit.WeightGoalTest.isMet" />
       <item itemvalue="JUnit.WeightGoalTest.daysTillGoal" />
+      <item itemvalue="JUnit.WeeklySummaryTest" />
+      <item itemvalue="JUnit.WeeklySummaryTest.getUser" />
+      <item itemvalue="JUnit.WeeklySummaryTest.getCommencing" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.WeeklySummaryTest.getCommencing" />
+        <item itemvalue="JUnit.WeeklySummaryTest.getUser" />
+        <item itemvalue="JUnit.WeeklySummaryTest" />
         <item itemvalue="JUnit.WeightGoalTest.daysTillGoal" />
         <item itemvalue="JUnit.WeightGoalTest.isMet" />
-        <item itemvalue="JUnit.WeightGoalTest.isOverdue" />
-        <item itemvalue="JUnit.WeightGoalTest.getTargetWeight" />
-        <item itemvalue="JUnit.WeightGoalTest" />
       </list>
     </recent_temporary>
   </component>
@@ -396,7 +396,7 @@
       <workItem from="1589562189857" duration="15995000" />
       <workItem from="1589834192413" duration="1251000" />
       <workItem from="1589901948404" duration="1475000" />
-      <workItem from="1590060457700" duration="34286000" />
+      <workItem from="1590060457700" duration="35272000" />
     </task>
     <servers />
   </component>
@@ -452,22 +452,22 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="421" y="103" key="FileChooserDialogImpl/0.0.1280.720@0.0.1280.720" timestamp="1590084706703" />
-    <state width="1236" height="145" key="GridCell.Tab.0.bottom" timestamp="1590319265321">
+    <state width="1236" height="145" key="GridCell.Tab.0.bottom" timestamp="1590321997982">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1590319265321" />
-    <state width="1236" height="145" key="GridCell.Tab.0.center" timestamp="1590319265321">
+    <state width="1236" height="145" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1590321997982" />
+    <state width="1236" height="145" key="GridCell.Tab.0.center" timestamp="1590321997981">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1590319265321" />
-    <state width="1236" height="145" key="GridCell.Tab.0.left" timestamp="1590319265321">
+    <state width="1236" height="145" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1590321997981" />
+    <state width="1236" height="145" key="GridCell.Tab.0.left" timestamp="1590321997981">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1590319265321" />
-    <state width="1236" height="145" key="GridCell.Tab.0.right" timestamp="1590319265321">
+    <state width="1236" height="145" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1590321997981" />
+    <state width="1236" height="145" key="GridCell.Tab.0.right" timestamp="1590321997981">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1590319265321" />
+    <state width="1236" height="145" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1590321997981" />
     <state width="1236" height="220" key="GridCell.Tab.1.bottom" timestamp="1590082736577">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
