@@ -1,55 +1,69 @@
 package Model;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
-class WeeklySummaryTest {
+import java.sql.Connection;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
-    @Before
-    void setUp() {
+public class WeeklySummaryTest {
+    static Connection c;
+    static User u;
+    static WeeklySummary s;
+    @BeforeClass
+    public static void setUp() {
+        GenericDatabaseController genericController = new GenericDatabaseController();
+        c=genericController.getConnection();
+        try {
+            u = new User(4,"Dan","Willis", "Dw","d@gmail.com","rNYNurbvE3aFespgQ1+WLg==",new SimpleDateFormat("dd/MM/yyyy").parse("02/08/2000"),193,'M',93.4);
+            s=new WeeklySummary(0,u,2500,10000,94.3,new SimpleDateFormat("dd/MM/yyyy").parse("02/05/2020"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    void getId() {
+    public void getId() {
     }
 
     @Test
-    void getUser() {
+    public void getUser() {
     }
 
     @Test
-    void getCaloriesBurntInTotal() {
+    public void getCaloriesBurntInTotal() {
     }
 
     @Test
-    void getCaloriesConsumedInTotal() {
+    public void getCaloriesConsumedInTotal() {
     }
 
     @Test
-    void getWeight() {
+    public void getWeight() {
     }
 
     @Test
-    void getCommencing() {
+    public void getCommencing() {
     }
 
     @Test
-    void addCalBurnt() {
+    public void addCalBurnt() {
     }
 
     @Test
-    void addCalConsu() {
+    public void addCalConsu() {
     }
 
     @Test
-    void setWeight() {
+    public void setWeight() {
     }
 
     @Test
-    void updateSummary() {
+    public void updateSummary() {
     }
 
     @Test
-    void add() {
+    public void add() {
     }
 }
