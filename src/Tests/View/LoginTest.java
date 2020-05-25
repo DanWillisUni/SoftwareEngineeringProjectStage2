@@ -15,12 +15,14 @@ import javafx.stage.Stage;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.loadui.testfx.GuiTest;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
@@ -28,6 +30,7 @@ import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.TextMatchers.hasText;
 
 public class LoginTest extends ApplicationTest {
+    static String[] incorrectInputs = new String[]{"123", "456"};
     @Override
     public void start (Stage stage) throws Exception {
         GenericDatabaseController genericController = new GenericDatabaseController();
@@ -45,8 +48,9 @@ public class LoginTest extends ApplicationTest {
         stage.show();
     }
 
-    @Before
-    public void setUp () throws Exception {
+    @BeforeClass
+    public static void setUp () throws Exception {
+
     }
 
     @After
@@ -58,12 +62,15 @@ public class LoginTest extends ApplicationTest {
 
     @Test
     public void wrongEmail () {
-        Label l = lookup("#errorMsg").query();
-        clickOn("#email");
-        write("123");
-        TextField email = lookup("#email").query();
-        verifyThat(email.getText(), is("123"));
-        clickOn("#SignIn");
-        verifyThat(l.getText(),is("Incorrect email details"));
+        for (String in:incorrectInputs){
+            Label l = lookup("#errorMsg").query();
+            clickOn("#email");
+            write(in);
+            TextField email = lookup("#email").query();
+            verifyThat(email.getText(), is(in));
+            clickOn("#SignIn");
+            assertNotEquals(l.getText(),is(""));
+        }
+
     }
 }

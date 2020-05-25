@@ -141,7 +141,7 @@
       <recent name="C:\Users\danny\IdeaProjects\SoftwareEngineering\src\View" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.WeeklySummaryTest.updateSummary">
+  <component name="RunManager" selected="JUnit.UserTest.removeFoodLink">
     <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
       <option name="MAIN_CLASS_NAME" />
@@ -173,16 +173,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MealTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="LoginTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="SoftwareEngineering" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="Model.*" />
+          <option name="PATTERN" value="View.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="Model" />
-      <option name="MAIN_CLASS_NAME" value="Model.MealTest" />
+      <option name="PACKAGE_NAME" value="View" />
+      <option name="MAIN_CLASS_NAME" value="View.LoginTest" />
       <option name="TEST_OBJECT" value="class" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="TEST_SEARCH_SCOPE">
@@ -192,7 +192,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MealTest.add" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserTest.addExerciseSessionLink" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="SoftwareEngineering" />
       <extension name="coverage">
         <pattern>
@@ -201,8 +201,8 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="Model" />
-      <option name="MAIN_CLASS_NAME" value="Model.MealTest" />
-      <option name="METHOD_NAME" value="add" />
+      <option name="MAIN_CLASS_NAME" value="Model.UserTest" />
+      <option name="METHOD_NAME" value="addExerciseSessionLink" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="TEST_SEARCH_SCOPE">
@@ -212,7 +212,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MealTest.remove" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserTest.addFoodLink" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="SoftwareEngineering" />
       <extension name="coverage">
         <pattern>
@@ -221,8 +221,8 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="Model" />
-      <option name="MAIN_CLASS_NAME" value="Model.MealTest" />
-      <option name="METHOD_NAME" value="remove" />
+      <option name="MAIN_CLASS_NAME" value="Model.UserTest" />
+      <option name="METHOD_NAME" value="addFoodLink" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="TEST_SEARCH_SCOPE">
@@ -232,7 +232,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="WeeklySummaryTest.add" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserTest.removeExerciseSessionLink" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="SoftwareEngineering" />
       <extension name="coverage">
         <pattern>
@@ -241,8 +241,8 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="Model" />
-      <option name="MAIN_CLASS_NAME" value="Model.WeeklySummaryTest" />
-      <option name="METHOD_NAME" value="add" />
+      <option name="MAIN_CLASS_NAME" value="Model.UserTest" />
+      <option name="METHOD_NAME" value="removeExerciseSessionLink" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="TEST_SEARCH_SCOPE">
@@ -252,7 +252,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="WeeklySummaryTest.updateSummary" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserTest.removeFoodLink" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="SoftwareEngineering" />
       <extension name="coverage">
         <pattern>
@@ -261,8 +261,8 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="Model" />
-      <option name="MAIN_CLASS_NAME" value="Model.WeeklySummaryTest" />
-      <option name="METHOD_NAME" value="updateSummary" />
+      <option name="MAIN_CLASS_NAME" value="Model.UserTest" />
+      <option name="METHOD_NAME" value="removeFoodLink" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="TEST_SEARCH_SCOPE">
@@ -304,19 +304,19 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.MealTest.add" />
-      <item itemvalue="JUnit.MealTest.remove" />
-      <item itemvalue="JUnit.MealTest" />
-      <item itemvalue="JUnit.WeeklySummaryTest.add" />
-      <item itemvalue="JUnit.WeeklySummaryTest.updateSummary" />
+      <item itemvalue="JUnit.LoginTest" />
+      <item itemvalue="JUnit.UserTest.addExerciseSessionLink" />
+      <item itemvalue="JUnit.UserTest.removeExerciseSessionLink" />
+      <item itemvalue="JUnit.UserTest.addFoodLink" />
+      <item itemvalue="JUnit.UserTest.removeFoodLink" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.WeeklySummaryTest.updateSummary" />
-        <item itemvalue="JUnit.WeeklySummaryTest.add" />
-        <item itemvalue="JUnit.MealTest" />
-        <item itemvalue="JUnit.MealTest.remove" />
-        <item itemvalue="JUnit.MealTest.add" />
+        <item itemvalue="JUnit.UserTest.removeFoodLink" />
+        <item itemvalue="JUnit.UserTest.addFoodLink" />
+        <item itemvalue="JUnit.LoginTest" />
+        <item itemvalue="JUnit.UserTest.removeExerciseSessionLink" />
+        <item itemvalue="JUnit.UserTest.addExerciseSessionLink" />
       </list>
     </recent_temporary>
   </component>
@@ -396,7 +396,7 @@
       <workItem from="1589562189857" duration="15995000" />
       <workItem from="1589834192413" duration="1251000" />
       <workItem from="1589901948404" duration="1475000" />
-      <workItem from="1590060457700" duration="44494000" />
+      <workItem from="1590060457700" duration="55354000" />
     </task>
     <servers />
   </component>
@@ -452,22 +452,22 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="421" y="103" key="FileChooserDialogImpl/0.0.1280.720@0.0.1280.720" timestamp="1590084706703" />
-    <state width="1236" height="145" key="GridCell.Tab.0.bottom" timestamp="1590342283234">
+    <state width="1236" height="145" key="GridCell.Tab.0.bottom" timestamp="1590408794759">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1590342283234" />
-    <state width="1236" height="145" key="GridCell.Tab.0.center" timestamp="1590342283234">
+    <state width="1236" height="145" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1590408794759" />
+    <state width="1236" height="145" key="GridCell.Tab.0.center" timestamp="1590408794758">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1590342283234" />
-    <state width="1236" height="145" key="GridCell.Tab.0.left" timestamp="1590342283234">
+    <state width="1236" height="145" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1590408794758" />
+    <state width="1236" height="145" key="GridCell.Tab.0.left" timestamp="1590408794758">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1590342283234" />
-    <state width="1236" height="145" key="GridCell.Tab.0.right" timestamp="1590342283234">
+    <state width="1236" height="145" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1590408794758" />
+    <state width="1236" height="145" key="GridCell.Tab.0.right" timestamp="1590408794758">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="145" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1590342283234" />
+    <state width="1236" height="145" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1590408794758" />
     <state width="1236" height="220" key="GridCell.Tab.1.bottom" timestamp="1590082736577">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
