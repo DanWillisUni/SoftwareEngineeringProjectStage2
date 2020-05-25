@@ -24,7 +24,7 @@ public class AddGoalController extends GenericController{
     @FXML private Label errorMsg;
     @FXML private Label name;
     @FXML private TableView Goals;
-    @FXML private TableView SuggestedGoals;
+    @FXML public TableView SuggestedGoals;//only public for tests
 
     /**
      * sets the user that is signed in
@@ -202,14 +202,14 @@ public class AddGoalController extends GenericController{
     private void AddWeightGoalButtonAction (ActionEvent event) {
         errorMsg.setText("");
         //validate target weight
-        if (TargetWeight.getText().matches("^([1-9][0-9]*)(.[0-9][0-9]?)?$")){
+        if (TargetWeight.getText().matches("^([1-9][0-9]*)(\\.[0-9][0-9]?)?$")){
             double i = Double.parseDouble(TargetWeight.getText());
             if (i>250){
                 errorMsg.setText("Error: target greater than 250");
                 TargetWeight.setText("");
             }
         } else {
-            errorMsg.setText("Error: target not positive integer");
+            errorMsg.setText("Error: target not valid number");
             TargetWeight.setText("");
         }
         //validate target date

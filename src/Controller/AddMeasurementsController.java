@@ -98,7 +98,7 @@ public class AddMeasurementsController extends GenericController{
     public void UpdateMeasurementsAction(ActionEvent event) {
         errorMsg.setText("");
         if(!(weight.getText() == null ||weight.getText().equals(""))){
-            if (weight.getText().matches("^([1-9][0-9]*)(.[0-9][0-9]?)?$")){
+            if (weight.getText().matches("^([1-9][0-9]*)(\\.[0-9][0-9]?)?$")){
                 double i = Double.parseDouble(weight.getText());
                 if (i>250){
                     errorMsg.setText("Error: weight greater than 250");
@@ -114,7 +114,7 @@ public class AddMeasurementsController extends GenericController{
             }
         }
         if(!(height.getText() == null ||height.getText().equals(""))){
-            if (height.getText().matches("^[1-9][0-9]*$")){
+            if (height.getText().matches("^[1-9][0-9]?[0-9]?$")){
                 int i = Integer.parseInt(height.getText());
                 if (i>250){
                     errorMsg.setText("Error: height greater than 250");
@@ -123,7 +123,7 @@ public class AddMeasurementsController extends GenericController{
                     User.setHeight(i);
                 }
             } else {
-                errorMsg.setText("Error: height not positive integer");
+                errorMsg.setText("Error: height not a valid number");
                 height.setText("");
             }
             if(errorMsg.getText().equals("")){

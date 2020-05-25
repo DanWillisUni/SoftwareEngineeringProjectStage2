@@ -24,7 +24,7 @@ public class ExerciseSessionTest {
         exercisea = new Exercise(11,"rock climbing",0);
         a = new ExerciseSession(0,exercisea,49,1200);//is in database
         exerciseb = new Exercise(1,"running",10);
-        b = new ExerciseSession(29,exerciseb,30,300);//is not in database
+        b = new ExerciseSession(100,exerciseb,30,300);//is not in database
     }
 
     @Test
@@ -56,15 +56,15 @@ public class ExerciseSessionTest {
     }
     @Test
     public void add() {
-        try(ResultSet rs=c.createStatement().executeQuery("SELECT * FROM softwareengineering.exercisesession where idExerciseSession = 29")) {
+        try(ResultSet rs=c.createStatement().executeQuery("SELECT * FROM softwareengineering.exercisesession where idExerciseSession = 100")) {
             assertFalse(rs.next());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         b.add(c);
-        try(ResultSet rs=c.createStatement().executeQuery("SELECT * FROM softwareengineering.exercisesession where idExerciseSession = 29")) {
+        try(ResultSet rs=c.createStatement().executeQuery("SELECT * FROM softwareengineering.exercisesession where idExerciseSession = 100")) {
             assertTrue(rs.next());
-            assertThat(rs.getInt("idExerciseSession"),is(29));
+            assertThat(rs.getInt("idExerciseSession"),is(100));
             assertThat(rs.getInt("durationMinutes"),is(30));
             assertThat(rs.getInt("idExerciseType"),is(1));
             assertThat(rs.getInt("caloriesBurned"),is(300));
@@ -72,7 +72,7 @@ public class ExerciseSessionTest {
             throwables.printStackTrace();
         }
         try {
-            final String query = "DELETE FROM `softwareengineering`.`exercisesession` WHERE (`idExerciseSession` = '29')";
+            final String query = "DELETE FROM `softwareengineering`.`exercisesession` WHERE (`idExerciseSession` = '100')";
             try (
                     PreparedStatement pstmt = c.prepareStatement(query)
             ){
@@ -95,7 +95,7 @@ public class ExerciseSessionTest {
     @Test
     public void remove() {
         try {
-            final String query = "INSERT INTO `softwareengineering`.`exercisesession` VALUES (29,30,1,300)";
+            final String query = "INSERT INTO `softwareengineering`.`exercisesession` VALUES (100,30,1,300)";
             try (
                     PreparedStatement pstmt = c.prepareStatement(query)
             ){
@@ -104,9 +104,9 @@ public class ExerciseSessionTest {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        try(ResultSet rs=c.createStatement().executeQuery("SELECT * FROM softwareengineering.exercisesession where idExerciseSession = 29")) {
+        try(ResultSet rs=c.createStatement().executeQuery("SELECT * FROM softwareengineering.exercisesession where idExerciseSession = 100")) {
             assertTrue(rs.next());
-            assertThat(rs.getInt("idExerciseSession"),is(29));
+            assertThat(rs.getInt("idExerciseSession"),is(100));
             assertThat(rs.getInt("durationMinutes"),is(30));
             assertThat(rs.getInt("idExerciseType"),is(1));
             assertThat(rs.getInt("caloriesBurned"),is(300));
@@ -114,7 +114,7 @@ public class ExerciseSessionTest {
             throwables.printStackTrace();
         }
         b.remove(c);
-        try(ResultSet rs=c.createStatement().executeQuery("SELECT * FROM softwareengineering.exercisesession where idExerciseSession = 29")) {
+        try(ResultSet rs=c.createStatement().executeQuery("SELECT * FROM softwareengineering.exercisesession where idExerciseSession = 100")) {
             assertFalse(rs.next());
         } catch (SQLException throwables) {
             throwables.printStackTrace();

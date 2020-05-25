@@ -151,14 +151,8 @@ public class AddFoodController extends GenericController{
     private void AddFoodsAction (ActionEvent event){
         errorMsg.setText("");
         //validation for quantity
-        if (quantity.getText().matches("^[1-9][0-9]*$")){
-            int i = Integer.parseInt(quantity.getText());
-            if (i>9){
-                errorMsg.setText("Error: quantity greater than 9");
-                quantity.setText("");
-            }
-        } else {
-            errorMsg.setText("Error: quantity not positive integer");
+        if (!quantity.getText().matches("^[1-9]$")) {
+            errorMsg.setText("Error: quantity not positive integer less than 9");
             quantity.setText("");
         }
         //validation of dropdown

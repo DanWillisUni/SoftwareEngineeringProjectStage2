@@ -18,7 +18,7 @@
                 <Label GridPane.columnIndex="0" GridPane.rowIndex="1" prefHeight="20.0" text="Date To Complete:" />
                 <TextField  id="TargetWeight" fx:id="TargetWeight" GridPane.columnIndex="1" GridPane.rowIndex="0" prefHeight="20.0" prefWidth="200.0" promptText="Target Weight" />
                 <DatePicker id="targetDate" fx:id="targetDate" GridPane.columnIndex="1" GridPane.rowIndex="1" prefHeight="20.0" prefWidth="200.0" promptText="Target Date" />
-                <Button  GridPane.columnIndex="1" GridPane.rowIndex="3" prefHeight="20.0" prefWidth="200.0" mnemonicParsing="false" text="Set Goal" onAction="#AddWeightGoalButtonAction"/>
+                <Button id="addButton" fx:id="addButton" GridPane.columnIndex="1" GridPane.rowIndex="3" prefHeight="20.0" prefWidth="200.0" mnemonicParsing="false" text="Set Goal" onAction="#AddWeightGoalButtonAction"/>
                 <Button  GridPane.columnIndex="0" GridPane.rowIndex="3" prefHeight="20.0" prefWidth="200.0" mnemonicParsing="false" text="Go Back" onAction="#GoToDashButtonAction"/>
                 <Label GridPane.columnIndex="0" GridPane.rowIndex="2" prefHeight="20.0" text="Side of target you want:" />
             </GridPane>

@@ -24,7 +24,7 @@
                 <Label GridPane.columnIndex="0" GridPane.rowIndex="3" prefHeight="20.0" prefWidth="200.0" text="Calories Burned: "/>
                 <TextField  id="duration" fx:id="duration" GridPane.columnIndex="1" GridPane.rowIndex="2" prefHeight="20.0" prefWidth="200.0" promptText="Duration" />
                 <TextField  id="calBurned" fx:id="calBurned" GridPane.columnIndex="1" GridPane.rowIndex="3" prefHeight="20.0" prefWidth="200.0" promptText="Calories Burned" />
-                <Button  GridPane.columnIndex="1" GridPane.rowIndex="4" prefHeight="20.0" prefWidth="200.0" mnemonicParsing="false" text="Add Session" onAction="#AddExerciseSessionAction"/>
+                <Button id="add" fx:id="add" GridPane.columnIndex="1" GridPane.rowIndex="4" prefHeight="20.0" prefWidth="200.0" mnemonicParsing="false" text="Add Session" onAction="#AddExerciseSessionAction"/>
                 <Button  GridPane.columnIndex="0" GridPane.rowIndex="4" prefHeight="20.0" prefWidth="200.0" mnemonicParsing="false" text="Go Back" onAction="#GoToDashButtonAction"/>
             </GridPane>
             <Label  id="errorMsg" fx:id="errorMsg" GridPane.columnIndex="0" GridPane.rowIndex="3" prefHeight="20.0" text=""/>

@@ -49,7 +49,19 @@ public class LoginController extends GenericController{
     private void LoginHandleSubmitButtonAction (ActionEvent event) {
         errorMsg.setText("");
         //validation
-        User u = User.getFromEmail(email.getText().toString(),c);
+        User u = null;
+        String emailText = email.getText();
+        if (email.getText()!=null) {
+            if (!email.getText().equals("")) {
+                if (email.getText().toString().length() < 60) {
+                    if (email.getText().matches("^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$")) {
+                        if (GenericDatabaseController.isInTable(email.getText(), "user", "email", c)) {
+                            u = User.getFromEmail(emailText.toString(),c);
+                        }
+                    }
+                }
+            }
+        }
         if (u!=null){//if there is a user with that email
             if (u.getPassword().equals(u.passwordHash(password.getText()))){//if the hashed password matches the users hashed password
                 //putting all the data in weekly summary
@@ -220,7 +232,18 @@ public class LoginController extends GenericController{
     public void LoginHandleResetButtonAction(ActionEvent actionEvent) {
         errorMsg.setText("");
         //validation
-        User u = User.getFromEmail(emailReset.getText().toString(),c);
+        User u = null;
+        if (email.getText()!=null) {
+            if (!emailReset.getText().equals("")) {
+                if (emailReset.getText().toString().length() < 60) {
+                    if (emailReset.getText().matches("^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$")) {
+                        if (GenericDatabaseController.isInTable(emailReset.getText(), "user", "email", c)) {
+                            u = User.getFromEmail(emailReset.getText().toString(),c);
+                        }
+                    }
+                }
+            }
+        }
         //in real life somewhere here a confirmation email would be sent to the email
         //then the user would click a link in the email that confirms the reset
         if (u!=null){//if there is a user with that email
@@ -230,17 +253,25 @@ public class LoginController extends GenericController{
                     if (passwordReset.getText().toString().length()>=20){
                         errorMsg.setText("Error: password too long for reset");
                         passwordReset.setText("");
+                        passwordReset2.setText("");
                     } else {
-                        if (!passwordReset.getText().equals(passwordReset2.getText())) {
-                            errorMsg.setText("Passwords do not match");
-                            passwordReset2.setText("");
+                        if (passwordReset.getText().matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")){
+                            if (!passwordReset.getText().equals(passwordReset2.getText())) {
+                                errorMsg.setText("Passwords do not match");
+                                passwordReset2.setText("");
+                            } else {
+                                u.setPassword(passwordReset.getText(),c);//reset the password
+                                errorMsg.setText("Your password has been reset");
+                                passwordReset.setText("");
+                                passwordReset2.setText("");
+                                emailReset.setText("");
+                            }
                         } else {
-                            u.setPassword(passwordReset.getText(),c);//reset the password
-                            errorMsg.setText("Your password has been reset");
+                            errorMsg.setText("Minimum eight characters, at least one letter and one number:");
                             passwordReset.setText("");
                             passwordReset2.setText("");
-                            emailReset.setText("");
                         }
+
                     }
                 } else {
                     errorMsg.setText("Error: password null for reset");
@@ -250,8 +281,9 @@ public class LoginController extends GenericController{
             }
         } else {
             errorMsg.setText("Incorrect email for reset details");//email was wrong
-            password.setText("");
-            email.setText("");
+            passwordReset.setText("");
+            passwordReset2.setText("");
+            emailReset.setText("");
         }
     }
 }

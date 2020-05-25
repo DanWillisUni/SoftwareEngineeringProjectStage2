@@ -95,16 +95,21 @@ public class PersonalDetailsController extends GenericController{
         //username validation
         if (username.getText()!=null){
             if (!username.getText().equals("")){
-                if (username.getText().toString().length()>=45){
-                    errorMsg.setText("Error: username too long");
-                    username.setText("");
-                } else {
-                    if(User.isInTable(username.getText(),"username",c)){
-                        errorMsg.setText("Error: username already in use");
+                if (username.getText().matches("^([a-z]|[A-Z]|[d])+$")){
+                    if (username.getText().toString().length()>=45){
+                        errorMsg.setText("Error: username too long");
                         username.setText("");
                     } else {
-                        User.setUsername(username.getText());
+                        if(User.isInTable(username.getText(),"username",c)){
+                            errorMsg.setText("Error: username already in use");
+                            username.setText("");
+                        } else {
+                            User.setUsername(username.getText());
+                        }
                     }
+                } else {
+                    errorMsg.setText("Error: username contains invalid character");
+                    username.setText("");
                 }
             }
         }
@@ -133,12 +138,18 @@ public class PersonalDetailsController extends GenericController{
         if (password.getText()!=null){
             if (!password.getText().equals("")){
                 if (password.getText().equals(password2.getText())) {
-                    if (password.getText().toString().length() >= 20) {
-                        errorMsg.setText("Error: password too long");
+                    if (password.getText().matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")){
+                        if (password.getText().toString().length() >= 20) {
+                            errorMsg.setText("Error: password too long");
+                            password.setText("");
+                            password2.setText("");
+                        } else {
+                            User.setPassword(password.getText(),c);
+                        }
+                    } else {
+                        errorMsg.setText("Minimum eight characters, at least one letter and one number");
                         password.setText("");
                         password2.setText("");
-                    } else {
-                        User.setPassword(password.getText(),c);
                     }
                 }  else {
                     errorMsg.setText("Error: passwords not equal");

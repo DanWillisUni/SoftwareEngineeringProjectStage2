@@ -150,7 +150,7 @@ public class AddExerciseSessionController extends GenericController{
 
         //validation of calories burned
         if (!calBurned.getText().equals("")){
-            if (calBurned.getText().matches("^[1-9][0-9]*$")){
+            if (calBurned.getText().matches("^[1-9][0-9]?[0-9]?[0-9]?$")){
                 int i = Integer.parseInt(calBurned.getText());
                 if (i>2500){
                     errorMsg.setText("Error: calories > 2500");
@@ -188,7 +188,7 @@ public class AddExerciseSessionController extends GenericController{
             }
         }
         //validate the duration
-        if (duration.getText().matches("^[1-9][0-9]*$")){
+        if (duration.getText().matches("^[1-9][0-9]?[0-9]?$")){
             int i = Integer.parseInt(duration.getText());
             if (i>240){
                 errorMsg.setText("Error: duration greater than 4 hours");

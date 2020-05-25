@@ -34,7 +34,7 @@
                     </items>
                 </ComboBox>
                 <Button  GridPane.columnIndex="0" GridPane.rowIndex="9" prefHeight="20.0" prefWidth="200.0" mnemonicParsing="false" text="Go Back" onAction="#GoToDashButtonAction"/>
-                <Button  GridPane.columnIndex="1" GridPane.rowIndex="9" prefHeight="20.0" prefWidth="200.0" mnemonicParsing="false" text="Submit" onAction="#SaveUser"/>
+                <Button id="update" fx:id="update" GridPane.columnIndex="1" GridPane.rowIndex="9" prefHeight="20.0" prefWidth="200.0" mnemonicParsing="false" text="Submit" onAction="#SaveUser"/>
                 <Label GridPane.columnIndex="0" GridPane.rowIndex="0" prefHeight="20.0" prefWidth="200.0" text="Forename:" />
                 <Label GridPane.columnIndex="0" GridPane.rowIndex="1" prefHeight="20.0" prefWidth="200.0" text="Surname:" />
                 <Label GridPane.columnIndex="0" GridPane.rowIndex="2" prefHeight="20.0" prefWidth="200.0" text="Username:" />

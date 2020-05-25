@@ -51,9 +51,11 @@ public class RegistrationController extends GenericDatabaseController {
                 }
             } else {
                 errorMsg.setText("Error: forename null");
+                forename.setText("");
             }
         } else {
             errorMsg.setText("Error: forename null");
+            forename.setText("");
         }
         //surename validation
         if (surname.getText()!=null){
@@ -76,20 +78,27 @@ public class RegistrationController extends GenericDatabaseController {
         //username validation
         if (username.getText()!=null){
             if (!username.getText().equals("")){
-                if (username.getText().toString().length()>=45){
-                    errorMsg.setText("Error: username too long");
-                    username.setText("");
-                } else {
-                    if(GenericDatabaseController.isInTable(username.getText(),"user","username",c)){
-                        errorMsg.setText("Error: username already in use");
+                if (username.getText().matches("^([a-z]|[A-Z]|[d])+$")){
+                    if (username.getText().toString().length()>=45){
+                        errorMsg.setText("Error: username too long");
                         username.setText("");
+                    } else {
+                        if(GenericDatabaseController.isInTable(username.getText(),"user","username",c)){
+                            errorMsg.setText("Error: username already in use");
+                            username.setText("");
+                        }
                     }
+                } else {
+                    errorMsg.setText("Error: username contains invalid character");
+                    username.setText("");
                 }
             }else{
                 errorMsg.setText("Error: username null");
+                username.setText("");
             }
         }else{
             errorMsg.setText("Error: username null");
+            username.setText("");
         }
         //email validation
         if (email.getText()!=null){
@@ -110,16 +119,25 @@ public class RegistrationController extends GenericDatabaseController {
                 }
             }else {
                 errorMsg.setText("Error: email null");
+                email.setText("");
             }
         } else {
             errorMsg.setText("Error: email null");
+            email.setText("");
         }
         //password validation
         if (password.getText()!=null){
             if (!password.getText().equals("")){
-                if (password.getText().toString().length()>=20){
-                    errorMsg.setText("Error: password too long");
+                if (password.getText().matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")){
+                    if (password.getText().toString().length()>=20){
+                        errorMsg.setText("Error: password too long");
+                        password.setText("");
+                        password2.setText("");
+                    }
+                } else {
+                    errorMsg.setText("Minimum eight characters, at least one letter and one number");
                     password.setText("");
+                    password2.setText("");
                 }
             } else {
                 errorMsg.setText("Error: password null");
