@@ -38,7 +38,7 @@
                 <Button  GridPane.columnIndex="0" GridPane.rowIndex="4" prefHeight="20.0" prefWidth="200.0" mnemonicParsing="false" text="Go Back" onAction="#GoToDashButtonAction"/>
             </GridPane>
             <Label  id="errorMsg" fx:id="errorMsg" GridPane.columnIndex="0" GridPane.rowIndex="4" prefHeight="20.0" text=""/>
-            <TableView fx:id="Consumed" GridPane.columnIndex="0" GridPane.rowIndex="4" prefWidth="500"/>
+            <TableView fx:id="Consumed" GridPane.columnIndex="0" GridPane.rowIndex="5" prefWidth="500"/>
         </GridPane>
     </children>
     <stylesheets>
